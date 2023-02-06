@@ -1,0 +1,16 @@
+{% if params.previousPage %}
+  {{ backButton({
+    href: params.previousPage,
+    backLinkClasses: params.backLinkClasses,
+    translation: params.translation
+  }) }}
+{% elif params.breadcrumbItems %}
+  {{ breadcrumbs({
+    items: params.breadcrumbItems
+  }) }}
+{% else %}
+{{ backButton({
+  href: params.backPath,
+  translation: params.translation
+}) }}
+{% endif %}

@@ -1,0 +1,60 @@
+{% extends "layout.njk" %}
+
+{% set title = translation.page.checkDeclarations.common.title %}
+
+{% block pageTitle %}
+{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+
+{% set tradeDetails %}
+  {% include "../../common/tradeDetails/trade-details-export.partial.njk" %}
+{% endset %}
+
+<div class="govuk-grid-row">
+ <div class="govuk-grid-column-two-thirds">
+   <span class="govuk-caption-xl">{{ translation.page.taskList.preparingToClearOriginBorderHeading }}</span>
+   <h1 class="govuk-heading-xl">
+     {{ title }}
+   </h1>
+
+   {{ govukDetails({
+      summaryText: translation.common.tradeDetails.summaryLinkText[tradeType] | capitalize,
+      html: tradeDetails
+    }) }}
+
+  <h2 class="govuk-heading-l">{{ translation.page.checkDeclarations.export.declarations }}</h2>
+  <p>{{ translation.page.checkDeclarations.export.declarationsP1  | safe}}</p>
+
+  <h3 class="govuk-heading-m">{{ translation.page.checkDeclarations.export.makingDeclaration }}</h3>
+  <p>{{ translation.page.checkDeclarations.export.makingDeclarationP1 | safe }}</p>
+
+  <h3 class="govuk-heading-m">{{ translation.page.checkDeclarations.export.submitDeclaration }}</h3>
+  <p>{{ translation.page.checkDeclarations.common.submitDeclarationP1 }}</p>
+  <p>{{ translation.page.checkDeclarations.common.submitDeclarationP2 | safe }}</p>
+
+  {{ govukInsetText({
+      html: translation.page.checkDeclarations.common.insetText
+    }) }}
+
+  <h3 class="govuk-heading-m">{{ translation.page.checkDeclarations.common.otherDeclarations }}</h3>
+  <p>{{ translation.page.checkDeclarations.export.otherDeclarationsP1 | safe }}</p>
+
+  {{ govukWarningText({
+    text: translation.page.checkDeclarations.common.healthWarning,
+    iconFallbackText: translation.common.accessibility.warning
+  }) }}
+
+   {{ govukButton({
+     text: translation.common.buttons.backToResults,
+     href: previousPage,
+     classes: "govuk-!-margin-top-6"
+   }) }}
+
+  {% include "../../../views/includes/print-button.njk" %}
+
+ </div>
+</div>
+
+{% endblock %}

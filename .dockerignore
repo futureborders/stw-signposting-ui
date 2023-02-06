@@ -1,0 +1,11 @@
+.gitignore
+.env
+.git
+.github
+node_modules
+Dockerfile
+Jenkinsfile
+coverage
+deployer.sh
+charts
+skaffold.yaml

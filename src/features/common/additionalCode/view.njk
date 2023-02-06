@@ -1,0 +1,74 @@
+{% extends "layout.njk" %}
+{% if isExports %}
+{% set title = translation.common.additionalCode.questionExport %}
+{% else %}
+{% set title = translation.common.additionalCode.questionImport %}
+{% endif %}
+
+
+
+{% block pageTitle %}
+{% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+ <div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if errors %}
+      {{ govukErrorSummary({
+        titleText: translation.common.errors.problem,
+        errorList: [
+          {
+            text: errors.text,
+            href: "#additionalCode"
+          }
+        ]
+      }) }}
+    {% endif %}
+
+    <form action="{{Route.additionalCode}}?{{queryParams}}" method="POST" novalidate>
+
+      {{ govukRadios({
+          idPrefix: "additionalCode",
+          name: "additionalCode",
+          errorMessage: errors,
+          hint: {
+            text: translation.common.additionalCode.hint
+          },
+          fieldset: {
+            legend: {
+              text: title,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--xl"
+            }
+          },
+          items: additionalCodeRadios
+        }) }}
+
+      {{ govukButton({
+          text: translation.common.buttons.continue
+        }) }}
+
+        <input type="hidden" name="commodity" value="{{commodityCode}}">
+        <input type="hidden" name="tradeType" value="{{tradeType}}">
+        <input type="hidden" name="exportGoodsIntent" value="{{exportGoodsIntent}}">
+        <input type="hidden" name="exportDeclarations" value="{{exportDeclarations}}">
+        <input type="hidden" name="destinationCountry" value="{{destinationCountry}}">
+        <input type="hidden" name="originCountry" value="{{originCountry}}">
+        <input type="hidden" name="tradeDateDay" value="{{tradeDate.day}}">
+        <input type="hidden" name="tradeDateMonth" value="{{tradeDate.month}}">
+        <input type="hidden" name="tradeDateYear" value="{{tradeDate.year}}">
+
+        {% if isEdit %}
+          <input type="hidden" name="isEdit" value="{{isEdit}}">
+        {% endif %}
+
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

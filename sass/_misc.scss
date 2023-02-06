@@ -1,0 +1,151 @@
+/**
+ * Copyright 2023 Crown Copyright (Single Trade Window)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.border-top {
+  border-top: 2px solid govuk-colour("blue");
+}
+.js-enabled .hideNoJs {
+  display: block;
+}
+.hideNoJs {
+  display: none;
+}
+.print-disclaimer {
+  font-size: 14px;
+  display: none;
+}
+.width-60 {
+  width: 60px;
+}
+.width-80 {
+  width: 80px;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.overflow-x {
+  display: block;
+  overflow-x: auto;
+}
+
+.govuk-cookie-banner-full-width .govuk-grid-column-two-thirds {
+  width: 100%;
+}
+
+.help-with-page {
+  width: 66.6666%;
+}
+
+.rows-no-bottom-line .govuk-table__header,
+.rows-no-bottom-line .govuk-table__cell {
+  border-bottom: none;
+}
+
+.last-child-no-bottom-line tbody tr:last-child,
+.last-child-no-bottom-line tbody tr.no-border {
+  & .govuk-table__cell,
+  & .govuk-table__header {
+    border-bottom: none
+  }
+}
+
+iframe {
+  border: none;
+  display: block;
+}
+
+.contact {
+  border-left: 1px solid govuk-colour("mid-grey");
+  padding-left: 15px;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+
+.numbered {
+  float: left;
+  margin-right: 8px;
+  margin-bottom: 0;
+}
+
+.full-width .govuk-notification-banner__content>* {
+  box-sizing: border-box;
+  max-width: 100% !important;
+}
+
+.govuk-notification-banner-no-top-margin {
+  margin-top: -40px;
+}
+
+@include govuk-media-query($until: tablet) {
+  .govuk-notification-banner-no-top-margin {
+    margin-top: -20px;
+  }
+}
+
+.column-code {
+  width: 120px;
+  @include govuk-media-query($until: tablet) {
+      width: auto;
+  }
+}
+
+.table-small td,
+.table-small .govuk-table__head {
+  @include govuk-font($size: 16);
+}
+
+.search-results-rows:first-child {
+  border-top: none;
+}
+
+.search-results-rows {
+  @include govuk-font($size: 19);
+  border-top: 1px solid govuk-colour("mid-grey");
+  padding: 10px 0;
+}
+
+.search-results-description {
+  margin-top: 4px;
+}
+
+.divider-heading {
+  .govuk-radios__divider {
+    width: 100%;
+    text-align: left;
+  }
+}
+
+.greyPanel {
+  background-color: $govuk-canvas-background-colour;
+  @include govuk-responsive-padding(6);
+  margin-bottom: 20px;
+  margin-top: 80px;
+}
+
+a:focus.govuk-skip-link {
+ text-decoration: underline;
+}
+
+.banner-container {
+  background-color: white;
+  padding-top: 10px;
+}
+
+.hmrc-language-select__list-item [aria-current] {
+  color: $govuk-text-colour;
+}

@@ -1,0 +1,27 @@
+<h2 class="govuk-heading-l">{{ translation.common.measures.rules }}</h2>
+
+<p>{{ translation.page.exportCheckLicencesAndRestrictions.rulesThatApplyToYourGoods.followTheRules }}</p>
+<ul class="govuk-list govuk-list--bullet">
+  <li>{{ translation.page.exportCheckLicencesAndRestrictions.rulesThatApplyToYourGoods.followTheRulesList1 }}</li>
+  <li>{{ translation.page.exportCheckLicencesAndRestrictions.rulesThatApplyToYourGoods.followTheRulesList2 }}</li>
+  <li>{{ translation.page.exportCheckLicencesAndRestrictions.rulesThatApplyToYourGoods.followTheRulesList3 }}</li>
+</ul>
+
+{{ govukInsetText({
+    html: translation.page.exportCheckLicencesAndRestrictions.rulesThatApplyToYourGoods.insetText
+  }) }}
+
+<h3 class="govuk-heading-m">{{ translation.page.exportCheckLicencesAndRestrictions.rulesThatApplyToYourGoods.exemptionsH3 }}</h3>
+<p>{{ translation.page.exportCheckLicencesAndRestrictions.rulesThatApplyToYourGoods.exemptionsP1 }}</p>
+<ul class="govuk-list govuk-list--bullet">
+  <li>{{ translation.page.exportCheckLicencesAndRestrictions.rulesThatApplyToYourGoods.exemptionsList1 }}</li>
+  <li>{{ translation.page.exportCheckLicencesAndRestrictions.rulesThatApplyToYourGoods.exemptionsList2 }}</li>
+</ul>
+
+{% if userType != UserType.nonDeclaringTrader %}
+    {{ govukDetails({
+      summaryText: translation.page.exportCheckLicencesAndRestrictions.rulesThatApplyToYourGoods.detailsHeading,
+      html: translation.page.exportCheckLicencesAndRestrictions.rulesThatApplyToYourGoods.detailsContent + (showCdsContent | renderMarkdown),
+      open: false
+    }) }}
+{% endif %}

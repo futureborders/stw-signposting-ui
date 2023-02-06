@@ -1,0 +1,78 @@
+{% extends "layout.njk" %}
+
+{% set title = translation.page.typeOfTrade.question %}
+
+{% block pageTitle %}
+{% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+ <div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if errors %}
+      {{ govukErrorSummary({
+        titleText: translation.common.errors.problem,
+        errorList: [
+          {
+            text: errors.text,
+            href: "#tradeType"
+          }
+        ]
+      }) }}
+    {% endif %}
+
+    <h1 class="govuk-heading-xl">{{ title }}</h1>
+
+    <p>{{ translation.page.typeOfTrade.followDifferentRules | safe }}</p>
+
+    <form action="/type-of-trade?{{queryParams}}" method="POST" novalidate>
+
+      {{ govukRadios({
+          idPrefix: "tradeType",
+          name: "tradeType",
+          errorMessage: errors,
+          fieldset: {
+            legend: {
+              text: translation.page.typeOfTrade.label,
+              classes: "govuk-fieldset__legend--m govuk-visually-hidden"
+            }
+          },
+          classes: "radioHint",
+          items: [
+            {
+              value: TypeOfTrade.import,
+              text: translation.page.typeOfTrade.import,
+              checked: (tradeType == TypeOfTrade.import)
+            },
+            {
+              value: TypeOfTrade.export,
+              text: translation.page.typeOfTrade.export,
+              checked: (tradeType == TypeOfTrade.export),
+              conditional: {
+                html: exportHint
+              }
+            }
+          ]
+        }) }}
+
+        {% if language == "cy" %}
+          {{ govukInsetText({
+            text: translation.page.typeOfTrade.availableInWelsh
+          }) }}
+        {% endif %}
+
+      {{ govukButton({
+          text: translation.common.buttons.continue
+        }) }}
+
+      {% if isEdit %}
+        <input type="hidden" name="original" value="{{original}}">
+        <input type="hidden" name="isEdit" value="{{isEdit}}">
+      {% endif %}
+      <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    </form>
+  </div>
+</div>
+
+{% endblock %}

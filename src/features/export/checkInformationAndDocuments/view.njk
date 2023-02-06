@@ -1,0 +1,55 @@
+{% extends "layout.njk" %}
+
+{% set title = translation.page.taskList.checkWhatInformationAndDocumentsYouMayNeedLink %}
+
+{% block pageTitle %}
+{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+
+{% set tradeDetails %}
+  {% include "../../common/tradeDetails/trade-details-export.partial.njk" %}
+{% endset %}
+
+<div class="govuk-grid-row">
+ <div class="govuk-grid-column-two-thirds">
+   <h1 class="govuk-heading-xl govuk-!-margin-bottom-20">
+     <span class="govuk-caption-xl">{{ translation.page.taskList.preparingToClearOriginBorderHeading }}</span>
+     {{title}}
+   </h1>
+
+   {{ govukDetails({
+      summaryText: translation.common.tradeDetails.summaryLinkText[tradeType] | capitalize,
+      html: tradeDetails
+    }) }}
+
+   <h2 class="govuk-heading-m">{{ translation.page.checkInformationAndDocuments.commercialDocuments }}</h2>
+   <p>{{ translation.page.checkInformationAndDocuments.commercialDocumentsP1 | safe }}</p>
+   <p>{{ translation.page.checkInformationAndDocuments.commercialDocumentsP2 }}</p>
+   <ul  class="govuk-list govuk-list--bullet">
+     <li>{{ translation.page.checkInformationAndDocuments.commercialDocumentsL1 }}</li>
+     <li>{{ translation.page.checkInformationAndDocuments.commercialDocumentsL2 }}</li>
+     <li>{{ translation.page.checkInformationAndDocuments.commercialDocumentsL3 }}</li>
+   </ul>
+   <p>{{ translation.page.checkInformationAndDocuments.commercialDocumentsP3 | safe }}</p>
+
+   <h2 class="govuk-heading-m">{{ translation.page.checkInformationAndDocuments.shippingDocuments }}</h2>
+   <p>{{ translation.page.checkInformationAndDocuments.shippingDocumentsP1 }}</p>
+   <ul  class="govuk-list govuk-list--bullet">
+     <li>{{ translation.page.checkInformationAndDocuments.shippingDocumentsL1 }}</li>
+     <li>{{ translation.page.checkInformationAndDocuments.shippingDocumentsL2 }}</li>
+   </ul>
+
+   {{ govukButton({
+     text: translation.common.buttons.backToResults,
+     href: previousPage,
+     classes: "govuk-!-margin-top-6"
+   }) }}
+
+  {% include "../../../views/includes/print-button.njk" %}
+
+ </div>
+</div>
+
+{% endblock %}

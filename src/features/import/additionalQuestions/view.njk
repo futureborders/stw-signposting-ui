@@ -1,0 +1,62 @@
+{% extends "layout.njk" %}
+
+{% set title = notAnsweredQuestions[0].question %}
+
+{% block pageTitle %}
+{% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+ <div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if errors %}
+      {{ govukErrorSummary({
+        titleText: translation.common.errors.problem,
+        errorList: [
+          {
+            text: errors.text,
+            href: "#" + notAnsweredQuestions[0].questionId
+          }
+        ]
+      }) }}
+    {% endif %}
+    <form action="{{Route.importAdditionalQuestions}}" method="get" novalidate>
+      {% set options = [] %}
+      {% set hint = null %}
+      {% for  option in notAnsweredQuestions[0].options %}
+        {% set option = { value: option.value, text: option.label} %}
+        {% set options = (options.push(option), options) %}
+        {% if translation.page.additionalQuestions[notAnsweredQuestions[0].questionId][notAnsweredQuestions[0].errorMessageId].hintText %}
+        {% set hint = {text: translation.page.additionalQuestions[notAnsweredQuestions[0].questionId][notAnsweredQuestions[0].errorMessageId].hintText} %}
+        {% elif translation.page.additionalQuestions[notAnsweredQuestions[0].questionId].hintText %}
+        {% set hint = {text: translation.page.additionalQuestions[notAnsweredQuestions[0].questionId].hintText} %}
+        {% endif %}
+      {% endfor %}
+      {{ govukRadios({
+          idPrefix: notAnsweredQuestions[0].questionId,
+          name: notAnsweredQuestions[0].questionId,
+          errorMessage: errors,
+          hint: hint,
+          fieldset: {
+            legend: {
+              text: notAnsweredQuestions[0].question,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--xl"
+            }
+          },
+          classes: "radioHint",
+          items: options
+        }) }}
+        <input type="hidden" name="additional-question" value="{{notAnsweredQuestions[0].questionId}}">
+      {% for key, value  in query %}
+        <input type="hidden" name="{{key}}" value="{{value}}">
+      {% endfor %}
+      {{ govukButton({
+          text: translation.common.buttons.continue
+        }) }}
+    </form>
+  </div>
+</div>
+
+{% endblock %}

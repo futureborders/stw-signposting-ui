@@ -1,0 +1,14 @@
+{% if allowGoogleAnalytics %}
+<!-- Google Tag Manager -->
+<script nonce="{{$gatagCspNonce}}">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','{{$gatag}}');</script>
+<!-- End Google Tag Manager -->
+
+{% endif %}
+
+<!--[if lte IE 8]><link href="/static/css/all-ie8.css{{ fileHash['all-ie8.css'] }}" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if gt IE 8]><!--><link href="/static/css/styles.css{{ fileHash['styles.css'] }}" media="all" rel="stylesheet" type="text/css" /><!--<![endif]-->
+<link rel="stylesheet" media="print" type="text/css" href="/static/css/print-styles.css{{ fileHash['print-styles.css'] }}">

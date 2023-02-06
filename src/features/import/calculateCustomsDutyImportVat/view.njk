@@ -1,0 +1,47 @@
+{% extends "layout.njk" %}
+
+{% set title = translation.common.measures.subsidary['calculate-the-customs-duty-and-import-vat'] %}
+
+{% block pageTitle %}
+{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+
+{% set tradeDetails %}
+  {% include "../../common/tradeDetails/trade-details-import.partial.njk" %}
+{% endset %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      <span class="govuk-caption-xl">{{ translation.page.taskList.beforeTheGoodsAreSoldHeading }}</span>
+      {{ title }}
+    </h1>
+
+    {{ govukDetails({
+       summaryText: translation.common.tradeDetails.summaryLinkText[tradeType] | capitalize,
+       html: tradeDetails
+     }) }}
+
+  </div>
+</div>
+<div class="govuk-grid-row govuk-main-wrapper">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ translation.common.measures.calculateCustomsDutyImportVat[userType] | renderMarkdown(translation) | safe }}
+
+    {% include "./customs-duty-import-vat.njk" %}
+
+    {{ govukButton({
+      text: translation.common.buttons.backToResults,
+      classes: "govuk-button--secondary",
+      href: previousPage
+    }) }}
+
+    {% include "../../../views/includes/print-button.njk" %}
+
+  </div>
+</div>
+
+{% endblock %}

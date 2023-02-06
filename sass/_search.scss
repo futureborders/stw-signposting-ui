@@ -1,0 +1,215 @@
+/**
+ * Copyright 2023 Crown Copyright (Single Trade Window)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.indent,
+.indent-dash  {
+  margin-right: 10px;
+  display: block;
+  width: 10px;
+}
+
+.indent:before {
+  content: "⌞";
+  font-size: 21px;
+  position: absolute;
+  margin-top: -4px;
+}
+
+.indent-dash {
+  margin-left: 2px;
+}
+
+.indent-dash:before {
+  content: "–";
+  font-size: 16px;
+  position: absolute;
+  margin-top: 2px;
+}
+.search-description-container {
+  display: inline-flex;
+}
+.search-description {
+  display: block;
+}
+
+mark{
+  background: #ffff99;
+  color: #009;
+  padding-left: 1px;
+  padding-right: 1px;
+  font-weight: bold;
+}
+
+
+.level {
+  background-image     : url('/static/images/l-shape-level12.png');
+  background-repeat    : no-repeat;
+  background-position-y: 0.9em;
+}
+
+.level_0 {
+  padding-left: 0em;
+  background  : none !important
+}
+
+.level_1 {
+  padding-left: 0em;
+  background  : none !important;
+  font-weight : bold;
+}
+
+.level_2 {
+  padding-left         : 1.5em;
+  background-position-x: -15em;
+}
+
+.level_3 {
+  padding-left         : 2.7em;
+  background-position-x: -13.65em;
+}
+
+.level_4 {
+  padding-left         : 4.2em;
+  background-position-x: -12.25em
+}
+
+.level_5 {
+  padding-left         : 5.5em;
+  background-position-x: -10.85em
+}
+
+.level_6 {
+  padding-left         : 6.9em;
+  background-position-x: -9.5em;
+}
+
+.level_7 {
+  padding-left         : 8.2em;
+  background-position-x: -8.15em;
+}
+
+.level_8 {
+  padding-left         : 9.7em;
+  background-position-x: -6.75em;
+}
+
+.level_9 {
+  padding-left         : 11.1em;
+  background-position-x: -5.4em;
+}
+
+.level_10 {
+  padding-left         : 12.4em;
+  background-position-x: -4.05em;
+}
+
+.level_11 {
+  padding-left         : 13.9em;
+  background-position-x: -2.7em;
+}
+
+.level_12 {
+  padding-left: 15.2em;
+  background-position-x: -1.35em;
+}
+
+.level_13 {
+  padding-left         : 16.5em;
+}
+
+@media (max-width: 40.0625em) {
+  .level {
+    background-image     : url('/static/images/l-shape.png');
+    background-repeat    : no-repeat;
+    background-position-y: 0.9em;
+  }
+
+    .level_2 {
+    padding-left         : 0.75em;
+    background-position-x: 0.0em;
+    font-weight          : normal;
+  }
+
+  .level_3 {
+    padding-left         : 1.5em;
+    background-position-x: 0.75em;
+  }
+
+  .level_4 {
+    padding-left         : 2.25em;
+    background-position-x: 1.5em;
+  }
+
+  .level_5 {
+    padding-left         : 3em;
+    background-position-x: 2.25em;
+  }
+
+  .level_6 {
+    padding-left         : 3.75em;
+    background-position-x: 3em;
+  }
+
+  .level_7 {
+    padding-left         : 4.5em;
+    background-position-x: 3.75em;
+  }
+
+  .level_8 {
+    padding-left         : 5.25em;
+    background-position-x: 4.5em;
+  }
+
+  .level_9 {
+    padding-left         : 6em;
+    background-position-x: 5.25em;
+  }
+
+  .level_10 {
+    padding-left         : 6.75em;
+    background-position-x: 6em;
+  }
+
+  .level_11 {
+    padding-left         : 7.5em;
+    background-position-x: 6.75em;
+  }
+
+  .level_12 {
+    padding-left         : 8.25em;
+    background-position-x: 7.5em;
+  }
+
+  .commodity_column {
+    padding-right: 0.5em;
+  }
+}
+
+.app-contents {
+    list-style-type: none;
+    margin: 0;
+    margin-bottom: 0px;
+    padding: 0;
+}
+
+.app-contents li::before {
+    content: "—";
+    margin: 0 1em 0 0;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}

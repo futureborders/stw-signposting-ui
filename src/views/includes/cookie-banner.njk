@@ -1,0 +1,71 @@
+{% from "govuk/components/cookie-banner/macro.njk" import govukCookieBanner %}
+
+{% set queryString = "" %}
+
+{% if queryParams %}
+  {% set queryString =  "?" + queryParams %}
+{% endif %}
+
+{% if showCookieMessage %}
+  {% set html %}
+  <p>{{ translation.common.cookies.p1 | safe }}</p>
+  {% endset %}
+  <form action="/save-cookie-settings{{queryString}}"  method="post" novalidate>
+  {{ govukCookieBanner({
+    ariaLabel: translation.common.cookies.header,
+    messages: [
+      {
+        headingText: translation.common.cookies.header,
+        html: html,
+        actions: [
+          {
+            text: translation.common.cookies.acceptAdditionalCookies,
+            type: "submit",
+            name: "cookies",
+            value: "accept"
+          },
+          {
+            text: translation.common.cookies.rejectAdditionalCookies,
+            type: "submit",
+            name: "cookies",
+            value: "reject"
+          },
+          {
+            text: translation.common.cookies.viewCookies,
+            href: "/cookies" + queryString
+          }
+        ]
+      }
+    ]
+  }) }}
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+  </form>
+{% endif %}
+
+{% if showCookieSuccessBanner %}
+
+  {% set html %}
+  <p>{{ translation.common.cookies[decision] }} {{ translation.common.cookies.changeCookies("/cookies" + queryString) | safe }}</p>
+  {% endset %}
+
+  <form action="/save-cookie-settings{{queryString}}"  method="post" novalidate>
+    {{ govukCookieBanner({
+      ariaLabel: translation.common.cookies.header,
+      classes: "govuk-cookie-banner-full-width",
+      messages: [
+        {
+          html: html,
+          actions: [
+            {
+              type: "submit",
+              text: translation.common.cookies.hideMessage,
+              name: "hideCookieSuccessBanner",
+              value: "true"
+            }
+          ]
+        }
+      ]
+    }) }}
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+  </form>
+{% endif %}

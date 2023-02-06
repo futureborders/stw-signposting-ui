@@ -1,0 +1,91 @@
+{% extends "layout.njk" %}
+
+{% set title = translation.page.privacy.header %}
+
+{% block pageTitle %}
+{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">{{ translation.page.privacy.header }}</h1>
+
+      <h2 class="govuk-heading-l">{{ translation.page.privacy.thePurpose }}</h2>
+      <p class="govuk-body-l">{{ translation.page.privacy.summary | safe }}</p>
+
+      <h3 class="govuk-heading-m">{{ translation.page.privacy.yourData.headeData }}</h3>
+      <p class="govuk-body">{{ translation.page.privacy.yourData.p1 }}</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>{{ translation.page.privacy.yourData.lData1 }}</li>
+        <li>{{ translation.page.privacy.yourData.lData2 }}</li>
+        <li>{{ translation.page.privacy.yourData.lData3 }}</li>
+      </ul>
+      <p class="govuk-body">{{ translation.page.privacy.yourData.headerAnalytics }}</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>{{ translation.page.privacy.yourData.lAnalytics1 }}</li>
+        <li>{{ translation.page.privacy.yourData.lAnalytics2 }}</li>
+        <li>{{ translation.page.privacy.yourData.lAnalytics3 }}</li>
+        <li>{{ translation.page.privacy.yourData.lAnalytics4 }}</li>
+      </ul>
+      <p class="govuk-body">{{ translation.page.privacy.yourData.webAnalytics }}</p>
+      <p class="govuk-body">{{ translation.page.privacy.yourData.headerSupport }}</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>{{ translation.page.privacy.yourData.lSupport1 }}</li>
+        <li>{{ translation.page.privacy.yourData.lSupport2 }}</li>
+        <li>{{ translation.page.privacy.yourData.lSupport3 }}</li>
+        <li>{{ translation.page.privacy.yourData.lSupport4 }}</li>
+      </ul>
+
+      <h3 class="govuk-heading-m">{{ translation.page.privacy.legalBasis.header }}</h3>
+      <p class="govuk-body">{{ translation.page.privacy.legalBasis.p1 }}</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>{{ translation.page.privacy.legalBasis.l1 }}</li>
+        <li>{{ translation.page.privacy.legalBasis.l2 | safe }}</li>
+      </ul>
+
+      <h3 class="govuk-heading-m">{{ translation.page.privacy.transactionMonitoring.header }}</h3>
+      <p class="govuk-body">{{ translation.page.privacy.transactionMonitoring.p1 }}</p>
+
+      <h3 class="govuk-heading-m">{{ translation.page.privacy.sharedData.header }}</h3>
+      <p class="govuk-body">{{ translation.page.privacy.sharedData.p1 }}</p>
+      <p class="govuk-body">{{ translation.page.privacy.sharedData.p2 }}</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>{{ translation.page.privacy.sharedData.l1 }}</li>
+        <li>{{ translation.page.privacy.sharedData.l2 }}</li>
+        <li>{{ translation.page.privacy.sharedData.l3 }}</li>
+      </ul>
+
+      <h3 class="govuk-heading-m">{{ translation.page.privacy.transferOfInformation.header }}</h3>
+      <p class="govuk-body">{{ translation.page.privacy.transferOfInformation.p1 }}</p>
+      <p class="govuk-body">{{ translation.page.privacy.transferOfInformation.p2 }}</p>
+
+      <h3 class="govuk-heading-m">{{ translation.page.privacy.dataSecurity.header }}</h3>
+      <p class="govuk-body">{{ translation.page.privacy.dataSecurity.p1 }}</p>
+      <p class="govuk-body">{{ translation.page.privacy.dataSecurity.p2 }}</p>
+      <p class="govuk-body">{{ translation.page.privacy.dataSecurity.p3 }}</p>
+      <p class="govuk-body">{{ translation.page.privacy.dataSecurity.p4 }}</p>
+      <p class="govuk-body">{{ translation.page.privacy.dataSecurity.p5 }}</p>
+      <p class="govuk-body">{{ translation.page.privacy.dataSecurity.p6 }}</p>
+
+      <h3 class="govuk-heading-m">{{ translation.page.privacy.retention.header }}</h3>
+      <h4 class="govuk-heading-s">{{ translation.page.privacy.retention.subheading }}</h4>
+      <p class="govuk-body">{{ translation.page.privacy.retention.p1 | safe }}</p>
+      <p class="govuk-body">{{ translation.page.privacy.retention.p2 }}</p>
+      <p class="govuk-body">{{ translation.page.privacy.retention.p3 }}</p>
+
+      <h3 class="govuk-heading-m">{{ translation.page.privacy.youRights.header }}</h3>
+      <p class="govuk-body">{{ translation.page.privacy.youRights.p1 | safe }}</p>
+
+      <h3 class="govuk-heading-m">{{ translation.page.privacy.complaints.header }}</h3>
+      <p class="govuk-body">{{ translation.page.privacy.complaints.p1 | safe }}</p>
+      <p class="govuk-body">{{ translation.page.privacy.complaints.p2 | safe }}</p>
+
+      <h3 class="govuk-heading-m">{{ translation.page.privacy.changes.header }}</h3>
+      <p class="govuk-body">{{ translation.page.privacy.changes.p1 }}</p>
+      <p class="govuk-body">{{ translation.page.privacy.changes.p2 }}</p>
+
+    </div>
+  </div>
+
+{% endblock %}

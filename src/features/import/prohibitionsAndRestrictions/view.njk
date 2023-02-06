@@ -1,0 +1,45 @@
+{% extends "layout.njk" %}
+
+{% set title =  translation.common.measures.summaryImport %}
+
+{% block pageTitle %}
+{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+
+{% set tradeDetails %}
+  {% include "../../common/tradeDetails/trade-details-import.partial.njk" %}
+{% endset %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      {{ title }}
+    </h1>
+
+      {{ govukDetails({
+         summaryText: translation.common.tradeDetails.summaryLinkText[tradeType] | capitalize,
+         html: tradeDetails
+       }) }}
+
+  </div>
+</div>
+
+<div class="govuk-grid-row govuk-main-wrapper">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ prohibitionsAsHtml | safe }}
+
+    <h3 class="govuk-heading-m">{{ translation.page.prohibitions.header }}</h3>
+    <p class="govuk-body-m">
+      {{ translation.page.prohibitions.p1 }}
+      <br /><br />
+      {{ translation.page.prohibitions.link | safe }}
+    </p>
+
+  </div>
+</div>
+
+
+{% endblock %}

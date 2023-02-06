@@ -1,0 +1,73 @@
+{% extends "layout.njk" %}
+
+{% set title = translation.page.exportDeclarations.question %}
+
+{% block pageTitle %}
+{% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+ <div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if errors %}
+      {{ govukErrorSummary({
+        titleText: translation.common.errors.problem,
+        errorList: [
+          {
+            text: errors.text,
+            href: "#exportDeclarations"
+          }
+        ]
+      }) }}
+    {% endif %}
+
+    <form action="/export/export-declarations?{{queryParams}}" method="POST" novalidate>
+
+      {{ govukRadios({
+          idPrefix: 'exportDeclarations',
+          name: 'exportDeclarations',
+          errorMessage: errors,
+          fieldset: {
+            legend: {
+              text: title,
+              isPageHeading: true,
+              classes: 'govuk-fieldset__legend--xl'
+            }
+          },
+          hint: {
+            html: translation.page.exportDeclarations.hint
+          },
+          items: [
+            {
+              value: 'yes',
+              text: translation.page.exportDeclarations.yes,
+              checked: (exportDeclarations == 'yes')
+            },
+            {
+              value: 'no',
+              text: translation.page.exportDeclarations.no,
+              checked: (exportDeclarations == 'no')
+            },
+            {
+              value: 'notSure',
+              text: translation.page.exportDeclarations.notSure,
+              checked: (exportDeclarations == 'notSure')
+            }
+          ]
+        }) }}
+
+      {{ govukButton({
+          text: translation.common.buttons.continue
+        }) }}
+
+      {% if isEdit %}
+        <input type="hidden" name="isEdit" value="{{isEdit}}">
+      {% endif %}
+
+      <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    </form>
+  </div>
+</div>
+
+{% endblock %}

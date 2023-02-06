@@ -1,0 +1,63 @@
+{% extends "layout.njk" %}
+
+{% block head %}
+  {% include "includes/head.njk" %}
+  <link href="/static/components/accessible-autocomplete.min.css" media="all" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block pageTitle %}
+{% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+        {% if errors %}
+          {{ govukErrorSummary({
+            titleText: translation.common.errors.problem,
+            errorList: [
+              {
+                text: errors.text,
+                href: "#location-picker"
+              }
+            ]
+          }) }}
+        {% endif %}
+
+    <form action="/export/country-destination?{{queryParams}}" method="POST" novalidate>
+
+      {{ govukSelect({
+        id: "location-picker",
+        name: "destinationCountry",
+        errorMessage: errors,
+        label: {
+          text: title, isPageHeading: true, classes: 'govuk-label--xl'
+        },
+        items: countryDropdown
+      }) }}
+
+      {{ govukButton({
+        text: translation.common.buttons.continue
+      }) }}
+
+      {% if isEdit %}
+        <input type="hidden" name="isEdit" value="{{isEdit}}">
+      {% endif %}
+
+      {% if tradeDetails %}
+        <input type="hidden" name="tradeDetails" value="{{tradeDetails}}">
+      {% endif %}
+
+      <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+    </form>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+{% include "includes/autocomplete.njk" %}
+{% endblock %}

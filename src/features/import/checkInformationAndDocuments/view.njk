@@ -1,0 +1,45 @@
+{% extends "layout.njk" %}
+
+{% set title = translation.common.measures.subsidary['check-what-information-and-documents-you-may-need'] %}
+
+{% block pageTitle %}
+{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+
+{% set tradeDetails %}
+  {% include "../../common/tradeDetails/trade-details-import.partial.njk" %}
+{% endset %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      <span class="govuk-caption-xl">{{ translation.page.taskList.preparingToClearOriginBorderHeading }}</span>
+      {{ title }}
+    </h1>
+
+    {{ govukDetails({
+       summaryText: translation.common.tradeDetails.summaryLinkText[tradeType] | capitalize,
+       html: tradeDetails
+     }) }}
+
+  </div>
+</div>
+<div class="govuk-grid-row govuk-main-wrapper">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ translation.common.measures.whichDocumentsAreNeeded[userType] | renderMarkdown(translation) | safe }}
+
+    {{ govukButton({
+      text: translation.common.buttons.backToResults,
+      href: previousPage,
+      classes: "govuk-!-margin-top-6"
+    }) }}
+
+    {% include "../../../views/includes/print-button.njk" %}
+
+  </div>
+</div>
+
+{% endblock %}

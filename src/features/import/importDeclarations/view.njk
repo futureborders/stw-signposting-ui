@@ -1,0 +1,76 @@
+{% extends "layout.njk" %}
+
+{% set title = translation.page.importDeclarations.question %}
+
+{% block pageTitle %}
+{% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if errors %}
+      {{ govukErrorSummary({
+        titleText: translation.common.errors.problem,
+        errorList: [
+          {
+            text: errors.text,
+            href: "#importDeclarations"
+          }
+        ]
+      }) }}
+    {% endif %}
+
+    <form action="{{Routes.importDeclarations}}?{{queryParams}}" method="POST" novalidate>
+
+      {{ govukRadios({
+          idPrefix: "importDeclarations",
+          name: "importDeclarations",
+          errorMessage: errors,
+          hint: {
+            html: translation.page.importDeclarations.hint
+          },
+          fieldset: {
+            legend: {
+              text: title,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--xl"
+            }
+          },
+          items: [
+            {
+              value: ImportDeclarations.yes,
+              text: translation.page.importDeclarations.yes,
+              checked: (importDeclarations == ImportDeclarations.yes)
+            },
+            {
+              value: ImportDeclarations.no,
+              text: translation.page.importDeclarations.no,
+              checked: (importDeclarations == ImportDeclarations.no)
+            },
+            {
+              value: ImportDeclarations.notSure,
+              text: translation.page.importDeclarations.notSure,
+              checked: (importDeclarations == ImportDeclarations.notSure)
+            }
+          ]
+        }) }}
+
+      {{ govukButton({
+        text: translation.common.buttons.continue
+      }) }}
+
+      {% if isEdit %}
+        <input type="hidden" name="original" value="{{original}}">
+        <input type="hidden" name="isEdit" value="{{isEdit}}">
+      {% endif %}
+      
+      <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+    </form>
+  </div>
+</div>
+
+{% endblock %}

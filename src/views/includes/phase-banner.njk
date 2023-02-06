@@ -1,0 +1,7 @@
+{{
+  govukPhaseBanner({
+  tag: {
+    text: params.translation.common.header.beta
+  },
+  html: params.translation.common.header.betaBanner(BETA_FEEDBACK, params.currentUrl | urlencode)
+}) }}

@@ -1,0 +1,9 @@
+{% from "../../../node_modules/govuk-frontend/govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% macro breadcrumbs(params) %}
+  {{ govukBreadcrumbs({
+    collapseOnMobile: true,
+    classes: "capitalize",
+    items: params.items
+  }) }}
+{% endmacro %}

@@ -1,0 +1,54 @@
+{% extends "layout.njk" %}
+
+{% set title = translation.page.taskList.checkWhatLicencesCertificatesAndOtherRestrictionsApplyToTheGoodsLink %}
+
+{% block pageTitle %}
+{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+
+{% set tradeDetails %}
+  {% include "../../common/tradeDetails/trade-details-export.partial.njk" %}
+{% endset %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p class="print-disclaimer" aria-hidden="true">{{ translation.common.measures.printDisclaimer }}</p>
+    <h1 class="govuk-heading-xl">
+      <span class="govuk-caption-xl">{{ translation.page.taskList.beforeTheGoodsAreSoldHeading }}</span>
+      {{ title }}
+    </h1>
+
+    {{ govukDetails({
+       summaryText: translation.common.tradeDetails.summaryLinkText[tradeType] | capitalize,
+       html: tradeDetails
+     }) }}
+
+  </div>
+</div>
+<div class="govuk-grid-row govuk-main-wrapper">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if complexMeasuresAsHtml %}
+
+    {% include "./rules-that-apply-to-your-goods.njk" %}
+
+    {{ complexMeasuresAsHtml | safe }}
+
+    {% else  %}
+    <p>{{ translation.page.taskList.export.noMeasures }}</p>
+    {% endif  %}
+
+    {{ govukButton({
+      text: translation.common.buttons.backToResults,
+      href: previousPage,
+      classes: "govuk-!-margin-top-6"
+    }) }}
+
+    {% include "../../../views/includes/print-button.njk" %}
+
+  </div>
+</div>
+
+{% endblock %}

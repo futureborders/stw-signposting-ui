@@ -1,0 +1,127 @@
+{% extends "layout.njk" %}
+
+{% set title = translation.page.destinationCountry.question %}
+
+{% if originCountry == DestinationCountry.GB %}
+  {% set importingInto = translation.common.countries.XI %}
+  {% set ukCountryName = translation.common.countries.GB  %}
+{% else %}
+  {% set importingInto = translation.common.countries.GB %}
+  {% set ukCountryName = translation.common.countries.XI %}
+{% endif %}
+
+{% block pageTitle %}
+{% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+ <div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if errors %}
+      {{ govukErrorSummary({
+        titleText: translation.common.errors.problem,
+        errorList: [
+          {
+            text: errors.text,
+            href: "#destinationCountry"
+          }
+        ]
+      }) }}
+    {% endif %}
+
+    <form action="{{Route.destinationCountry}}?{{queryParams}}" method="POST" novalidate>
+
+      {% if originCountry == DestinationCountry.GB or originCountry == DestinationCountry.XI %}
+
+      {{ govukRadios({
+          idPrefix: "destinationCountry",
+          name: "destinationCountry",
+          errorMessage: errors,
+          attributes:  {
+            "aria-hidden": true
+          },
+          classes: "govuk-visually-hidden",
+          hint: {
+            html: "<p class='govuk-hint'>" + translation.page.destinationCountry.importingIntoUK(ukCountryName) + "</p>" +
+            govukWarningText({
+              html: "<span class='govuk-!-font-weight-regular'>" + translation.page.destinationCountry.assumedText(ukCountryName, importingInto) + "</span>",
+              iconFallbackText: translation.common.accessibility.warning
+            })
+          },
+          fieldset: {
+            legend: {
+              html: "<span class='govuk-caption-xl'>" + translation.page.destinationCountry.origin + ukCountryName + "</span>" + translation.page.destinationCountry.question,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--xl"
+            }
+          },
+          items: [
+            {
+              value: DestinationCountry.GB,
+              text: translation.common.countries.GB,
+              checked: (originCountry == OriginCountry.XI)
+            },
+            {
+              value: DestinationCountry.XI,
+              text:  translation.common.countries.XI,
+              checked: (originCountry == OriginCountry.GB)
+            }
+          ],
+          formGroup: {
+            classes: "govuk-!-margin-bottom-0"
+          }
+        }) }}
+
+      {{ govukButton({
+          text: translation.common.buttons.continue
+        }) }}
+
+      <p><a href="import-country-origin?{{ queryParams | removeParam(['editCancelled']) + editCancelled }}" class="govuk-link" id="changeOriginCountryLink">{{ translation.page.destinationCountry.changeOriginCountryLink }}</a></p>
+
+    {% else %}
+
+      {{ govukRadios({
+          idPrefix: "destinationCountry",
+          name: "destinationCountry",
+          errorMessage: errors,
+          hint: {
+            html: translation.page.destinationCountry.hint
+          },
+          fieldset: {
+            legend: {
+              text: translation.page.destinationCountry.question,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--xl"
+            }
+          },
+          items: [
+            {
+              value: DestinationCountry.GB,
+              text: translation.common.countries.GB,
+              checked: (destinationCountry == DestinationCountry.GB)
+            },
+            {
+              value: DestinationCountry.XI,
+              text: translation.common.countries.XI,
+              checked: (destinationCountry == DestinationCountry.XI)
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: translation.common.buttons.continue
+        }) }}
+
+      {% endif %}
+
+      {% if isEdit %}
+        <input type="hidden" name="isEdit" value="{{isEdit}}">
+        <input type="hidden" name="original" value="{{original}}">
+      {% endif %}
+      <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    </form>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends "layout.njk" %}
+
+{% set title = translation.page.exportGoodsIntent.question %}
+
+{% block head %}
+  {% include "includes/head.njk" %}
+  <link href="/static/components/accessible-autocomplete.min.css" media="all" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block pageTitle %}
+{% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+        {% if errors %}
+          {{ govukErrorSummary({
+            titleText: translation.common.errors.problem,
+            errorList: [
+              {
+                text: errors.text,
+                href: "#exportGoodsIntent-2"
+              }
+            ]
+          }) }}
+        {% endif %}
+
+    <form action="/export/goods-intent?{{queryParams}}" method="POST" novalidate>
+
+       {{ govukRadios({
+          idPrefix: "exportGoodsIntent",
+          name: "exportGoodsIntent",
+          errorMessage: errors,
+          classes: "divider-heading",
+          hint: {
+            text: translation.page.exportGoodsIntent.hint
+          },
+          fieldset: {
+            legend: {
+              text: title,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--xl"
+            }
+          },
+          items: [
+            {
+              divider: translation.page.exportGoodsIntent.dividerHeadingBusiness | safe
+            },
+            {
+              value: ExportGoodsIntent.goodsExportedToBeSoldForBusiness,
+              html: translation.page.exportGoodsIntent.goodsExportedToBeSoldForBusiness,
+              checked: (exportGoodsIntent == ExportGoodsIntent.goodsExportedToBeSoldForBusiness)
+            },
+            {
+              value: ExportGoodsIntent.goodsExportedTemporarilyForBusiness,
+              html: translation.page.exportGoodsIntent.goodsExportedTemporarilyForBusiness,
+              checked: (exportGoodsIntent == ExportGoodsIntent.goodsExportedTemporarilyForBusiness)
+            },
+            {
+              value: ExportGoodsIntent.goodsSoldInLuggageForBusiness,
+              html: translation.page.exportGoodsIntent.goodsSoldInLuggageForBusiness,
+              checked: (exportGoodsIntent == ExportGoodsIntent.goodsSoldInLuggageForBusiness)
+            },
+            {
+              divider: translation.page.exportGoodsIntent.dividerHeadingPersonal | safe
+            },
+            {
+              value: ExportGoodsIntent.goodsPostedForPersonal,
+              html: translation.page.exportGoodsIntent.goodsPostedForPersonal,
+              checked: (exportGoodsIntent == ExportGoodsIntent.goodsPostedForPersonal)
+            }
+          ]
+        }) }}
+
+      {{ govukButton({
+        text: translation.common.buttons.continue
+      }) }}
+
+
+      {% if isEdit %}
+        <input type="hidden" name="isEdit" value="{{isEdit}}">
+      {% endif %}
+
+      <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+    </form>
+  </div>
+</div>
+
+{% endblock %}

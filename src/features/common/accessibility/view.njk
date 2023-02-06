@@ -1,0 +1,72 @@
+{% extends "layout.njk" %}
+
+{% set title = translation.page.accessibility.header %}
+
+{% block pageTitle %}
+{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">{{ translation.page.accessibility.header }}</h1>
+      <p class="govuk-body-l">{{ translation.page.accessibility.summary.p1 }}</p>
+      <p class="govuk-body">{{ translation.page.accessibility.summary.p2 | safe }}</p>
+      <p class="govuk-body">{{ translation.page.accessibility.summary.p3 }}</p>
+
+      <h2 class="govuk-heading-l">{{ translation.page.accessibility.usingThisService.header }}</h2>
+
+      <p class="govuk-body">{{ translation.page.accessibility.usingThisService.p1 }}</p>
+      <p class="govuk-body">{{ translation.page.accessibility.usingThisService.p2 }}</p>
+      <ul class="govuk-list govuk-list--bullet">
+          <li>{{ translation.page.accessibility.usingThisService.l1 }}</li>
+          <li>{{ translation.page.accessibility.usingThisService.l2 }}</li>
+          <li>{{ translation.page.accessibility.usingThisService.l3 }}</li>
+          <li>{{ translation.page.accessibility.usingThisService.l4 }}</li>
+          <li>{{ translation.page.accessibility.usingThisService.l5 }}</li>
+      </ul>
+      <p class="govuk-body">{{ translation.page.accessibility.usingThisService.p3 }}</p>
+      <p class="govuk-body">{{ translation.page.accessibility.usingThisService.p4 | safe }}</p>
+
+      <h2 class="govuk-heading-l">{{ translation.page.accessibility.howAccessible.header }}</h2>
+      <p class="govuk-body">{{ translation.page.accessibility.howAccessible.p1 | safe }}</p>
+      <p class="govuk-body">{{ translation.page.accessibility.howAccessible.p2 }}</p>
+
+      {% if translation.page.accessibility.howAccessible.list | length %}
+      <ul class="govuk-list govuk-list--bullet">
+        {% for item in translation.page.accessibility.howAccessible.list %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      <h2 class="govuk-heading-l">{{ translation.page.accessibility.reportingProblems.header }}</h2>
+      <p class="govuk-body">{{ translation.page.accessibility.reportingProblems.p1 | safe }}</p>
+
+      <h2 class="govuk-heading-l">{{ translation.page.accessibility.notHappy.header }}</h2>
+      <p class="govuk-body">{{ translation.page.accessibility.notHappy.p1 | safe }}</p>
+
+      <h2 class="govuk-heading-l">{{ translation.page.accessibility.technicalInformation.header }}</h2>
+      <p class="govuk-body">{{ translation.page.accessibility.technicalInformation.p1 }}</p>
+      <p class="govuk-body">{{ translation.page.accessibility.technicalInformation.p2 | safe }}</p>
+
+      {% if translation.page.accessibility.technicalInformation.nonAccessibleContent %}
+      <h3 class="govuk-heading-m">{{ translation.page.accessibility.technicalInformation.nonAccessibleContent.header }}</h3>
+      <p class="govuk-body">{{ translation.page.accessibility.technicalInformation.nonAccessibleContent.p1 }}</p>
+      <h4 class="govuk-heading-s">{{ translation.page.accessibility.technicalInformation.nonAccessibleContent.listHeading }}</h4>
+      <ul class="govuk-list">
+        {% for item in translation.page.accessibility.technicalInformation.nonAccessibleContent.list %}
+        <li><p class="govuk-body">{{ item }}</p></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      <h2 class="govuk-heading-l">{{ translation.page.accessibility.howWeTested.header }}</h2>
+      <p class="govuk-body">{{ translation.page.accessibility.howWeTested.p1 }}</p>
+      <p class="govuk-body">{{ translation.page.accessibility.howWeTested.p2 | safe }}</p>
+      <p class="govuk-body">{{ translation.page.accessibility.howWeTested.p3 }}</p>
+
+    </div>
+  </div>
+
+{% endblock %}

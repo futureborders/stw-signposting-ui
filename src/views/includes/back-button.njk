@@ -1,0 +1,17 @@
+{% from "../../../node_modules/govuk-frontend/govuk/components/back-link/macro.njk" import govukBackLink %}
+
+{% macro backButton(params) %}
+{% if params.backLinkClasses %}
+{% set backLinkClasses = " " + params.backLinkClasses %}
+{% endif %}
+
+{{ govukBackLink({
+  text: params.translation.common.buttons.back,
+  href: params.href,
+  classes: backLinkClasses | d (""),
+  attributes: {
+    id: "back-link"
+  }
+}) }}
+
+{% endmacro %}

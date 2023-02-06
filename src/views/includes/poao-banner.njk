@@ -1,0 +1,14 @@
+{% set html %}
+  <p class="govuk-notification-banner__heading">
+    The UK has introduced new sanctions in relation to trade with Russia. We are updating the service to reflect this. For now, you can view details in <a href="https://www.legislation.gov.uk/uksi/2022/195/contents/made" class="govuk-link" target="_blank" rel="noopener noreferrer">Regulation 2022/195 (opens in new tab)</a>. <a href="https://www.gov.uk/government/publications/russia-sanctions-guidance/russia-sanctions-guidance" class="govuk-link" target="_blank" rel="noopener noreferrer">More guidance is available here (opens in new tab)</a>.
+  </p>
+{% endset %}
+
+{% if not errors %}
+  <div class="govuk-grid-column-full">
+    {{ govukNotificationBanner({
+      html: html,
+      classes: "full-width"
+    }) }}
+  </div>
+{% endif %}

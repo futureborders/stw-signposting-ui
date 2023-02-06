@@ -1,0 +1,30 @@
+
+{% from "govuk/components/tag/macro.njk"    import govukTag %}
+{% from "./status-tag.njk" import statusTag %}
+
+{% macro taskListItem(params) %}
+
+<li class="app-task-list__item">
+  <span class="app-task-list__task-name">
+    {% if params.state == "CANNOT_VIEW_YET" %}
+        {{ params.desc }}
+    {% elif params.state == "NOT_REQUIRED" %}
+        {{ params.desc | safe }}
+    {% elif params.href or params.href !== '' %}
+      <a href="{{ params.href }}?{{params.queryParams}}" aria-describedby="{{params.id}}_{{params.state}}">
+        {{ params.desc }}
+      </a>
+    {% else %}
+      {{ params.desc }}
+    {% endif %}
+    </span>
+    {{
+      statusTag({
+        state: params.state,
+        translation: params.taskListTranslation,
+        id: params.id + "_" + params.state
+      })
+    }}
+</li>
+
+{% endmacro %}

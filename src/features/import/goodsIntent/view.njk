@@ -1,0 +1,95 @@
+{% extends "layout.njk" %}
+
+{% set title = translation.page.goodsIntent.question %}
+
+{% block pageTitle %}
+{% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+ <div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if errors %}
+      {{ govukErrorSummary({
+        titleText: translation.common.errors.problem,
+        errorList: [
+          {
+            text: errors.text,
+            href: "#goodsIntent-2"
+          }
+        ]
+      }) }}
+    {% endif %}
+
+    <form action="{{Route.goodsIntent}}?{{queryParams}}" method="POST" novalidate>
+
+      {{ govukRadios({
+          idPrefix: "goodsIntent",
+          name: "goodsIntent",
+          errorMessage: errors,
+          classes: "divider-heading",
+          hint: {
+            text: translation.page.goodsIntent.hint
+          },
+          fieldset: {
+            legend: {
+              text: title,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--xl"
+            }
+          },
+          items: [
+            {
+              divider: translation.page.goodsIntent.dividerHeadingBusiness | safe
+            },
+            {
+              value: GoodsIntent.bringGoodsToSell,
+              html: translation.page.goodsIntent.bringGoodsToSellForBusiness,
+              checked: (goodsIntent == GoodsIntent.bringGoodsToSell)
+            },
+            {
+              value: GoodsIntent.bringGoodsTemporarily,
+              html: translation.page.goodsIntent.bringGoodsTemporarilyForBusiness,
+              checked: (goodsIntent == GoodsIntent.bringGoodsTemporarily)
+            },
+            {
+              value: GoodsIntent.bringGoodsInLuggageForBusiness,
+              html: translation.page.goodsIntent.bringGoodsInLuggageForBusiness,
+              checked: (goodsIntent == GoodsIntent.bringGoodsInLuggageForBusiness)
+            },
+            {
+              divider: translation.page.goodsIntent.dividerHeadingPersonal | safe
+            },
+            {
+              value: GoodsIntent.bringGoodsInLuggage,
+              html: translation.page.goodsIntent.bringGoodsInLuggageForPersonal,
+              checked: (goodsIntent == GoodsIntent.bringGoodsInLuggage)
+            },
+            {
+              value: GoodsIntent.bringGoodsThroughPost,
+              html: translation.page.goodsIntent.bringGoodsThroughPostForPersonal,
+              checked: (goodsIntent == GoodsIntent.bringGoodsThroughPost)
+            },
+            {
+              value: GoodsIntent.movingToUkWithBelongings,
+              html: translation.page.goodsIntent.movingToUkWithBelongingsForPersonal,
+              checked: (goodsIntent == GoodsIntent.movingToUkWithBelongings)
+            }
+          ]
+        }) }}
+
+      {{ govukButton({
+          text: translation.common.buttons.continue
+        }) }}
+
+      {% if isEdit %}
+        <input type="hidden" name="original" value="{{original}}">
+        <input type="hidden" name="isEdit" value="{{isEdit}}">
+      {% endif %}
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    </form>
+  </div>
+</div>
+
+{% endblock %}

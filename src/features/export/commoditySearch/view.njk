@@ -1,0 +1,74 @@
+{% extends "layout.njk" %}
+
+{% set title = translation.page.exportCommoditySearch.question %}
+
+{% block pageTitle %}
+{% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+
+ <div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if errors %}
+      {{ govukErrorSummary({
+        titleText: translation.common.errors.problem,
+        errorList: [
+          {
+            text: errors.text,
+            href: "#exportCommoditySearch"
+          }
+        ]
+      }) }}
+    {% endif %}
+
+
+      <h1 class="govuk-label--xl govuk-!-margin-top-0">{{ title }}</h1>
+
+      {{ govukDetails({
+        summaryText: translation.page.exportCommoditySearch.summaryText,
+        html: translation.page.exportCommoditySearch.summaryDetails,
+        classes: 'govuk-!-margin-top-4'
+      }) }}
+
+      {{ govukWarningText({
+        text: translation.page.exportCommoditySearch.warning,
+        iconFallbackText: translation.common.accessibility.warning
+      }) }}
+
+      <form action="{{Route.exportCommoditySearch}}?{{queryParams}}" method="POST" novalidate>
+
+      {{ govukInput({
+          label: {
+            text: translation.page.exportCommoditySearch.label,
+            isPageHeading: false,
+            classes: 'govuk-label--m'
+          },
+          id: 'exportCommoditySearch',
+          name: 'commodity',
+          value: commodity,
+          errorMessage: errors,
+          classes: 'govuk-!-width-full',
+          spellcheck: false
+        }) }}
+
+      {{ govukButton({
+          text: translation.common.buttons.continue
+        }) }}
+
+    {% if isEdit %}
+      <input type="hidden" name="original" value="{{original}}">
+      <input type="hidden" name="isEdit" value="{{isEdit}}">
+    {% endif %}
+    {% if tradeDetails %}
+      <input type="hidden" name="tradeDetails" value="{{tradeDetails}}">
+    {% endif %}
+
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+    </form>
+  </div>
+</div>
+
+{% endblock %}

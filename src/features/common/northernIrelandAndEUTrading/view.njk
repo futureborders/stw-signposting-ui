@@ -1,0 +1,22 @@
+{% extends "layout.njk" %}
+
+{% set title = translation.page.northernIrelandAndEUTrading.title %}
+
+{% block pageTitle %}
+{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl">{{title}}</h1>
+
+    <p>{{translation.page.northernIrelandAndEUTrading.body}}</p>
+
+    <p>{{translation.page.northernIrelandAndEUTrading.learnMore | safe}}</p>
+
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "layout.njk" %}
+
+{% set title = translation.page.exportProhibitionsAndRestrictions.title(translation.common.countries[destinationCountry]) %}
+
+{% block pageTitle %}
+{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+
+{% set tradeDetails %}
+  {% include "../../common/tradeDetails/trade-details-export.partial.njk" %}
+{% endset %}
+
+<div class="govuk-grid-row">
+ <div class="govuk-grid-column-two-thirds">
+   <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">{{ title }}</h1>
+
+   {{ govukDetails({
+      summaryText: translation.common.tradeDetails.summaryLinkText[tradeType] | capitalize,
+      html: tradeDetails
+    }) }}
+
+   {{ restrictions | safe }}
+
+   <h2 class="govuk-heading-m">{{ translation.page.exportProhibitionsAndRestrictions.prohibitionsAndRestrictions }}</h2>
+
+   <p>{{ translation.page.exportProhibitionsAndRestrictions.p1 }}</p>
+
+   <p>
+     <a href="https://www.gov.uk/government/publications/uk-trade-tariff-export-prohibitions-and-restrictions/uk-trade-tariff-export-prohibitions-and-restrictions" target="_blank" rel="noopener noreferrer" class="govuk-link">
+     {{ translation.page.exportProhibitionsAndRestrictions.link }}
+    </a>
+  </p>
+
+  {% include "../../../views/includes/print-button.njk" %}
+
+ </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,93 @@
+/**
+ * Copyright 2023 Crown Copyright (Single Trade Window)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.app-commodity-code {
+  display: block;
+  text-align: left;
+  margin-bottom: 16px;
+  float: right;
+  padding-left: 20px;
+}
+
+@include govuk-media-query($until: tablet) {
+  .app-commodity-code {
+    display: inline-block;
+    float: none;
+    padding-left: 0;
+  }
+}
+
+.app-commodity-code__highlight {
+  display: inline-block;
+  font-family: "ntatabularnumbers", "nta", Arial, sans-serif;
+  letter-spacing: 0.05em;
+  padding: 0.25em 0.25em 0.125em  0.25em;
+
+  &--1 {
+    background-color: lighten(govuk-colour("light-purple"), 30%);
+  }
+
+  &--2 {
+    background-color: lighten(govuk-colour("light-blue"), 35%);
+  }
+
+  &--3 {
+    background-color: lighten(govuk-colour("turquoise"), 40%);
+  }
+
+  &--4 {
+    background-color: lighten(govuk-colour("turquoise"), 40%);
+  }
+
+  &--5 {
+    background-color: lighten(govuk-colour("turquoise"), 40%);
+  }
+}
+
+.commodity-details {
+  background-color: #f2f2f2;
+  padding: 20px;
+  margin: 60px 0 50px 0;
+  h2 {
+    display: flex;
+  }
+}
+
+.breadcrumb-item, .breadcrumb-item-last {
+  font-size: 16px;
+}
+
+.breadcrumb-item::after{
+  content: "\25B6";
+  font-size: 12px;
+  color: #000;
+  display: inline-block;
+  padding-left: 0.6em;
+  padding-right: .3em;
+}
+
+.breadcrumb-item:last-child::after{
+  content: "";
+  font-size: 12px;
+  color: #000;
+  display: inline-block;
+  padding-left: 0.5em;
+  padding-right: .3em;
+}
+
+.govuk-breadcrumbs {
+  display: inline-block;
+}

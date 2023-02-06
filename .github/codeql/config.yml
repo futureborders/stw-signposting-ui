@@ -1,0 +1,5 @@
+disable-default-queries: false
+
+queries:
+  - name: js-lgtm
+    uses: github/codeql/javascript/ql/src/codeql-suites/javascript-lgtm.qls@lgtm.com

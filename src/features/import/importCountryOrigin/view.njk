@@ -1,0 +1,71 @@
+{% extends "layout.njk" %}
+
+{% set title = translation.page.importCountryOrigin.question %}
+
+{% block head %}
+  {% include "includes/head.njk" %}
+  <link href="/static/components/accessible-autocomplete.min.css" media="all" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block pageTitle %}
+{% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+        {% if errors %}
+          {{ govukErrorSummary({
+            titleText: translation.common.errors.problem,
+            errorList: [
+              {
+                text: errors.text,
+                href: "#location-picker"
+              }
+            ]
+          }) }}
+        {% endif %}
+
+    <h1 class="govuk-heading-xl govuk-!-margin-top-0 govuk-!-margin-bottom-3">{{ title }}</h1>
+
+    <p class="govuk-hint">{{ translation.page.importCountryOrigin.hint }}<p>
+
+    {{ govukWarningText({
+      html: translation.page.importCountryOrigin.warning,
+      iconFallbackText: translation.common.accessibility.warning
+    }) }}
+
+    <form action="{{Route.importCountryOrigin}}?{{queryParams}}" method="POST" novalidate>
+
+      {{ govukSelect({
+        id: "location-picker",
+        name: "originCountry",
+        errorMessage: errors,
+        label: {
+          text: translation.page.importCountryOrigin.label,
+          classes: "govuk-label--m"
+        },
+        items: countryDropdown
+      }) }}
+
+      {{ govukButton({
+        text: translation.common.buttons.continue
+      }) }}
+
+
+      {% if isEdit %}
+       <input type="hidden" name="isEdit" value="{{isEdit}}">
+       <input type="hidden" name="original" value="{{original}}">
+      {% endif %}
+
+      <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+    </form>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+{% include "includes/autocomplete.njk" %}
+{% endblock %}

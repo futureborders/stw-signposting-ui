@@ -1,0 +1,158 @@
+{% set assetPath = "/static" %}
+{% set serviceName = translation.common.header.serviceName %}
+{% set titleSuffix = "GOV.UK" %}
+
+{% if STARTPAGE_ENABLED == "true" %}
+{% set serviceUrl = "/" %}
+{% else %}
+{% set serviceUrl = STARTPAGE_URL %}
+{% endif %}
+
+{% set htmlLang = language %}
+
+{% set queryString = "" %}
+
+{% if queryParams %}
+  {% set queryString =  "?" + queryParams %}
+{% endif %}
+
+{% set cookies = {
+    href: "/cookies" + queryString,
+    text: translation.common.footer.cookies
+  }
+%}
+
+{% set accessibility = {
+    href: "/accessibility-statement" + queryString,
+    text: translation.common.footer.accessibilityStatement
+  }
+%}
+
+{% set privacy = {
+    href: "/privacy-notice" + queryString,
+    text: translation.common.footer.privacyNotice
+  }
+%}
+
+{% set termsAndConditions = {
+    href: "https://www.tax.service.gov.uk/help/terms-and-conditions",
+    text:  translation.common.footer.termsAndConditions
+  }
+%}
+
+{% set help = {
+    href: "https://www.gov.uk/help",
+    text:  translation.common.footer.help
+  }
+%}
+
+{% set contact = {
+    href: "https://www.gov.uk/government/organisations/hm-revenue-customs/contact",
+    text:  translation.common.footer.contact
+  }
+%}
+
+{% set welshLanguageServices = {
+    href: "https://www.gov.uk/cymraeg",
+    text:  translation.common.footer.welshLanguageServices | notTranslatedToEnglish(htmlLang) | safe
+  }
+%}
+
+{% set footerItems = [
+  cookies,
+  accessibility,
+  privacy,
+  termsAndConditions,
+  help,
+  contact,
+  welshLanguageServices
+  ]
+%}
+
+{% extends "templates/template.njk" %}
+
+{% from "govuk/components/accordion/macro.njk"            import govukAccordion %}
+{% from "govuk/components/back-link/macro.njk"            import govukBackLink %}
+{% from "govuk/components/breadcrumbs/macro.njk"          import govukBreadcrumbs %}
+{% from "govuk/components/button/macro.njk"               import govukButton %}
+{% from "govuk/components/character-count/macro.njk"      import govukCharacterCount %}
+{% from "govuk/components/checkboxes/macro.njk"           import govukCheckboxes %}
+{% from "govuk/components/date-input/macro.njk"           import govukDateInput %}
+{% from "govuk/components/details/macro.njk"              import govukDetails %}
+{% from "govuk/components/error-message/macro.njk"        import govukErrorMessage %}
+{% from "govuk/components/error-summary/macro.njk"        import govukErrorSummary %}
+{% from "govuk/components/fieldset/macro.njk"             import govukFieldset %}
+{% from "govuk/components/file-upload/macro.njk"          import govukFileUpload %}
+{% from "govuk/components/input/macro.njk"                import govukInput %}
+{% from "govuk/components/inset-text/macro.njk"           import govukInsetText %}
+{% from "govuk/components/panel/macro.njk"                import govukPanel %}
+{% from "govuk/components/phase-banner/macro.njk"         import govukPhaseBanner %}
+{% from "govuk/components/radios/macro.njk"               import govukRadios %}
+{% from "govuk/components/select/macro.njk"               import govukSelect %}
+{% from "govuk/components/skip-link/macro.njk"            import govukSkipLink %}
+{% from "govuk/components/summary-list/macro.njk"         import govukSummaryList %}
+{% from "govuk/components/table/macro.njk"                import govukTable %}
+{% from "govuk/components/tabs/macro.njk"                 import govukTabs %}
+{% from "govuk/components/tag/macro.njk"                  import govukTag %}
+{% from "govuk/components/textarea/macro.njk"             import govukTextarea %}
+{% from "govuk/components/warning-text/macro.njk"         import govukWarningText %}
+{% from "govuk/components/notification-banner/macro.njk"  import govukNotificationBanner %}
+
+{% block head %}
+  {% include "includes/head.njk" %}
+{% endblock %}
+
+{% block pageTitle %}
+  {{serviceName}}
+{% endblock %}
+
+{% set mainClasses = mainClasses | default("govuk-main-wrapper--auto-spacing govuk-!-padding-top-0") %}
+
+{% if jsBackButton %}
+{% set backLinkClasses = "js-back-button" %}
+{% endif %}
+
+{% block header %}
+  {{ govukHeader({
+    homepageUrl: "https://gov.uk",
+    serviceName: serviceName,
+    serviceUrl: serviceUrl,
+    containerClasses: "govuk-width-container",
+    translation: translation,
+    currentUrl: currentUrl,
+    showLanguageToggle: showLanguageToggle,
+    htmlLang: htmlLang,
+    toggledLanguagePath: toggledLanguagePath,
+    previousPage: previousPage,
+    backLinkClasses: backLinkClasses,
+    breadcrumbItems: breadcrumbItems,
+    backPath: backPath
+  }) }}
+{% endblock %}
+
+{% block bodyStart %}
+{% include "includes/cookie-banner.njk" %}
+{% if allowGoogleAnalytics %}
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{$gatag}}"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+{% endif %}
+{% endblock %}
+
+{% block footer %}
+  {{ govukFooter({
+    meta: {
+        items: footerItems,
+        visuallyHiddenTitle: translation.common.footer.supportLinks
+      },
+    contentLicence: { html: translation.common.footer.contentLicence },
+    copyright: { html: translation.common.footer.copyright }
+  }) }}
+{% endblock %}
+{% block bodyEnd %}
+  {% block scripts %}
+    {% include "includes/scripts.njk" %}
+    {% block pageScripts %}{% endblock %}
+  {% endblock %}
+{% endblock %}

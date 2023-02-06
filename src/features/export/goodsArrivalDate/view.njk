@@ -1,0 +1,85 @@
+{% extends "layout.njk" %}
+
+{% set title = translation.page.exportGoodsArrivalDate.question %}
+
+{% block pageTitle %}
+{% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+ <div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if errors %}
+      {{ govukErrorSummary({
+        titleText: translation.common.errors.problem,
+        errorList: [
+          {
+            text: errors.text,
+            href: "#exportGoodsArrivalDate-tradeDate" + errors.idForAnchor
+          }
+        ]
+      }) }}
+    {% endif %}
+
+    <form action="{{Route.exportGoodsArrivalDate}}?{{queryParams}}" method="POST" novalidate>
+
+      <h1 class="govuk-label--xl govuk-!-margin-top-0">{{ translation.page.exportGoodsArrivalDate.question }}</h1>
+
+      <p>{{ translation.page.exportGoodsArrivalDate.p1 }}</p>
+      
+      {{ govukDateInput({
+          id: "exportGoodsArrivalDate",
+          errorMessage: errors,
+          hint: {
+            html: translation.page.exportGoodsArrivalDate.hint
+          },
+          fieldset: {
+            legend: {
+              text: translation.page.exportGoodsArrivalDate.question,
+              classes: "govuk-visually-hidden"
+            }
+          },
+      items: [
+      {
+        classes: 'govuk-input--width-2 govuk-input--error' if dateErrors.day else 'govuk-input--width-2',
+        label: translation.common.labels.date.day,
+        name: "tradeDateDay",
+        value: tradeDate.day
+      },
+      {
+        classes: 'govuk-input--width-2 govuk-input--error' if dateErrors.month else 'govuk-input--width-2',
+        label: translation.common.labels.date.month,
+        name: "tradeDateMonth",
+        value: tradeDate.month
+      },
+      {
+        classes: 'govuk-input--width-4 govuk-input--error' if dateErrors.year else 'govuk-input--width-4',
+        label: translation.common.labels.date.year,
+        name: "tradeDateYear",
+        value: tradeDate.year
+      }
+    ]
+        }) }}
+
+      {{ govukButton({
+          text: translation.common.buttons.continue
+        }) }}
+
+      {% if isEdit %}
+        <input type="hidden" name="isEdit" value="{{isEdit}}">
+        <input type="hidden" name="originalTradeDateDay" value="{{originalTradeDateDay}}">
+        <input type="hidden" name="originalTradeDateMonth" value="{{originalTradeDateMonth}}">
+        <input type="hidden" name="originalTradeDateYear" value="{{originalTradeDateYear}}">
+      {% endif %}
+
+      {% if tradeDetails %}
+        <input type="hidden" name="tradeDetails" value="{{tradeDetails}}">
+      {% endif %}
+
+      <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    </form>
+  </div>
+</div>
+
+{% endblock %}

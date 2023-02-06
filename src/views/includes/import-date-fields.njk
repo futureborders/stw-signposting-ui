@@ -1,0 +1,5 @@
+{% if importDate.day and importDate.month and importDate.year %}
+	<input type="hidden" name="importDateDay" value="{{importDate.day}}" />
+	<input type="hidden" name="importDateMonth" value="{{importDate.month}}" />
+	<input type="hidden" name="importDateYear" value="{{importDate.year}}" />
+{% endif %}

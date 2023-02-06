@@ -1,0 +1,57 @@
+{% extends "layout.njk" %}
+
+{% set title = translation.common.measures.subsidary['check-licences-certificates-and-other-restrictions'] %}
+
+{% block pageTitle %}
+{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+
+{% set tradeDetails %}
+  {% include "../../common/tradeDetails/trade-details-import.partial.njk" %}
+{% endset %}
+
+{% if show999l %}
+{% set showSdsContent = '#### ' + translation.common.measures['999L'].header + '\n\n' + translation.common.measures['999L'].body %}
+{% else %}
+{% set showSdsContent = '' %}
+{% endif %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p class="print-disclaimer" aria-hidden="true">{{ translation.common.measures.printDisclaimer }}</p>
+    <h1 class="govuk-heading-xl">
+      <span class="govuk-caption-xl">{{ translation.page.taskList.beforeTheGoodsAreSoldHeading }}</span>
+      {{ title }}
+    </h1>
+
+    {{ govukDetails({
+       summaryText: translation.common.tradeDetails.summaryLinkText[tradeType] | capitalize,
+       html: tradeDetails
+     }) }}
+
+  </div>
+</div>
+<div class="govuk-grid-row govuk-main-wrapper">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ translation.common.measures.checkLicensesAndCertificates[userType](showSdsContent) | renderMarkdown(translation) | safe }}
+    {% if complexMeasuresAsHtml %}
+      {{ complexMeasuresAsHtml | safe }}
+    {% else %}
+      {{ translation.common.measures.noMeasuresOrRestrictions(translation.common.countries[originCountry]) | safe }}
+    {% endif %}
+
+    {{ govukButton({
+      text: translation.common.buttons.backToResults,
+      href: previousPage,
+      classes: "govuk-!-margin-top-6"
+    }) }}
+
+    {% include "../../../views/includes/print-button.njk" %}
+
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,105 @@
+{% if additionalCode !== 'false' and additionalCode !== 'undefined'%}
+{% set getAdditionalCode = " - " + additionalCode %}
+{% else %}
+{% set getAdditionalCode = "" %}
+{% endif %}
+
+{{ govukSummaryList({
+  rows: [
+    {
+      key: {
+        text: translation.common.tradeDetails.commodityCode,
+        classes: 'govuk-!-width-one-third'
+      },
+      value: {
+        text: commodity + getAdditionalCode
+      },
+      actions: {
+        items: [
+          {
+            href: Route.importGoods + "?" + queryParams + "&isEdit=true&tradeDetails=true",
+            text: translation.common.tradeDetails.change,
+            visuallyHiddenText: translation.common.tradeDetails.commodityCode,
+            classes: 'govuk-!-display-none-print',
+            attributes: {
+              id: 'changeCommodityCode'
+            }
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: translation.common.tradeDetails.importDate
+      },
+      value: {
+        text: tradeDate | formatDate(language)
+      },
+      actions: {
+        items: [
+          {
+            href: Route.importDate + "?" + queryParams + "&isEdit=true&tradeDetails=true",
+            text: translation.common.tradeDetails.change,
+            visuallyHiddenText: translation.common.tradeDetails.importDate,
+            classes: 'govuk-!-display-none-print',
+            attributes: {
+              id: 'changeImportDate'
+            }
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: translation.common.tradeDetails.goodsComingInto
+      },
+      value: {
+        text: translation.common.countries[destinationCountry]
+      },
+      actions: {
+        items: [
+          {
+            href: Route.destinationCountry + "?" + queryParams + "&isEdit=true&tradeDetails=true",
+            text: translation.common.tradeDetails.change,
+            visuallyHiddenText: translation.common.tradeDetails.goodsComingInto,
+            classes: 'govuk-!-display-none-print',
+            attributes: {
+              id: 'changeDestinationCountry'
+            }
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: translation.common.tradeDetails.countryOfOrigin
+      },
+      value: {
+        text: translation.common.countries[originCountry]
+      },
+      actions: {
+        items: [
+          {
+            href: Route.importCountryOrigin + "?" + queryParams + "&isEdit=true&tradeDetails=true",
+            text: translation.common.tradeDetails.change,
+            visuallyHiddenText: translation.common.tradeDetails.countryOfOrigin,
+            classes: 'govuk-!-display-none-print',
+            attributes: {
+              id: 'changeCountryOfOrigin'
+            }
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: translation.common.tradeDetails.classification
+      },
+      value: {
+        html: '<div id="classification"'+ language | notTranslatedAttribute +'>' + commodityClassification + '</div>'
+      }
+    }
+  ]
+}) }}
+
+<a href="{{Route.checkYourAnswers}}?{{queryParams}}">{{ translation.page.taskList.viewAllAnswers | safe }}</a>

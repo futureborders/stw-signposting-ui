@@ -1,0 +1,76 @@
+{% extends "layout.njk" %}
+
+{% set title = translation.page.exportOriginCountry.question %}
+
+{% block pageTitle %}
+{% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+ <div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if errors %}
+      {{ govukErrorSummary({
+        titleText: translation.common.errors.problem,
+        errorList: [
+          {
+            text: errors.text,
+            href: "#exportOriginCountry"
+          }
+        ]
+      }) }}
+    {% endif %}
+
+      <h1 class="govuk-label--xl govuk-!-margin-top-0">{{ title }}</h1>
+
+      {{ govukWarningText({
+        html: translation.page.exportOriginCountry.warning,
+        iconFallbackText: translation.common.accessibility.warning
+      }) }}
+
+      <form action="{{Route.exportOriginCountry}}?{{queryParams}}" method="POST" novalidate>
+
+      {{ govukRadios({
+          idPrefix: 'exportOriginCountry',
+          name: 'originCountry',
+          errorMessage: errors,
+          fieldset: {
+            legend: {
+              text: title,
+              classes: 'govuk-label--s govuk-visually-hidden'
+            }
+          },
+          items: [
+            {
+              value: OriginCountry.GB,
+              text: translation.common.countries.GB,
+              checked: (originCountry == OriginCountry.GB)
+            },
+            {
+              value: OriginCountry.XI,
+              text: translation.common.countries.XI + " - " + translation.page.exportOriginCountry.rules,
+              checked: (originCountry == OriginCountry.XI)
+            }
+          ]
+        }) }}
+
+      {{ govukButton({
+          text: translation.common.buttons.continue
+        }) }}
+
+      {% if isEdit %}
+        <input type="hidden" name="isEdit" value="{{isEdit}}">
+        <input type="hidden" name="original" value="{{original}}">
+      {% endif %}
+
+      {% if tradeDetails %}
+        <input type="hidden" name="tradeDetails" value="{{tradeDetails}}">
+      {% endif %}
+
+      <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    </form>
+  </div>
+</div>
+
+{% endblock %}

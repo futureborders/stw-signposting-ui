@@ -1,0 +1,67 @@
+{% if destinationCountry == 'GB' %}
+{% set destinationCountryPrefill = 'UK'  %}
+{% else %}
+{% set destinationCountryPrefill = 'XI'  %}
+{% endif  %}
+
+{% set commodity_code = commodity | urlencode %}
+{% set country_of_origin = originCountry | urlencode  %}
+{% set import_date = tradeDate.year | urlencode + "-" + tradeDate.month | urlencode + "-" + tradeDate.day | urlencode  %}
+{% set import_destination = destinationCountryPrefill | urlencode  %}
+
+{% set taxAndDutyCalculatorLink = "https://www.trade-tariff.service.gov.uk/duty-calculator/prefill?commodity_code=" + commodity_code + "&country_of_origin=" + country_of_origin + "&import_date=" + import_date + "&import_destination=" + import_destination + "" %}
+
+<p><a href="{{ taxAndDutyCalculatorLink }}" target="_blank" rel="noopener noreferrer" role="button" class="govuk-button">
+  {{ translation.common.measures.calculateNow + " " + translation.common.accessibility.opensNewTab }}
+</a></p>
+
+<h2 class="govuk-heading-m govuk-!-margin-bottom-6">
+  {{ translation.page.calculateCustomsDutyImportVat.customsDutyImportVat }}
+  <span class="govuk-hint">{{ translation.common.countries[originCountry] }} {{ translation.page.calculateCustomsDutyImportVat.to }} {{ translation.common.countries[destinationCountry] }}</span>
+</h2>
+
+{% if destinationCountry === DestinationCountry.XI %}
+  <p class="govuk-body">
+    {{ translation.page.calculateCustomsDutyImportVat.importIntoNorthernIreland(taxAndDutyCalculatorLink) | safe }}
+  </p>
+{% else %}
+  {% if tariffAndTaxesData.rowsTariffs | length %}
+    {{ govukTable({
+      caption: translation.page.calculateCustomsDutyImportVat.customsDuty,
+      captionClasses: "govuk-table__caption--s",
+      classes: "table-small",
+      head: tariffAndTaxesData.headersTariffs,
+      rows: tariffAndTaxesData.rowsTariffs
+    }) }}
+  {% else %}
+    <h3 class="govuk-heading-s">
+      {{ translation.page.calculateCustomsDutyImportVat.tariffs }}
+    </h3>
+    <p class="govuk-body-s">{{ translation.page.calculateCustomsDutyImportVat.awaitingData }}</p>
+  {% endif %}
+
+  {% if tariffAndTaxesData.rowsTaxes | length %}
+    {{ govukTable({
+      caption: translation.page.calculateCustomsDutyImportVat.importVat,
+      captionClasses: "govuk-table__caption--s",
+      classes: "table-small govuk-!-margin-bottom-9",
+      head: tariffAndTaxesData.headersTaxes,
+      rows: tariffAndTaxesData.rowsTaxes
+    }) }}
+  {% else %}
+    <h3 class="govuk-heading-s">
+      {{ translation.page.calculateCustomsDutyImportVat.taxes }}
+    </h3>
+    <p class="govuk-body-s">{{ translation.page.calculateCustomsDutyImportVat.awaitingData }}</p>
+  {% endif %}
+{% endif %}
+
+  <p class="govuk-body govuk-!-display-none-print">{{ translation.page.calculateCustomsDutyImportVat.findOutMore }}</p>
+
+  <p class="govuk-body govuk-!-display-none-print">{{ translation.common.accessibility.followingLinksOpensInNewTab }}</p>
+
+  <ul  class="govuk-list govuk-list--bullet govuk-!-display-none-print govuk-!-margin-bottom-8">
+    {% for link in translation.page.calculateCustomsDutyImportVat.guidanceLinks %}
+    <li><a href="{{link.url}}" target="_blank" rel="noopener noreferrer">{{ link.text }}<span class="govuk-visually-hidden"> {{ translation.common.accessibility.opensNewTab }}</span></a></li>
+    {% endfor %}
+  </ul>

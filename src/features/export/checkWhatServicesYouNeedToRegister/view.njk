@@ -1,0 +1,46 @@
+{% extends "layout.njk" %}
+
+{% set title = translation.page.taskList.checkWhatServicesYouNeedToRegisterWithLink %}
+
+{% block pageTitle %}
+{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+
+{% set tradeDetails %}
+  {% include "../../common/tradeDetails/trade-details-export.partial.njk" %}
+{% endset %}
+
+<div class="govuk-grid-row">
+ <div class="govuk-grid-column-two-thirds">
+   <h1 class="govuk-heading-xl govuk-!-margin-bottom-20">
+     <span class="govuk-caption-xl">{{ translation.page.taskList.beforeTheGoodsAreSoldHeading }}</span>
+     {{title}}
+   </h1>
+
+   {{ govukDetails({
+      summaryText: translation.common.tradeDetails.summaryLinkText[tradeType] | capitalize,
+      html: tradeDetails
+    }) }}
+
+   <p>{{ translation.page.checkWhatServicesYouNeedToRegister.hint }}</span></p>
+
+    <ul  class="govuk-list govuk-list--bullet">
+      {% for link in translation.page.checkWhatServicesYouNeedToRegister.guidanceLinks %}
+      <li><a href="{{link.url}}" target="_blank" rel="noopener noreferrer">{{ link.text }}<span class="govuk-visually-hidden"> {{ translation.common.accessibility.opensNewTab }}</span></li>
+      {% endfor %}
+    </ul>
+
+   {{ govukButton({
+     text: translation.common.buttons.backToResults,
+     href: previousPage,
+     classes: "govuk-!-margin-top-6"
+   }) }}
+
+   {% include "../../../views/includes/print-button.njk" %}
+
+ </div>
+</div>
+
+{% endblock %}

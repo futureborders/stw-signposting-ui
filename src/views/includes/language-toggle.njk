@@ -1,0 +1,13 @@
+{% if params.showLanguageToggle %}
+  {{
+    hmrcLanguageSelect({
+      language: params.htmlLang,
+      en: {
+        href: params.toggledLanguagePath
+      },
+      cy: {
+        href: params.toggledLanguagePath
+      }
+    })
+  }}
+{% endif %}

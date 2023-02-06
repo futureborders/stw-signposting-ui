@@ -1,0 +1,127 @@
+{% extends "layout.njk" %}
+
+{% if categoryId and not (isHeading or isSubheading) %}
+{% set title = translation.page.searchResults.subTitle(categoryId) %}
+{% else %}
+{% set title = translation.page.searchResults.title %}
+{% endif %}
+
+{% if currentSearchItem %}
+{% set currentSearchPrefix = currentSearchItem + ": "  %}
+{% endif %}
+
+{% if results.results[0].description  %}
+{% set categoryDescription = results.results[0].description %}
+{% else %}
+{% set categoryDescription = results.results[0].data.attributes.description | capitalize %}
+{% endif %}
+
+{% block pageTitle %}
+{{ currentSearchPrefix }} {{ title }} - {{ serviceName }} - {{ titleSuffix }}
+{% endblock %}
+
+{% block content %}
+
+{% set searchInsetText %}
+  {{
+    govukInsetText({
+      html: translation.page.searchResults.searchInsetText
+  }) }}
+{% endset %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-label--xl govuk-!-margin-top-0">
+      {% if currentSearchItem %}
+      <span class="govuk-caption-l"{{ language | notTranslatedAttribute }}>{{ currentSearchItem | safe }}</span>
+      {% endif %}
+      {{ title }}
+    </h1>
+
+    {% if results.results[0] | length == 0 %}
+    <p class="govuk-body-l">{{ translation.page.searchResults.noResults(results.q | escape) | safe }}</p>
+    <p class="govuk-body"><a href="{{searchRoute}}?{{queryParams | removeParam(['commodity'])}}" class="govuk-button">{{ translation.page.searchResults.searchAgain }}</a></p>
+    {% else %}
+    <p class="govuk-body-l">{{ translation.page.searchResults.searched((searchParent or results.q | escape) | notTranslated(language) ) | safe  }}</p>
+
+
+      {% if categoryDescription %}
+      <p class="govuk-body"><strong>{{ translation.page.searchResults.category }}: </strong>{{ categoryDescription | notTranslated(language) | safe }}.</p>
+      {% endif %}
+
+
+      {% if results.type == 'free' %}
+
+      {% if results.results[0] | length > 0 %}
+       <nav>
+         <p class="govuk-body govuk-!-margin-bottom-3">{{ translation.page.searchResults.contents }}</p>
+
+         <ul class="govuk-!-margin-bottom-9 govuk-list" id="search-results-contents">
+           {% for key, value in results.results[0]  %}
+           <li class="govuk-!-margin-bottom-1">
+             <a class="govuk-body" href="#{{ key }}">{{ translation.page.searchResults[key].matching }} '{{ results.q | escape }}' </a>
+           </li>
+           {% endfor %}
+         </ul>
+       </nav>
+
+       {{ searchInsetText | safe }}
+
+       {% else %}
+       <p class="govuk-body-l">{{ translation.page.searchResults.noResults(results.q | escape) | safe }}</p>
+       <p class="govuk-body"><a href="{{searchRoute}}?{{queryParams | removeParam(['commodity'])}}" class="govuk-button">{{ translation.page.searchResults.searchAgain }}</a></p>
+       {% endif %}
+
+      {% for key, value in results.results[0] %}
+
+        <h2 class="govuk-label--l capitalize" id="{{key}}">{{ translation.page.searchResults[key].group }}</h2>
+
+        <p class="govuk-body">{{ translation.page.searchResults.termAppears(results.q | escape, results.results[0][key] | length, translation.page.searchResults[key].ofGroup) | safe }}</p>
+
+        <ul class="govuk-list">
+        {% for items in searchResultsRows[0][key] %}
+          <li class="search-results-rows">{{items[0].html | safe}}</li>
+        {% endfor %}
+        </ul>
+      {% endfor %}
+
+      {% else %}
+
+        {% if  searchResultsRows | length > 0 %}
+          {{ searchInsetText | safe }}
+        {% endif %}
+
+      {% endif %}
+
+        {% if results.type != 'free' %}
+          {% if searchResultsRows | length > 0 %}
+
+            <ul class="govuk-list">
+            {% for items in searchResultsRows %}
+              <li class="search-results-rows">{{items[0].html | safe}}</li>
+            {% endfor %}
+            </ul>
+
+          {% else %}
+            <h2 class="govuk-heading govuk-heading-s">{{ translation.page.searchResults.noResultsMatchingH2 }}</h2>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>{{ translation.page.searchResults.noResultsMatchingL1 }}</li>
+              <li>{{ translation.page.searchResults.noResultsMatchingL2 }}</li>
+              <li>{{ translation.page.searchResults.noResultsMatchingL3 }}</li>
+              <li>{{ translation.page.searchResults.noResultsMatchingL4 | safe }}</li>
+            </ul>
+          {% endif %}
+      {% endif %}
+    {% endif %}
+  {% if results.results[0] | length > 0 %}
+    {{ govukButton({
+      text: translation.page.searchResults.searchAgain,
+      href: searchRoute + "?" + queryParams | removeParam(['commodity']) + "#commodity",
+      classes: "govuk-button--secondary"
+    }) }}
+  {% endif %}
+
+  </div>
+</div>
+
+{% endblock %}
