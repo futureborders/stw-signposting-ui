@@ -174,7 +174,7 @@ const Translation = {
       hint: 'Country of origin refers to the country where the goods were mostly or wholly manufactured, grown or modified. It is used for labelling purposes and affects duty rates.',
       error: 'Enter the country of origin of the goods',
       label: 'Enter the country of origin',
-      warning: '<p class="govuk-!-font-weight-bold">This service only provides guidance on country of origin. You must enter both country of departure and country of origin in the import declaration.</p><p class="govuk-!-font-weight-bold">If the country of origin is different to the country of departure when the goods are declared at the border, the regulations, tax and duties may differ from the guidance on this service. <a href="https://www.gov.uk/guidance/check-your-goods-meet-the-rules-of-origin" target="_blank">Check if the goods meet the rules of origin (opens in new tab)</a>.</p>'
+      warning: '<p class="govuk-!-font-weight-bold">This service only provides guidance on country of origin. You must enter both country of departure and country of origin in the import declaration.</p><p class="govuk-!-font-weight-bold">If the country of origin is different to the country of departure when the goods are declared at the border, the regulations, tax and duties may differ from the guidance on this service. <a href="https://www.gov.uk/guidance/check-your-goods-meet-the-rules-of-origin" target="_blank">Check if the goods meet the rules of origin (opens in new tab)</a>.</p>',
     },
     northernIrelandAndEUTrading: {
       title: 'Moving goods from EU countries to Northern Ireland',
@@ -580,7 +580,7 @@ const Translation = {
       warning: '<p class="govuk-!-font-weight-bold">You will need to state both the country of departure and the country of origin (where the goods are wholly or mostly manufactured, grown or modified) in the customs declaration.</p>'
         + '<p class="govuk-!-font-weight-bold">If the country of origin is different to the country of departure when you declare the goods at the customs border, the regulations may differ from the guidance on this service.'
         + ' <a href="https://www.gov.uk/guidance/sending-goods-to-an-overseas-customer-using-rules-of-origin" target="_blank" rel="noopener noreferrer" class="govuk-link">Check if the goods meet the rules of origin (opens in new tab)</a>.</p>',
-      rules: 'different rules apply to goods sent to the EU from Northern Ireland'
+      rules: 'different rules apply to goods sent to the EU from Northern Ireland',
     },
     checkWhatServicesYouNeedToRegister: {
       hint: 'To export goods out of the UK, you need to:',
@@ -916,7 +916,7 @@ ${showSdsContent}
       itSupport: 'Help',
       contentLicence: 'All content is available under the <a class="govuk-footer__link" href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank">Open Government Licence v3.0</a>, except where otherwise stated',
       copyright: '© Crown copyright',
-      supportLinks: 'Support links'
+      supportLinks: 'Support links',
     },
     accessibility: {
       opensNewTab: '(opens in new tab)',

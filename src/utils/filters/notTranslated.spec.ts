@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-import { notTranslated, notTranslatedAttribute, notTranslatedOject, notTranslatedToEnglish } from './notTranslated';
+import {
+  notTranslated, notTranslatedAttribute, notTranslatedOject, notTranslatedToEnglish,
+} from './notTranslated';
 
 describe('Testing notTranslated filters', () => {
   test('It should return correct strings', () => {
@@ -33,23 +35,23 @@ describe('Testing notTranslated filters', () => {
   });
 
   test('It should return correct object', () => {
-    let translation = {
+    const translation = {
       common: {
         numbers: {
-          '1': 'un'
-        }
-      }
+          1: 'un',
+        },
+      },
     };
     expect(notTranslatedOject(translation)).toEqual({ lang: 'en' });
   });
 
   test('It should return correct object', () => {
-    let translation = {
+    const translation = {
       common: {
         numbers: {
-          '1': 'one'
-        }
-      }
+          1: 'one',
+        },
+      },
     };
     expect(notTranslatedOject(translation)).toEqual(null);
   });

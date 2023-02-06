@@ -415,7 +415,7 @@ export const mockedCheckYourAnswersRowsImports = {
       value: {
         html: 'Great Britain (England, Scotland and Wales)',
       },
-    },    
+    },
     {
       actions: {
         items: [

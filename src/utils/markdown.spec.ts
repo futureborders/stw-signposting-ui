@@ -16,16 +16,15 @@
 
 import { markdown } from './markdown';
 
-
-let translation = {
+const translation = {
   common: {
     accessibility: {
       opensNewTab: '(opens in new tab)',
     },
     numbers: {
-      '1': 'one'
-    }
-  }
+      1: 'one',
+    },
+  },
 };
 
 describe('Testing markdown', () => {
@@ -152,6 +151,5 @@ describe('Testing markdown', () => {
       + '<span class="govuk-details__summary-text">Some details link</span>\n'
       + '</summary><div class="govuk-details__text"><p lang="en" class="govuk-body">Some details hidden text</p>\n'
       + '</div></details>\n'));
-
   });
 });

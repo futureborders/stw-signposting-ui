@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-export const notTranslated = (text: string, lang: string): string => lang === 'cy' ? `<span lang='en'>${text}</span>` : text;
+export const notTranslated = (text: string, lang: string): string => (lang === 'cy' ? `<span lang='en'>${text}</span>` : text);
 
-export const notTranslatedToEnglish = (text: string, lang: string): string => lang === 'en' ? `<span lang='cy'>${text}</span>` : text;
+export const notTranslatedToEnglish = (text: string, lang: string): string => (lang === 'en' ? `<span lang='cy'>${text}</span>` : text);
 
-export const notTranslatedAttribute = (lang: string | undefined): string => lang === 'cy' ? ' lang="en"' : '';
+export const notTranslatedAttribute = (lang: string | undefined): string => (lang === 'cy' ? ' lang="en"' : '');
 
-export const notTranslatedOject = (translation: any) => translation.common.numbers['1'] === 'un' ? { lang: 'en' } : null;
+export const notTranslatedOject = (translation: any) => (translation.common.numbers['1'] === 'un' ? { lang: 'en' } : null);
 
 export default notTranslated;

@@ -46,7 +46,7 @@ class ExportUserTypeTraderController {
         ExportUserTypeTrader,
         isEdit,
         Route,
-        errors: showErrorMessage ? { text: showErrorMessage, visuallyHiddenText: translation.common.errors.error  } : null,
+        errors: showErrorMessage ? { text: showErrorMessage, visuallyHiddenText: translation.common.errors.error } : null,
         csrfToken: req.csrfToken(),
       });
     } catch (e) {

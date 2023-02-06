@@ -21,4 +21,6 @@ export { removeParam } from './removeParam';
 export { formatCommodityDigits } from './formatCommodityDigits';
 export { getCountryNameByCode } from './getCountryNameByCode';
 export { renderMarkdown } from './renderMarkdown';
-export { notTranslated, notTranslatedAttribute, notTranslatedOject, notTranslatedToEnglish } from './notTranslated';
+export {
+  notTranslated, notTranslatedAttribute, notTranslatedOject, notTranslatedToEnglish,
+} from './notTranslated';
