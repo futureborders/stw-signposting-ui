@@ -28,7 +28,7 @@ import { getImportDateFromQuery, updateQueryParams } from '../../../utils/queryH
 import StwTradeTariffApi from '../../../services/StwTradeTariffApi.service';
 import { ImportDate } from '../../../interfaces/importDate.interface';
 import {
-  DestinationCountry, TypeOfTrade, OriginCountry, UserType, ImportUserTypeTrader
+  DestinationCountry, TypeOfTrade, OriginCountry, UserType, ImportUserTypeTrader,
 } from '../../../interfaces/enums.interface';
 import { handleMissingQueryParams } from '../../../utils/handleMissingQueryParams';
 import { redirectRoute } from '../../../utils/redirectRoute';
@@ -109,10 +109,10 @@ class TaskListController {
         return null;
       }
 
-      if (isImports && userTypeTrader !== ImportUserTypeTrader.no && !importDeclarations){
+      if (isImports && userTypeTrader !== ImportUserTypeTrader.no && !importDeclarations) {
         redirectRoute(
           Route.importDeclarations,
-          updateQueryParams(queryParams, {isEdit: 'true'}),
+          updateQueryParams(queryParams, { isEdit: 'true' }),
           res,
           req,
           translation.page.importDeclarations.error,

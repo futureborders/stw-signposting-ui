@@ -149,7 +149,7 @@ export const getResultsRowsHeadings = async (
       itemId,
       isSubheading,
       translation,
-      language
+      language,
     ),
     type: type(item.attributes.number_indents, item.attributes.leaf),
     parent_sid: item.attributes.parent_sid,
@@ -224,7 +224,7 @@ export const getBreadcrumbs = async (data: any, searchTerm: string, queryParams:
   if ((sid && Number(sid) > 0) || (Number(sid) === 0 && !(isSubheading || isHeading))) {
     breadcrumbs.push({
       sid: null,
-      html: notTranslated(searchParent || searchTerm,  String(language)),
+      html: notTranslated(searchParent || searchTerm, String(language)),
       href: `${Route.search}?${searchParent ? removeParam(replaceCommodityWithSearchTerm(queryParams, searchParent), ['searchParent', 'depth']) : removeParam(queryParams, ['depth', 'subheadingSuffix'])}`,
     });
   }

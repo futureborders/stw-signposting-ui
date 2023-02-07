@@ -56,7 +56,7 @@ class ExportCountryDestinationController {
     try {
       const title = translation.page.exportCountryDestination.questionExporting;
       const { destinationCountry, tradeDetails } = req.query;
-  
+
       const isEdit = req.query.isEdit === 'true';
 
       const previousPage = `${journey.export.exportCountryDestination.previousPage(isEdit)}?${res.locals.queryParams}`;

@@ -71,7 +71,7 @@ class ImportDateController {
             text: showErrorMessage.message,
             idForAnchor: getErrorIdForAnchor(showErrorMessage.id),
             id: showErrorMessage.id,
-            visuallyHiddenText: translation.common.errors.error
+            visuallyHiddenText: translation.common.errors.error,
           }
           : null,
         csrfToken: req.csrfToken(),

@@ -21,7 +21,7 @@ import { getCountryDropdown } from '../../../models/countries.models';
 import { journey } from '../../../utils/previousNextRoutes';
 import { Route } from '../../../interfaces/routes.interface';
 import { redirectRoute } from '../../../utils/redirectRoute';
-import { DestinationCountry, ImportUserTypeTrader } from '../../../interfaces/enums.interface';
+import { DestinationCountry } from '../../../interfaces/enums.interface';
 import { ImportDate } from '../../../interfaces/importDate.interface';
 import {
   setSessionCurrentPath,

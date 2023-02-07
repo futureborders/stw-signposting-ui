@@ -35,7 +35,7 @@ export const getTariffAndTaxesData = (data: any, translation: any): TariffAndTax
         if (!hasEmptyColumn(table, 'quota')) {
           yield {
             text: translation.page.calculateCustomsDutyImportVat.quota,
-            classes: 'govuk-!-width-one-quarter'
+            classes: 'govuk-!-width-one-quarter',
           };
         }
       },
