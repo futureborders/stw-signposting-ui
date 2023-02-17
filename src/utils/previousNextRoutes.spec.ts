@@ -16,7 +16,7 @@
 
 import { Route } from '../interfaces/routes.interface';
 import { journey } from './previousNextRoutes';
-import { ExportUserTypeTrader, TypeOfTrade, ImportUserTypeTrader } from '../interfaces/enums.interface';
+import { TypeOfTrade, ImportUserTypeTrader } from '../interfaces/enums.interface';
 
 describe('Journey previous/next routes', () => {
   process.env.STARTPAGE_URL = 'some-startpage-url';
@@ -72,24 +72,38 @@ describe('Journey previous/next routes', () => {
     expect(journey.import.importCalculateCustomsDutyImportVat.previousPage()).toEqual(Route.taskList);
   });
   test('It should return the correct export paths', () => {
-    expect(journey.export.exportDeclarations.previousPage(true, true)).toEqual(Route.checkYourAnswers);
-    expect(journey.export.exportDeclarations.previousPage(true, false)).toEqual(Route.checkYourAnswers);
-    expect(journey.export.exportDeclarations.previousPage(false, true)).toEqual(Route.exportUserTypeTrader);
-    expect(journey.export.exportDeclarations.previousPage(false, false)).toEqual(Route.exportUserTypeTrader);
-    expect(journey.export.exportOriginCountry.previousPage(false, ExportUserTypeTrader.goodsExportedToBeSold)).toEqual(Route.exportDeclarations);
-    expect(journey.export.exportOriginCountry.previousPage(false, ExportUserTypeTrader.actingOnBehalfOfSeller)).toEqual(Route.exportUserTypeTrader);
-    expect(journey.export.exportOriginCountry.previousPage(false, ExportUserTypeTrader.neitherApply)).toEqual(Route.exportDeclarations);
-    expect(journey.export.exportOriginCountry.previousPage(true, ExportUserTypeTrader.neitherApply)).toEqual(Route.checkYourAnswers);
+    expect(journey.export.exportDeclarations.previousPage(true)).toEqual(Route.checkYourAnswers);
+    expect(journey.export.exportDeclarations.previousPage(false)).toEqual(Route.exportUserTypeTrader);
+    expect(journey.export.exportDeclarations.nextPage(true)).toEqual(Route.exportCommoditySearch);
+    expect(journey.export.exportDeclarations.nextPage(false)).toEqual(Route.exportResponsibleForDeclaringGoods);
+    expect(journey.export.exportOriginCountry.nextPage()).toEqual(Route.exportCountryDestination);
+    expect(journey.export.exportOriginCountry.previousPage(true)).toEqual(Route.checkYourAnswers);
+    expect(journey.export.exportOriginCountry.previousPage(false)).toEqual(Route.exportGoodsArrivalDate);
+    expect(journey.export.exportOriginCountry.nextPage()).toEqual(Route.exportCountryDestination);
     expect(journey.export.exportCountryDestination.previousPage(true)).toEqual(Route.checkYourAnswers);
     expect(journey.export.exportCountryDestination.previousPage(false)).toEqual(Route.exportOriginCountry);
-    expect(journey.export.exportCommoditySearch.previousPage(true)).toEqual(Route.checkYourAnswers);
-    expect(journey.export.exportCommoditySearch.previousPage(false)).toEqual(Route.exportCountryDestination);
-    expect(journey.export.exportUserTypeTrader.previousPage(false)).toEqual(Route.exportGoodsArrivalDate);
+    expect(journey.export.exportCountryDestination.nextPage()).toEqual(Route.exportUserTypeTrader);
+    expect(journey.export.exportCommoditySearch.previousPage(true, true)).toEqual(Route.checkYourAnswers);
+    expect(journey.export.exportCommoditySearch.previousPage(false, true)).toEqual(Route.exportDeclarations);
+    expect(journey.export.exportCommoditySearch.previousPage(true, false)).toEqual(Route.checkYourAnswers);
+    expect(journey.export.exportCommoditySearch.previousPage(false, false)).toEqual(Route.exportResponsibleForDeclaringGoods);
+    expect(journey.export.exportUserTypeTrader.previousPage(false)).toEqual(Route.exportCountryDestination);
     expect(journey.export.exportUserTypeTrader.previousPage(true)).toEqual(Route.checkYourAnswers);
+    expect(journey.export.exportUserTypeTrader.nextPage()).toEqual(Route.exportDeclarations);
     expect(journey.export.exportGoodsIntent.previousPage(true)).toEqual(Route.checkYourAnswers);
     expect(journey.export.exportGoodsIntent.previousPage(false)).toEqual(Route.typeOfTrade);
+    expect(journey.export.exportGoodsIntent.nextPage()).toEqual(Route.exportGoodsArrivalDate);
     expect(journey.export.exportGoodsArrivalDate.previousPage(true)).toEqual(Route.checkYourAnswers);
     expect(journey.export.exportGoodsArrivalDate.previousPage(false)).toEqual(Route.exportGoodsIntent);
-    expect(journey.export.exportGoodsArrivalDate.nextPage()).toEqual(Route.exportUserTypeTrader);
+    expect(journey.export.exportGoodsArrivalDate.nextPage()).toEqual(Route.exportOriginCountry);
+    expect(journey.export.exportCheckLicencesAndRestrictions.previousPage()).toEqual(Route.taskList);
+    expect(journey.export.checkWhatServicesYouNeedToRegister.previousPage()).toEqual(Route.taskList);
+    expect(journey.export.checkInformationAndDocuments.previousPage()).toEqual(Route.taskList);
+    expect(journey.export.exportCheckDeclarations.previousPage()).toEqual(Route.taskList);
+    expect(journey.export.movingGoodsFromNorthernIrelandToAnEUCountry.previousPage()).toEqual(Route.exportCountryDestination);
+    expect(journey.export.exportProhibitionsAndRestrictions.previousPage()).toEqual(Route.checkYourAnswers);
+    expect(journey.export.exportResponsibleForDeclaringGoods.previousPage(true)).toEqual(Route.checkYourAnswers);
+    expect(journey.export.exportResponsibleForDeclaringGoods.previousPage(false)).toEqual(Route.exportDeclarations);
+    expect(journey.export.exportResponsibleForDeclaringGoods.nextPage()).toEqual(Route.exportCommoditySearch);
   });
 });

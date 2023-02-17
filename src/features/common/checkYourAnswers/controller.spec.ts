@@ -97,9 +97,6 @@ describe(`[GET] ${Route.checkYourAnswers}`, () => {
             path: Route.checkYourAnswers,
           },
           csrfToken: () => 'csrftoken',
-          session: () => {
-            'no';
-          },
         } as unknown as e.Request
     );
 

@@ -543,9 +543,6 @@ describe(`[GET] ${Route.search}`, () => {
             sid: 'some-sid',
           },
           csrfToken: () => 'csrftoken',
-          session: () => {
-            'no';
-          },
         } as unknown as e.Request
     );
 

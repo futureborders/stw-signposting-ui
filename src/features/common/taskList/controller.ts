@@ -16,7 +16,7 @@
 
 import { RequestHandler, Response } from 'express';
 import { Params } from '../../../interfaces/params.interface';
-import { calcStatus } from '../../../utils/taskListStatus';
+import { calcStatus, calculateNewTaskStatuses } from '../../../utils/taskListStatus';
 import {
   setSessionCurrentPath,
   setSessionStatus,
@@ -28,7 +28,13 @@ import { getImportDateFromQuery, updateQueryParams } from '../../../utils/queryH
 import StwTradeTariffApi from '../../../services/StwTradeTariffApi.service';
 import { ImportDate } from '../../../interfaces/importDate.interface';
 import {
-  DestinationCountry, TypeOfTrade, OriginCountry, UserType, ImportUserTypeTrader
+  DestinationCountry,
+  TypeOfTrade,
+  OriginCountry,
+  UserType,
+  ExportDeclarations,
+  ResponsibleForDeclaringGoods,
+  TaskStatus,
 } from '../../../interfaces/enums.interface';
 import { handleMissingQueryParams } from '../../../utils/handleMissingQueryParams';
 import { redirectRoute } from '../../../utils/redirectRoute';
@@ -40,7 +46,6 @@ import logger from '../../../utils/logger';
 import { isInvalidAdditionalCode } from '../../../utils/validateAdditionalCode';
 import { AdditionalCodeEntity } from '../../../interfaces/additionalCode.interface';
 import { isImportFromEUIntoNorthernIreland } from '../../../utils/isImportFromEUIntoNorthernIreland';
-
 import {
   getTaxAndDutyMessages,
   getChegUrl,
@@ -51,6 +56,7 @@ import {
   getCheckWhatCustomsDeclarationsLink,
 } from './model';
 import { getUserType } from '../../../models/measures.models';
+import { Tasks } from './interface';
 
 class TaskListController {
   private stwTradeTariffApi: StwTradeTariffApi;
@@ -72,6 +78,7 @@ class TaskListController {
     const exportUserTypeTrader = String(req.query.exportUserTypeTrader);
     const originCountry = String(req.query.originCountry);
     const destinationCountry = String(req.query.destinationCountry);
+    const exportResponsibleForDeclaringGoods = String(req.query.exportResponsibleForDeclaringGoods);
     const tradeDate = getImportDateFromQuery(req);
     const tradeDateDay = String(tradeDate.day);
     const tradeDateMonth = String(tradeDate.month);
@@ -109,14 +116,20 @@ class TaskListController {
         return null;
       }
 
-      if (isImports && userTypeTrader !== ImportUserTypeTrader.no && !importDeclarations){
+      if (isExports && exportDeclarations !== ExportDeclarations.no && !exportResponsibleForDeclaringGoods) {
         redirectRoute(
-          Route.importDeclarations,
-          updateQueryParams(queryParams, {isEdit: 'true'}),
+          Route.exportResponsibleForDeclaringGoods,
+          updateQueryParams(queryParams, { isEdit: 'true' }),
           res,
           req,
-          translation.page.importDeclarations.error,
+          translation.page.exportResponsibleForDeclaringGoods.error(translation.common.countries[String(destinationCountry)]),
         );
+        return null;
+      }
+
+      if (isExports && req.query.externalLink) {
+        setSessionStatus(req, calculateNewTaskStatuses(getSessionStatus(req), Tasks.exportResponsibleForDeclaringGoods, TaskStatus.VIEWED));
+        res.redirect(chegUrl);
         return null;
       }
 
@@ -132,7 +145,9 @@ class TaskListController {
           tradeDateDay,
           tradeDateMonth,
           tradeDateYear,
+          exportResponsibleForDeclaringGoods,
         };
+
         [restrictiveMeasuresResponse, additionalCodeResponse] = await Promise.all([
           this.stwTradeTariffApi.getRestrictiveMeasures(commodity, tradeType, originCountry, destinationCountry as DestinationCountry, tradeDate as ImportDate, additionalCode),
           this.stwTradeTariffApi.getAdditionalCode(commodity, tradeType, originCountry, destinationCountry as DestinationCountry, tradeDate as ImportDate),
@@ -188,6 +203,7 @@ class TaskListController {
       const signUpToServicesRoute = getSignUpToServicesRoute(isImports);
       const checkInformationAndDocumentsRoute = getCheckInformationAndDocumentsRoute(isImports);
       const checkWhatCustomsDeclarationsLink = getCheckWhatCustomsDeclarationsLink(importDeclarationsNotRequired, state, isImports);
+      const exportResponsibleForDeclaringGoodsState = 'TO_VIEW';
 
       if (restrictions) {
         redirectRoute((isExports ? Route.exportProhibitionsAndRestrictions : Route.importProhibitionsAndRestrictions), queryParams, res);
@@ -220,6 +236,9 @@ class TaskListController {
           signUpToServicesRoute,
           checkInformationAndDocumentsRoute,
           checkWhatCustomsDeclarationsLink,
+          exportResponsibleForDeclaringGoods,
+          ResponsibleForDeclaringGoods,
+          exportResponsibleForDeclaringGoodsState,
           csrfToken: req.csrfToken(),
         });
       }

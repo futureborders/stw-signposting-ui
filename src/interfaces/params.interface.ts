@@ -49,7 +49,8 @@ export interface Params {
    hasAddionalCode?: string;
    hasNoMeasures?: boolean;
    error?: string;
-   taskStatuses? : TaskStatuses;
+   taskStatuses?: TaskStatuses;
+   exportResponsibleForDeclaringGoods?: string;
  }
 
 export default Params;

@@ -29,7 +29,7 @@ const validateAdditionalQuestion = (queryParams: string, translation: any, req: 
       const { errorText } = translation.page.additionalQuestions[questionId];
       errors = {
         text: errorText || translation.page.additionalQuestions[questionId][errorMessageId]?.errorText,
-        visuallyHiddenText: translation.common.errors.error
+        visuallyHiddenText: translation.common.errors.error,
       };
     } else {
       errors = null;

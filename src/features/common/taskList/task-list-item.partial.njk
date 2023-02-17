@@ -11,8 +11,8 @@
     {% elif params.state == "NOT_REQUIRED" %}
         {{ params.desc | safe }}
     {% elif params.href or params.href !== '' %}
-      <a href="{{ params.href }}?{{params.queryParams}}" aria-describedby="{{params.id}}_{{params.state}}">
-        {{ params.desc }}
+      <a href="{{ params.href }}?{{params.queryParams}}{% if params.external %}&externalLink=true{% endif %}" aria-describedby="{{params.id}}_{{params.state}}" {% if params.external %}target="_blank" rel="noopener" class="externalLinkRefresh"{% endif %}>
+        {{ params.desc }}{% if params.external %} {{ params.opensNewTabTranslation }}{% endif %}
       </a>
     {% else %}
       {{ params.desc }}

@@ -62,6 +62,7 @@ export enum Route {
   exportProhibitionsAndRestrictions = '/export/prohibitions-and-restrictions',
   exportCheckInformationAndDocuments = '/export/check-information-and-documents',
   exportCheckDeclarations = '/export/export-check-declarations',
+  exportResponsibleForDeclaringGoods = '/export/responsible-for-declaring-goods',
 }
 
 export default Routes;

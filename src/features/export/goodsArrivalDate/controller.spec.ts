@@ -105,9 +105,6 @@ describe(`[GET] ${Route.exportGoodsArrivalDate}`, () => {
             includes: jest.fn(),
           },
           csrfToken: () => 'csrftoken',
-          session: () => {
-            'no';
-          },
         } as unknown as e.Request
     );
 
@@ -162,7 +159,7 @@ describe(`[POST] ${Route.exportGoodsArrivalDate}`, () => {
       .set('Cookie', csrfResponse.cookies)
       .send(data)
       .expect(302, {})
-      .expect('Location', `${Route.exportUserTypeTrader}${getParams(params)}`);
+      .expect('Location', `${Route.exportOriginCountry}${getParams(params)}`);
   });
 
   it('It should respond with statusCode 302 and redirect back when date error', async (done) => {

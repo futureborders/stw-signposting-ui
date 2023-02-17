@@ -34,6 +34,7 @@ const getStringsMapping = (
   tradeDate: any,
   additionalCode: string,
   isImport: boolean,
+  destinationCountry: string,
 ): StringsMapping => ({
   tradeType: {
     question: translation.page.typeOfTrade.question,
@@ -95,6 +96,11 @@ const getStringsMapping = (
     answer: formatDate(tradeDate, language),
     route: Route.importDate,
   },
+  exportResponsibleForDeclaringGoods: {
+    question: translation.page.exportResponsibleForDeclaringGoods.question(translation.common.countries[destinationCountry]),
+    answer: translation.page.exportResponsibleForDeclaringGoods[answer],
+    route: Route.exportResponsibleForDeclaringGoods,
+  },
 });
 
 export const checkYourAnswersRows = (
@@ -104,7 +110,7 @@ export const checkYourAnswersRows = (
 ): CheckYourAnswersData => {
   const { query } = req;
   const { translation, language, queryParams } = res.locals;
-  const { additionalCode, tradeType } = query;
+  const { additionalCode, tradeType, destinationCountry } = query;
   const tradeDate = getImportDateFromQuery(req);
   const isImport = tradeType === TypeOfTrade.import;
   const getAdditionalCode = (additionalCode !== 'false' && additionalCode !== undefined) ? ` - ${additionalCode}` : '';
@@ -120,12 +126,13 @@ export const checkYourAnswersRows = (
         tradeDate,
         getAdditionalCode,
         isImport,
+        String(destinationCountry),
       );
 
       return {
         id: key,
         key: {
-          text: stringsMapping[key].question,
+          html: stringsMapping[key].question,
           classes: 'govuk-!-width-one-third',
         },
         value: {

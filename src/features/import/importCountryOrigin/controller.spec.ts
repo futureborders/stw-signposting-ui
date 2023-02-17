@@ -111,9 +111,6 @@ describe(`[GET] ${Route.importCountryOrigin}`, () => {
               path: Route.importCountryOrigin,
             },
             csrfToken: () => 'csrftoken',
-            session: () => {
-              'no';
-            },
           } as unknown as e.Request
     );
 

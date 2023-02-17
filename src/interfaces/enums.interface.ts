@@ -142,10 +142,11 @@ export enum ExportParamsOrder {
   tradeType = 'tradeType',
   exportGoodsIntent = 'exportGoodsIntent',
   tradeDateDay = 'tradeDateDay',
-  exportUserTypeTrader = 'exportUserTypeTrader',
-  exportDeclarations = 'exportDeclarations',
   originCountry = 'originCountry',
   destinationCountry = 'destinationCountry',
+  exportUserTypeTrader = 'exportUserTypeTrader',
+  exportDeclarations = 'exportDeclarations',
+  exportResponsibleForDeclaringGoods = 'exportResponsibleForDeclaringGoods',
   commodity = 'commodity',
 }
 
@@ -166,6 +167,18 @@ export enum ImportUserTypeTrader {
   yes = 'yes',
   no = 'no',
   neither = 'neither'
+}
+
+export enum ExportDeclarations {
+  yes = 'yes',
+  no = 'no',
+  notSure = 'notSure'
+}
+
+export enum ResponsibleForDeclaringGoods {
+  yes = 'yes',
+  no = 'no',
+  notSure = 'notSure'
 }
 
 export enum LANGUAGE {

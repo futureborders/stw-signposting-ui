@@ -56,6 +56,7 @@ import ExportGoodsIntentController from '../features/export/goodsIntent/controll
 import ExportProhibitionsAndRestrictionsController from '../features/export/prohibitionsAndRestrictions/controller';
 import ExportCheckInformationAndDocumentsController from '../features/export/checkInformationAndDocuments/controller';
 import ExportCheckDeclarationsController from '../features/export/checkDeclarations/controller';
+import ExportResponsibleForDeclaringGoodsController from '../features/export/responsibleForDeclaringGoods/controller';
 
 class IndexRoute implements Routes {
   public router = Router();
@@ -134,7 +135,9 @@ class IndexRoute implements Routes {
 
   public exportCheckInformationAndDocumentsController = new ExportCheckInformationAndDocumentsController();
 
-  private exportCheckDeclarationsController = new ExportCheckDeclarationsController();
+  public exportCheckDeclarationsController = new ExportCheckDeclarationsController();
+
+  public exportResponsibleForDeclaringGoodsController = new ExportResponsibleForDeclaringGoodsController();
 
   constructor(tradeTariffApi: TradeTariffApi, stwtradeTariffApi: StwTradeTariffApi) {
     this.importCheckLicencesAndRestrictionsController = new ImportCheckLicencesAndRestrictionsController(stwtradeTariffApi);
@@ -358,6 +361,14 @@ class IndexRoute implements Routes {
     this.router.get(
       Route.exportCheckDeclarations,
       this.exportCheckDeclarationsController.exportCheckDeclarations,
+    );
+    this.router.get(
+      Route.exportResponsibleForDeclaringGoods,
+      this.exportResponsibleForDeclaringGoodsController.exportResponsibleForDeclaringGoods,
+    );
+    this.router.post(
+      Route.exportResponsibleForDeclaringGoods,
+      this.exportResponsibleForDeclaringGoodsController.exportResponsibleForDeclaringGoodsSubmit,
     );
   }
 }

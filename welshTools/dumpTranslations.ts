@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ // @ts-nocheck
+ /* eslint-disable */
+ /* istanbul ignore file */
 
 import * as en from '../src/translation/en';
 import * as cy from '../src/translation/cy';
 import * as csv from 'csv';
 import * as fs from 'fs';
-import { getCountryNameByCode } from '../src/utils/filters/getCountryNameByCode';
 
 const outputDir = `${__dirname}/../translationOutput`;
 
@@ -37,7 +39,7 @@ const excludedKeys = [
     'common.footer.toggle',
 ];
 
-const urlRegex = /^[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/ig;
+const urlRegex = /^[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/=]*)$/ig;
 
 const outputFilename = `${outputDir}/current.csv`;
 
@@ -128,7 +130,7 @@ const processSection = (prefix: string, englishSection: any, welshSection: any) 
             }
         }
     }
-}
+};
 
 
 

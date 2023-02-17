@@ -60,7 +60,7 @@ const currentCsv = readCsv(currentCsvFilename);
 const stats = {
     new: 0,
     updated: 0,
-}
+};
 
 const outputCsv = currentCsv.map(currentRecord => {
     const previousRecord = previousCsvMap.get(currentRecord.key);
@@ -93,7 +93,7 @@ const outputCsv = currentCsv.map(currentRecord => {
         en: currentRecord.en,
         cy: currentRecord.cy,
         comment,
-    }
+    };
 });
 
 /*

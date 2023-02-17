@@ -90,9 +90,6 @@ describe(`[GET] ${Route.identifyUserType}`, () => {
             path: Route.identifyUserType,
           },
           csrfToken: () => 'csrftoken',
-          session: () => {
-            'no';
-          },
         } as unknown as e.Request
     );
 

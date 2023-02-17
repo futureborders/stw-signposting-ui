@@ -174,7 +174,7 @@ const Translation = {
       hint: 'Country of origin refers to the country where the goods were mostly or wholly manufactured, grown or modified. It is used for labelling purposes and affects duty rates.',
       error: 'Enter the country of origin of the goods',
       label: 'Enter the country of origin',
-      warning: '<p class="govuk-!-font-weight-bold">This service only provides guidance on country of origin. You must enter both country of departure and country of origin in the import declaration.</p><p class="govuk-!-font-weight-bold">If the country of origin is different to the country of departure when the goods are declared at the border, the regulations, tax and duties may differ from the guidance on this service. <a href="https://www.gov.uk/guidance/check-your-goods-meet-the-rules-of-origin" target="_blank">Check if the goods meet the rules of origin (opens in new tab)</a>.</p>'
+      warning: '<p class="govuk-!-font-weight-bold">This service only provides guidance on country of origin. You must enter both country of departure and country of origin in the import declaration.</p><p class="govuk-!-font-weight-bold">If the country of origin is different to the country of departure when the goods are declared at the border, the regulations, tax and duties may differ from the guidance on this service. <a href="https://www.gov.uk/guidance/check-your-goods-meet-the-rules-of-origin" target="_blank">Check if the goods meet the rules of origin (opens in new tab)</a>.</p>',
     },
     northernIrelandAndEUTrading: {
       title: 'Moving goods from EU countries to Northern Ireland',
@@ -241,11 +241,8 @@ const Translation = {
       },
       howAccessible: {
         header: 'How accessible this service is',
-        p1: 'This service is partially compliant with the <a class="govuk-link" href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines version 2.1 AA standard</a>.',
-        p2: 'Some people may find parts of this service difficult to use:',
-        list: [
-          'All the filter search result pages have the same title which makes it difficult to distinguish between them',
-        ],
+        p1: 'This service is fully compliant with the <a class="govuk-link" href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines version 2.1 AA standard</a>.',
+        p2: 'There are no known accessibility issues within this service.',
       },
       reportingProblems: {
         header: 'Reporting accessibility problems with this service',
@@ -258,21 +255,13 @@ const Translation = {
       technicalInformation: {
         header: 'Technical information about this service’s accessibility',
         p1: 'HMRC is committed to making this service accessible, in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.',
-        p2: 'This service is partially compliant with the  <a class="govuk-link" href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines version 2.1 AA standard</a>, due to the non-compliances listed below.',
-        nonAccessibleContent: {
-          header: 'Non‐accessible content',
-          p1: 'The content listed below is non-accessible for the following reasons.',
-          listHeading: 'Non‐compliance with the accessibility regulations',
-          list: [
-            'All the filter search result page titles are identical. This fails WCAG 2.1 success criterion 2.4.2 Page titled. This has been fixed and is awaiting retest.',
-          ],
-        },
+        p2: 'This service is fully compliant with the  <a class="govuk-link" href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines version 2.1 AA standard</a>.',
       },
       howWeTested: {
         header: 'How we tested this service',
-        p1: 'The service was last tested on 8 July 2022 and was checked for compliance with WCAG 2.1 AA.',
+        p1: 'The service was last tested on 31 January 2023 and was checked for compliance with WCAG 2.1 AA.',
         p2: 'The service was built using parts that were tested by the <a class="govuk-link" href="https://www.digitalaccessibilitycentre.org/">Digital Accessibility Centre</a>. The full service was tested by HMRC and included disabled users.',
-        p3: 'This page was prepared on 14 July 2021. It was last updated on 14 July 2022.',
+        p3: 'This page was prepared on 14 July 2021. It was last updated on 10 February 2023.',
       },
     },
     cookies: {
@@ -540,9 +529,9 @@ const Translation = {
       preparingToClearOriginBorderHeading: 'Before the goods arrive at the UK border',
       prepareCustomsDeclarationsOriginSubheading: 'Prepare documents and declarations for the UK',
       checkWhatInformationAndDocumentsYouMayNeedLink: 'Check what information and documents you need',
-      preparingToClearDestinationBorderHeading: (destinationCountryName: string): string => `Find out about getting the goods through ${destinationCountryName}’s customs border`,
-      preparingToClearDestinationBorderParagraph: 'You will be taken to another government service where the commodity code for the goods may be different.',
-      checkHowToClearGoodsIntoDestinationLink: (destinationCountryName: string): string => `Check how to get goods into ${destinationCountryName} (opens in new tab)`,
+      gettingTheGoodsThroughCustomsBorderHeading: (destinationCountryName: string): string => `Getting the goods through ${destinationCountryName}’s customs border`,
+      prepareCustomsDeclarationsSubHeading: (destinationCountryName: string): string => `Prepare documents and declarations for ${destinationCountryName}`,
+      checkHowToImportGoodsInto: (destinationCountryName: string): string => `Check how to import goods into ${destinationCountryName}`,
       statusTags: {
         viewed: 'Viewed',
         toView: 'To view',
@@ -580,7 +569,7 @@ const Translation = {
       warning: '<p class="govuk-!-font-weight-bold">You will need to state both the country of departure and the country of origin (where the goods are wholly or mostly manufactured, grown or modified) in the customs declaration.</p>'
         + '<p class="govuk-!-font-weight-bold">If the country of origin is different to the country of departure when you declare the goods at the customs border, the regulations may differ from the guidance on this service.'
         + ' <a href="https://www.gov.uk/guidance/sending-goods-to-an-overseas-customer-using-rules-of-origin" target="_blank" rel="noopener noreferrer" class="govuk-link">Check if the goods meet the rules of origin (opens in new tab)</a>.</p>',
-      rules: 'different rules apply to goods sent to the EU from Northern Ireland'
+      rules: 'different rules apply to goods sent to the EU from Northern Ireland',
     },
     checkWhatServicesYouNeedToRegister: {
       hint: 'To export goods out of the UK, you need to:',
@@ -689,6 +678,14 @@ const Translation = {
         submitDeclaration: 'How to submit an import declaration',
         otherDeclarationsP1: 'You may need to make an entry summary declaration depending on where the goods are sent from. Check if you need to <a href="https://www.gov.uk/guidance/check-if-you-need-to-make-an-entry-summary-declaration" target="_blank" rel="noopener noreferrer" class="govuk-link">make an entry summary declaration (opens in new tab)</a>.',
       },
+    },
+    exportResponsibleForDeclaringGoods: {
+      question: (countryName: string): string => `Are you responsible for declaring the goods at ${countryName}’s border?`,
+      hint: 'Check your contractual arrangements because you may be responsible for customs clearance at both the UK and country of destination’s border.',
+      yes: 'Yes',
+      no: 'No, the buyer or importer will be responsible',
+      notSure: 'I’m not sure',
+      error: (countryName: string): string => `Select who is responsible for declaring the goods at ${countryName}’s border`,
     },
   },
   common: {
@@ -916,7 +913,7 @@ ${showSdsContent}
       itSupport: 'Help',
       contentLicence: 'All content is available under the <a class="govuk-footer__link" href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank">Open Government Licence v3.0</a>, except where otherwise stated',
       copyright: '© Crown copyright',
-      supportLinks: 'Support links'
+      supportLinks: 'Support links',
     },
     accessibility: {
       opensNewTab: '(opens in new tab)',

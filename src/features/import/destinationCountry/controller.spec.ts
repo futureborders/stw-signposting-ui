@@ -148,9 +148,6 @@ describe(`[GET] ${Route.destinationCountry}`, () => {
             path: Route.destinationCountry,
           },
           csrfToken: () => 'csrftoken',
-          session: () => {
-            'no';
-          },
         } as unknown as e.Request
     );
 

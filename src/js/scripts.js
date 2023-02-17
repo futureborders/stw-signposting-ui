@@ -50,8 +50,6 @@ window.GOVUKFrontend.initAll();
   }
 })();
 
-
-
 (function () {
   // open closed details elements for printing
   window.addEventListener('beforeprint',() =>
@@ -89,4 +87,20 @@ window.GOVUKFrontend.initAll();
           }
       }
   });
+
+  (function () {
+    // reloads page to refresh the task list status for external links
+    const refreshLink = document.getElementsByClassName('externalLinkRefresh');
+    for (var i = 0; i <   refreshLink.length; i++) {
+      if ( refreshLink[i]) {
+         refreshLink[i].onclick = function() {
+          if(this.parentNode.nextElementSibling.classList.contains('govuk-tag--grey')){
+            setTimeout(() => {
+              document.location.reload();
+            }, 1000);
+          }
+        }
+      }
+    }
+  })();
 })();

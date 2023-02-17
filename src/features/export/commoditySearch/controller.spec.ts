@@ -102,9 +102,6 @@ describe(`[GET] ${Route.exportCommoditySearch}`, () => {
             path: Route.exportCommoditySearch,
           },
           csrfToken: () => 'csrftoken',
-          session: () => {
-            'no';
-          },
         } as unknown as e.Request
     );
 

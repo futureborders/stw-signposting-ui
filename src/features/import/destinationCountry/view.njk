@@ -77,7 +77,7 @@
           text: translation.common.buttons.continue
         }) }}
 
-      <p><a href="import-country-origin?{{ queryParams | removeParam(['editCancelled']) + editCancelled }}" class="govuk-link" id="changeOriginCountryLink">{{ translation.page.destinationCountry.changeOriginCountryLink }}</a></p>
+      <p><a href="import-country-origin?{{ queryParams | removeParam(['editCancelled']) }}" class="govuk-link" id="changeOriginCountryLink">{{ translation.page.destinationCountry.changeOriginCountryLink }}</a></p>
 
     {% else %}
 

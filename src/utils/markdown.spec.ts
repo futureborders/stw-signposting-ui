@@ -16,16 +16,15 @@
 
 import { markdown } from './markdown';
 
-
-let translation = {
+const translation = {
   common: {
     accessibility: {
       opensNewTab: '(opens in new tab)',
     },
     numbers: {
-      '1': 'one'
-    }
-  }
+      1: 'one',
+    },
+  },
 };
 
 describe('Testing markdown', () => {
@@ -111,27 +110,27 @@ describe('Testing markdown', () => {
   test('It should return lang="en"', () => {
     translation.common.numbers['1'] = 'un';
     expect(markdown.render('# h1 Heading', { translation, isTranslated: false })).toEqual(
-      expect.stringContaining('<h1 lang="en" class="govuk-heading-xl">h1 Heading</h1>'),
+      expect.stringContaining('<h1 class="govuk-heading-xl" lang="en">h1 Heading</h1>'),
     );
 
     expect(markdown.render('## h2 Heading', { translation, isTranslated: false })).toEqual(
-      expect.stringContaining('<h2 lang="en" class="govuk-heading-l">h2 Heading</h2>'),
+      expect.stringContaining('<h2 class="govuk-heading-l" lang="en">h2 Heading</h2>'),
     );
 
     expect(markdown.render('### h3 Heading', { translation, isTranslated: false })).toEqual(
-      expect.stringContaining('<h3 lang="en" class="govuk-heading-m">h3 Heading</h3>'),
+      expect.stringContaining('<h3 class="govuk-heading-m" lang="en">h3 Heading</h3>'),
     );
 
     expect(markdown.render('#### h4 Heading', { translation, isTranslated: false })).toEqual(
-      expect.stringContaining('<h4 lang="en" class="govuk-heading-s">h4 Heading</h4>'),
+      expect.stringContaining('<h4 class="govuk-heading-s" lang="en">h4 Heading</h4>'),
     );
 
     expect(markdown.render('[link text](http://some-link.com)', { translation, isTranslated: false })).toEqual(
-      expect.stringContaining('<p lang="en" class="govuk-body"><a href="http://some-link.com" target="_blank" rel="noopener noreferrer">link text <span class="govuk-!-display-none-print" lang="cy">(opens in new tab)</span></a></p>'),
+      expect.stringContaining('<p class="govuk-body" lang="en"><a href="http://some-link.com" target="_blank" rel="noopener noreferrer">link text <span class="govuk-!-display-none-print" lang="cy">(opens in new tab)</span></a></p>'),
     );
 
     expect(markdown.render('+ l1\n+ l2\n+ l2', { translation, isTranslated: false })).toEqual(
-      expect.stringContaining('<ul lang="en" class="govuk-list govuk-list--bullet">\n'
+      expect.stringContaining('<ul class="govuk-list govuk-list--bullet" lang="en">\n'
     + '<li>l1</li>\n'
     + '<li>l2</li>\n'
     + '<li>l2</li>\n'
@@ -139,7 +138,7 @@ describe('Testing markdown', () => {
     );
 
     expect(markdown.render('1. l1\n2. l2\n3. l2', { translation, isTranslated: false })).toEqual(
-      expect.stringContaining('<ol lang="en" class="govuk-list govuk-list--number">\n'
+      expect.stringContaining('<ol class="govuk-list govuk-list--number" lang="en">\n'
     + '<li>l1</li>\n'
     + '<li>l2</li>\n'
     + '<li>l2</li>\n'
@@ -147,11 +146,10 @@ describe('Testing markdown', () => {
     );
 
     const response = markdown.render('+++ Some details link\nSome details hidden text\n+++', { translation, isTranslated: false });
-    expect(response).toEqual(expect.stringContaining('<details lang="en" class="govuk-details" data-module="govuk-details">\n'
+    expect(response).toEqual(expect.stringContaining('<details class="govuk-details" data-module="govuk-details" lang="en">\n'
       + '<summary class="govuk-details__summary">\n'
       + '<span class="govuk-details__summary-text">Some details link</span>\n'
-      + '</summary><div class="govuk-details__text"><p lang="en" class="govuk-body">Some details hidden text</p>\n'
+      + '</summary><div class="govuk-details__text"><p class="govuk-body" lang="en">Some details hidden text</p>\n'
       + '</div></details>\n'));
-
   });
 });

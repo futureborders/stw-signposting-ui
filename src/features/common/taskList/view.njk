@@ -137,26 +137,40 @@
           {% endif %}
         </ul>
       </li>
+      {% if (tradeType == TypeOfTrade.export) and ((exportResponsibleForDeclaringGoods == ResponsibleForDeclaringGoods.yes) or (exportResponsibleForDeclaringGoods == ResponsibleForDeclaringGoods.notSure))  %}
+      <li>
+        <h2 class="govuk-heading-l govuk-!-margin-bottom-7 govuk-!-margin-top-7">
+          3. {{ translation.page.taskList.gettingTheGoodsThroughCustomsBorderHeading(translation.common.countries[destinationCountry]) | safe }}
+        </h2>
+        <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
+          {{ translation.page.taskList.prepareCustomsDeclarationsSubHeading(translation.common.countries[destinationCountry]) | safe }}
+        </h3>
+        <ul class="app-task-list__items govuk-!-margin-bottom-7">
+          {{
+            taskListItem({
+              desc: translation.page.taskList.checkHowToImportGoodsInto(translation.common.countries[destinationCountry]) | safe,
+              href: Route.taskList,
+              state: state.taskStatuses.exportResponsibleForDeclaringGoods,
+              taskListTranslation: translation.page.taskList,
+              id: "CHECK_HOW_TO_IMPORT",
+              queryParams: queryParams,
+              external: true,
+              opensNewTabTranslation: translation.common.accessibility.opensNewTab
+            })
+          }}
+        </ul>
+      </li>
+      {% endif  %}
     </ol>
 
-    {% if tradeType == TypeOfTrade.export  %}
-      <div class="greyPanel govuk-!-display-none-print">
-        <h3 class="govuk-heading-s">
-          {{translation.page.taskList.preparingToClearDestinationBorderHeading(translation.common.countries[destinationCountry])}}
-        </h3>
-        <p>{{ translation.page.taskList.preparingToClearDestinationBorderParagraph }}</p>
-        <p class="govuk-!-margin-bottom-0"><a href="{{ chegUrl }}" target="_blank" rel="noopener" class="govuk-link">{{ translation.page.taskList.checkHowToClearGoodsIntoDestinationLink(translation.common.countries[destinationCountry]) }}</a></p>
-      </div>
-    {% endif  %}
-
-      {{ govukButton({
-        text: translation.common.buttons.print,
-        href: '#',
-        classes: "govuk-link gem-c-print-link__link govuk-link--no-visited-state govuk-!-margin-top-4 hideNoJs printButton",
-        attributes: {
-          id: "printButton"
-        }
-      }) }}
+    {{ govukButton({
+      text: translation.common.buttons.print,
+      href: '#',
+      classes: "govuk-link gem-c-print-link__link govuk-link--no-visited-state govuk-!-margin-top-4 hideNoJs printButton",
+      attributes: {
+        id: "printButton"
+      }
+    }) }}
 
     </div>
 </div>

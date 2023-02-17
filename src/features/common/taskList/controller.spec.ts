@@ -71,6 +71,8 @@ beforeEach(() => {
     destinationCountry: 'CN',
     commodity: '0301921000',
     exportGoodsIntent: 'goodsExportedToBeSoldForBusiness',
+    exportUserTypeTrader: 'goodsExportedToBeSold',
+    exportResponsibleForDeclaringGoods: 'yes',
   };
   importsParams = {
     commodity: '0208907000',
@@ -128,8 +130,7 @@ describe(`[GET] ${Route.taskList} for exports`, () => {
       .expect(200)
       .then((res) => {
         expect(res.text).toEqual(expect.stringContaining('Exporting goods to China: what you need to do - Check how to import or export goods - GOV.UK'));
-        expect(res.text).toEqual(expect.stringContaining('Find out about getting the goods through China’s customs border'));
-        expect(res.text).toEqual(expect.stringContaining('Check how to get goods into China (opens in new tab)'));
+        expect(res.text).toEqual(expect.stringContaining('Getting the goods through China’s customs border'));
         expect(res.text).toEqual(expect.stringContaining('Check what licences, certificates and other restrictions apply to the goods<br /><br />There are no export measures for this commodity on this date.'));
       });
     expect(mockedStwTradeTariffApi.getRestrictiveMeasures).toHaveBeenCalled();
@@ -365,7 +366,7 @@ describe(`[GET] ${Route.taskList} for exports`, () => {
     expect(mockedStwTradeTariffApi.getRestrictiveMeasures).toHaveBeenCalled();
   });
 
-  it(`It should return status 302 aand redirect to ${Route.exportProhibitionsAndRestrictions} when prohibitions`, async () => {
+  it(`It should return status 302 and redirect to ${Route.exportProhibitionsAndRestrictions} when prohibitions`, async () => {
     const axiosTradeDataResponse: AxiosResponse = {
       ...mockedRestrictiveMeasuresWithProhibitions,
       status: 200,
@@ -407,13 +408,12 @@ describe(`[GET] ${Route.taskList} for exports`, () => {
     );
 
     await request(app.getServer())
-      .get(`${Route.taskList}${getParams(exportsParams)}`)
+      .get(`${Route.taskList}${getParams(exportsParams)}&externalLink=true`)
       .set('user-agent', 'node-superagent')
-      .expect(200)
-      .then((res) => {
-        expect(res.text).toEqual(expect.stringContaining('https://cheg/'));
-      });
-    expect(mockedStwTradeTariffApi.getRestrictiveMeasures).toHaveBeenCalled();
+      .expect(302)
+      .expect('Location', 'https://cheg/');
+
+    expect(mockedStwTradeTariffApi.getRestrictiveMeasures).not.toHaveBeenCalled();
   });
 
   it('It should ignore CHEG url for invalid originCountry', async () => {
@@ -434,13 +434,12 @@ describe(`[GET] ${Route.taskList} for exports`, () => {
     );
 
     await request(app.getServer())
-      .get(`${Route.taskList}${getParams(exportsParams)}`)
+      .get(`${Route.taskList}${getParams(exportsParams)}&externalLink=true`)
       .set('user-agent', 'node-superagent')
-      .expect(200)
-      .then((res) => {
-        expect(res.text).toEqual(expect.stringContaining('https://cheg/'));
-      });
-    expect(mockedStwTradeTariffApi.getRestrictiveMeasures).toHaveBeenCalled();
+      .expect(302)
+      .expect('Location', 'https://cheg/');
+
+    expect(mockedStwTradeTariffApi.getRestrictiveMeasures).not.toHaveBeenCalled();
   });
 
   it('It should return correct CHEG url', async () => {
@@ -459,13 +458,12 @@ describe(`[GET] ${Route.taskList} for exports`, () => {
     );
 
     await request(app.getServer())
-      .get(`${Route.taskList}${getParams(exportsParams)}`)
+      .get(`${Route.taskList}${getParams(exportsParams)}&externalLink=true`)
       .set('user-agent', 'node-superagent')
-      .expect(200)
-      .then((res) => {
-        expect(res.text).toEqual(expect.stringContaining('https://cheg/prodmap?oc=GB&amp;dc=CN&amp;code=0301921000&amp;utm_source=stwgs&amp;utm_medium=referral&amp;utm_term=task_list'));
-      });
-    expect(mockedStwTradeTariffApi.getRestrictiveMeasures).toHaveBeenCalled();
+      .expect(302)
+      .expect('Location', 'https://cheg/prodmap?oc=GB&dc=CN&code=0301921000&utm_source=stwgs&utm_medium=referral&utm_term=task_list');
+
+    expect(mockedStwTradeTariffApi.getRestrictiveMeasures).not.toHaveBeenCalled();
   });
 
   it('It should return correct CHEG url whithout slash', async () => {
@@ -486,13 +484,12 @@ describe(`[GET] ${Route.taskList} for exports`, () => {
     );
 
     await request(app.getServer())
-      .get(`${Route.taskList}${getParams(exportsParams)}`)
+      .get(`${Route.taskList}${getParams(exportsParams)}&externalLink=true`)
       .set('user-agent', 'node-superagent')
-      .expect(200)
-      .then((res) => {
-        expect(res.text).toEqual(expect.stringContaining('https://cheg/prodmap?oc=GB&amp;dc=CN&amp;code=0301921000&amp;utm_source=stwgs&amp;utm_medium=referral&amp;utm_term=task_list'));
-      });
-    expect(mockedStwTradeTariffApi.getRestrictiveMeasures).toHaveBeenCalled();
+      .expect(302)
+      .expect('Location', 'https://cheg/prodmap?oc=GB&dc=CN&code=0301921000&utm_source=stwgs&utm_medium=referral&utm_term=task_list');
+
+    expect(mockedStwTradeTariffApi.getRestrictiveMeasures).not.toHaveBeenCalled();
   });
 
   it(`It should respond with statusCode 302 and redirect to ${Route.additionalCode} if invalid additional code`, async () => {
@@ -529,6 +526,45 @@ describe(`[GET] ${Route.taskList} for exports`, () => {
       .expect('Location', `${Route.additionalCode}${getParams(exportsParams)}&error=${encodeURIComponent(translation.common.additionalCode.error)}`);
     expect(mockedStwTradeTariffApi.getRestrictiveMeasures).toHaveBeenCalled();
     expect(mockedStwTradeTariffApi.getAdditionalCode).toHaveBeenCalled();
+  });
+
+  it(`It should respond with statusCode 302 and redirect to ${Route.exportResponsibleForDeclaringGoods} if exportDeclarations and misssing exportResponsibleForDeclaringGoods`, async () => {
+    exportsParams.exportResponsibleForDeclaringGoods = '';
+
+    const axiosTradeDataResponse: AxiosResponse = {
+      ...mockedRestrictiveMeasures,
+      status: 200,
+      statusText: 'OK',
+      config: {},
+      headers: {},
+    };
+
+    mockedStwTradeTariffApi.getRestrictiveMeasures.mockResolvedValue(
+      axiosTradeDataResponse,
+    );
+
+    const axiosAdditionalCodeResponse: AxiosResponse = {
+      ...mockedAdditionalCodeData,
+      status: 200,
+      statusText: 'OK',
+      config: {},
+      headers: {},
+    };
+
+    mockedStwTradeTariffApi.getAdditionalCode.mockResolvedValue(
+      axiosAdditionalCodeResponse,
+    );
+
+    exportsParams.additionalCode = '0000';
+
+    await request(app.getServer())
+      .get(`${Route.taskList}${getParams(exportsParams)}`)
+      .set('user-agent', 'node-superagent')
+      .expect(302)
+      .expect('Location', `${Route.exportResponsibleForDeclaringGoods}${getParams(exportsParams)}&isEdit=true&error=${encodeURIComponent(translation.page.exportResponsibleForDeclaringGoods.error(translation.common.countries.CN))}`);
+
+    expect(mockedStwTradeTariffApi.getRestrictiveMeasures).not.toHaveBeenCalled();
+    expect(mockedStwTradeTariffApi.getAdditionalCode).not.toHaveBeenCalled();
   });
 });
 
@@ -767,19 +803,5 @@ describe(`[GET] ${Route.taskList} for imports`, () => {
     expect(mockedStwTradeTariffApi.getRestrictiveMeasures).toHaveBeenCalled();
     expect(mockedStwTradeTariffApi.getAdditionalCode).toHaveBeenCalled();
     expect(mockedStwTradeTariffApi.getTariffAndTaxesData).toHaveBeenCalled();
-  });
-
-  it(`It should return status 302 redirect to ${Route.importDeclarations} with an error when userTypeTrader is buying/neither and missing importDeclarations`, async () => {
-    importsParams.importDeclarations = '';
-
-    await request(app.getServer())
-      .get(`${Route.taskList}${getParams(importsParams)}`)
-      .set('user-agent', 'node-superagent')
-      .expect(302)
-      .expect(
-        'Location',
-        `${Route.importDeclarations}${getParams(importsParams)}&isEdit=true&error=${encodeURIComponent(translation.page.importDeclarations.error)}`,
-      );
-    expect(mockedStwTradeTariffApi.getRestrictiveMeasures).not.toHaveBeenCalled();
   });
 });

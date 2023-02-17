@@ -27,6 +27,7 @@ export const getDefaultTaskStatuses = (hasNoMeasures?: boolean): any => {
       checkInformationAndDocuments: TaskStatus.TO_VIEW,
       checkCustomsDeclarations: TaskStatus.TO_VIEW,
       checkCustomsDutyAndImportVat: TaskStatus.TO_VIEW,
+      exportResponsibleForDeclaringGoods: TaskStatus.TO_VIEW,
     };
   }
   return {
@@ -36,6 +37,7 @@ export const getDefaultTaskStatuses = (hasNoMeasures?: boolean): any => {
     checkInformationAndDocuments: TaskStatus.CANNOT_VIEW_YET,
     checkCustomsDeclarations: TaskStatus.CANNOT_VIEW_YET,
     checkCustomsDutyAndImportVat: TaskStatus.CANNOT_VIEW_YET,
+    exportResponsibleForDeclaringGoods: TaskStatus.CANNOT_VIEW_YET,
   };
 };
 
@@ -51,6 +53,7 @@ export const calculateNewTaskStatuses = (state: Params | undefined, taskToUpdate
     newTaskStatuses.checkInformationAndDocuments = TaskStatus.TO_VIEW;
     newTaskStatuses.checkCustomsDeclarations = TaskStatus.TO_VIEW;
     newTaskStatuses.checkCustomsDutyAndImportVat = TaskStatus.TO_VIEW;
+    newTaskStatuses.exportResponsibleForDeclaringGoods = TaskStatus.TO_VIEW;
   }
 
   return { ...state, taskStatuses: newTaskStatuses };

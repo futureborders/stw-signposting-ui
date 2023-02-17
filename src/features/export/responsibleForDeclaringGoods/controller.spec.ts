@@ -27,7 +27,7 @@ import TradeTariffApi from '../../../services/TradeTariffApi.service';
 import { Route } from '../../../interfaces/routes.interface';
 import IndexRoute from '../../../routes/index.route';
 import translation from '../../../translation/en';
-import ExportCountryDestinationController from './controller';
+import ExportResponsibleForDeclaringGoodsController from './controller';
 import { getParams } from '../../../utils/queryHelper';
 import getTodaysDate from '../../../utils/tests/getTodaysDate';
 
@@ -36,13 +36,13 @@ jest.mock('../../../services/StwTradeTariffApi.service');
 
 const MockedTradeTariffApi = <jest.Mock<TradeTariffApi>>TradeTariffApi;
 const mockedTradeTariffApi = <jest.Mocked<TradeTariffApi>>(
-   new MockedTradeTariffApi()
- );
+  new MockedTradeTariffApi()
+);
 
 const MockedStwTradeTariffApi = <jest.Mock<StwTradeTariffApi>>StwTradeTariffApi;
 const mockedStwTradeTariffApi = <jest.Mocked<StwTradeTariffApi>>(
-   new MockedStwTradeTariffApi()
- );
+  new MockedStwTradeTariffApi()
+);
 
 const indexRoute = new IndexRoute(
   mockedTradeTariffApi,
@@ -63,6 +63,9 @@ beforeEach(() => {
     tradeDateMonth: getTodaysDate.month,
     tradeDateYear: getTodaysDate.year,
     originCountry: 'GB',
+    destinationCountry: 'CN',
+    exportUserTypeTrader: 'goodsExportedToBeSold',
+    exportDeclarations: 'no',
   };
 });
 
@@ -70,177 +73,124 @@ afterAll(async () => {
   await new Promise<void>((resolve) => setTimeout(() => resolve(), 500));
 });
 
-describe(`[GET] ${Route.exportCountryDestination}`, () => {
+describe(`[GET] ${Route.exportResponsibleForDeclaringGoods}`, () => {
   it('It should respond with statusCode 200', () => request(app.getServer())
-    .get(`${Route.exportCountryDestination}${getParams(params)}`)
+    .get(`${Route.exportResponsibleForDeclaringGoods}${getParams(params)}`)
     .set('user-agent', 'node-superagent')
     .expect(200));
 
   it('It should respond with statusCode 200 and show correct error', () => request(app.getServer())
-    .get(`${Route.exportCountryDestination}${getParams(params)}&error=someError`)
+    .get(`${Route.exportResponsibleForDeclaringGoods}${getParams(params)}&error=someError`)
     .set('user-agent', 'node-superagent')
     .expect(200)
     .then((res) => {
-      expect(res.text).toEqual(expect.stringContaining('Error: Which country are the goods being sent to?'));
+      expect(res.text).toEqual(expect.stringContaining('Error: Are you responsible for declaring the goods at China’s border?'));
     }));
 
   it('It should throw an error and call next', async () => {
     const createMockRequest = () => (
-        {
-          query: {},
-          body: {
-            isEdit: 'true',
-          },
-          route: {
-            path: Route.exportCountryDestination,
-          },
-          csrfToken: () => 'csrftoken',
-        } as unknown as e.Request
+          {
+            query: {},
+            body: {
+              isEdit: 'true',
+            },
+            route: {
+              path: Route.exportResponsibleForDeclaringGoods,
+            },
+            csrfToken: () => 'csrftoken',
+          } as unknown as e.Request
     );
 
     const creatMockResponse = () => (
-        {
-          render: jest.fn(),
-          locals: {
-            language: 'en',
-            queryParams: getParams(params).substring(1),
-            translation: {
-              ...translation,
+          {
+            render: jest.fn(),
+            locals: {
+              language: 'en',
+              queryParams: getParams(params).substring(1),
+              translation: {
+                ...translation,
+              },
             },
-          },
-        } as unknown as e.Response
+          } as unknown as e.Response
     );
     const mockRequest = createMockRequest();
     const mockResponse = creatMockResponse();
     const mockNext = jest.fn();
     const mockError = Error();
     mockResponse.render = () => { throw mockError; };
-    const controller = new ExportCountryDestinationController(mockedTradeTariffApi);
-    await controller.exportCountryDestination(mockRequest, mockResponse, mockNext);
+    const controller = new ExportResponsibleForDeclaringGoodsController();
+    await controller.exportResponsibleForDeclaringGoods(mockRequest, mockResponse, mockNext);
     expect(mockNext).toHaveBeenCalledWith(mockError);
   });
 });
 
-describe(`[POST] ${Route.exportCountryDestination}`, () => {
+describe(`[POST] ${Route.exportResponsibleForDeclaringGoods}`, () => {
   it('It should respond with statusCode 302 when posted', async (done) => {
     await request(app.getServer())
-      .get(`${Route.exportCountryDestination}${getParams(params)}`)
+      .get(`${Route.exportResponsibleForDeclaringGoods}${getParams(params)}`)
       .set('user-agent', 'node-superagent')
       .then((res) => {
         csrfResponse = getCsrfToken(res);
         done();
       });
     const data = {
-      exportDeclarations: 'yes',
-      tradeType: 'export',
-      destinationCountry: 'BE',
+      exportResponsibleForDeclaringGoods: 'yes',
       _csrf: csrfResponse.token,
     };
 
     await request(app.getServer())
-      .post(`${Route.exportCountryDestination}${getParams(params)}`)
+      .post(`${Route.exportResponsibleForDeclaringGoods}${getParams(params)}`)
       .set('user-agent', 'node-superagent')
       .set('Cookie', csrfResponse.cookies)
       .send(data)
       .expect(302, {})
-      .expect('Location', `${Route.exportUserTypeTrader}${getParams(params)}&destinationCountry=BE`);
-  });
-
-  it('It should respond with statusCode 302 when posted (Northern Ireland to outside EU)', async (done) => {
-    await request(app.getServer())
-      .get(`${Route.exportCountryDestination}`)
-      .set('user-agent', 'node-superagent')
-      .then((res) => {
-        csrfResponse = getCsrfToken(res);
-        done();
-      });
-    const data = {
-      exportDeclarations: 'yes',
-      tradeType: 'export',
-      destinationCountry: 'BR',
-      _csrf: csrfResponse.token,
-    };
-
-    await request(app.getServer())
-      .post(`${Route.exportCountryDestination}?tradeType=export&exportDeclarations=yes&originCountry=XI&checkWhatServicesYouNeedToRegister=true`)
-      .set('user-agent', 'node-superagent')
-      .set('Cookie', csrfResponse.cookies)
-      .send(data)
-      .expect(302, {})
-      .expect('Location', `${Route.exportUserTypeTrader}?tradeType=export&exportDeclarations=yes&originCountry=XI&checkWhatServicesYouNeedToRegister=true&destinationCountry=BR`);
-  });
-
-  it('It should respond with statusCode 302 when posted (Northern Ireland to EU)', async (done) => {
-    await request(app.getServer())
-      .get(`${Route.exportCountryDestination}`)
-      .set('user-agent', 'node-superagent')
-      .then((res) => {
-        csrfResponse = getCsrfToken(res);
-        done();
-      });
-    const data = {
-      exportDeclarations: 'yes',
-      tradeType: 'export',
-      destinationCountry: 'FR',
-      _csrf: csrfResponse.token,
-    };
-
-    await request(app.getServer())
-      .post(`${Route.exportCountryDestination}?tradeType=export&exportDeclarations=yes&originCountry=XI&checkWhatServicesYouNeedToRegister=true`)
-      .set('user-agent', 'node-superagent')
-      .set('Cookie', csrfResponse.cookies)
-      .send(data)
-      .expect(302, {})
-      .expect('Location', `${Route.exportMovingGoodsFromNorthernIrelandToAnEUCountry}?tradeType=export&exportDeclarations=yes&originCountry=XI&checkWhatServicesYouNeedToRegister=true&destinationCountry=FR`);
+      .expect('Location', `${Route.exportCommoditySearch}${getParams(params)}&exportResponsibleForDeclaringGoods=yes`);
   });
 
   it('It should respond with statusCode 302 and redirect back when empty post', async (done) => {
     await request(app.getServer())
-      .get(`${Route.exportCountryDestination}`)
+      .get(`${Route.exportResponsibleForDeclaringGoods}${getParams(params)}`)
       .set('user-agent', 'node-superagent')
       .then((res) => {
         csrfResponse = getCsrfToken(res);
         done();
       });
     const data = {
-      exportDeclarations: 'yes',
-      tradeType: 'export',
-      destinationCountry: '',
+      exportResponsibleForDeclaringGoods: '',
+      isEdit: 'false',
       _csrf: csrfResponse.token,
     };
 
     await request(app.getServer())
-      .post(`${Route.exportCountryDestination}?tradeType=export&exportDeclarations=yes&originCountry=GB&checkWhatServicesYouNeedToRegister=true`)
+      .post(`${Route.exportResponsibleForDeclaringGoods}${getParams(params)}`)
       .set('user-agent', 'node-superagent')
       .set('Cookie', csrfResponse.cookies)
       .send(data)
       .expect(302, {})
-      .expect('Location', `${Route.exportCountryDestination}?tradeType=export&exportDeclarations=yes&originCountry=GB&checkWhatServicesYouNeedToRegister=true`);
+      .expect('Location', `${Route.exportResponsibleForDeclaringGoods}${getParams(params)}&isEdit=false`);
   });
 
   it(`It should respond with statusCode 302 and redirect to ${Route.checkYourAnswers} when isEdit`, async (done) => {
     await request(app.getServer())
-      .get(`${Route.exportCountryDestination}`)
+      .get(`${Route.exportResponsibleForDeclaringGoods}${getParams(params)}`)
       .set('user-agent', 'node-superagent')
       .then((res) => {
         csrfResponse = getCsrfToken(res);
         done();
       });
     const data = {
-      exportDeclarations: 'true',
-      tradeType: 'export',
-      destinationCountry: 'CN',
+      exportResponsibleForDeclaringGoods: 'yes',
       isEdit: 'true',
       _csrf: csrfResponse.token,
     };
 
     await request(app.getServer())
-      .post(`${Route.exportCountryDestination}?tradeType=export&exportDeclarations=yes&originCountry=GB&destinationCountry=BR&checkWhatServicesYouNeedToRegister=true`)
+      .post(`${Route.exportResponsibleForDeclaringGoods}${getParams(params)}`)
       .set('user-agent', 'node-superagent')
       .set('Cookie', csrfResponse.cookies)
       .send(data)
       .expect(302, {})
-      .expect('Location', `${Route.checkYourAnswers}?tradeType=export&exportDeclarations=yes&originCountry=GB&destinationCountry=CN&checkWhatServicesYouNeedToRegister=true`);
+      .expect('Location', `${Route.checkYourAnswers}${getParams(params)}&exportResponsibleForDeclaringGoods=yes`);
   });
 
   it('It should throw an error and call next', async () => {
@@ -248,11 +198,10 @@ describe(`[POST] ${Route.exportCountryDestination}`, () => {
       {
         query: {},
         body: {
-          destinationCountry: 'GB',
           isEdit: 'true',
         },
         route: {
-          path: Route.exportCountryDestination,
+          path: Route.exportResponsibleForDeclaringGoods,
         },
         cookies: {
           stw_signposting: 'some value',
@@ -278,8 +227,8 @@ describe(`[POST] ${Route.exportCountryDestination}`, () => {
     const mockNext = jest.fn();
     const mockError = Error();
     mockResponse.redirect = () => { throw mockError; };
-    const controller = new ExportCountryDestinationController(mockedTradeTariffApi);
-    await controller.exportCountryDestinationSubmit(mockRequest, mockResponse, mockNext);
+    const controller = new ExportResponsibleForDeclaringGoodsController();
+    await controller.exportResponsibleForDeclaringGoodsSubmit(mockRequest, mockResponse, mockNext);
     expect(mockNext).toHaveBeenCalledWith(mockError);
   });
 });

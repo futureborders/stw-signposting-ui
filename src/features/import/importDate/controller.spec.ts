@@ -105,9 +105,6 @@ describe(`[GET] ${Route.importDate}`, () => {
             path: Route.importDate,
           },
           csrfToken: () => 'csrftoken',
-          session: () => {
-            'no';
-          },
           url: {
             includes: jest.fn(),
           },

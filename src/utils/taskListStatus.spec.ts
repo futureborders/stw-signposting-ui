@@ -32,6 +32,7 @@ beforeEach(() => {
     exportDeclarations: 'yes',
     exportGoodsIntent: ExportGoodsIntent.goodsExportedToBeSoldForBusiness,
     exportUserTypeTrader: 'NE',
+    exportResponsibleForDeclaringGoods: 'yes',
     tradeDateDay: '01',
     tradeDateMonth: '01',
     tradeDateYear: '2022',
@@ -42,6 +43,7 @@ beforeEach(() => {
       checkInformationAndDocuments: TaskStatus.CANNOT_VIEW_YET,
       checkCustomsDeclarations: TaskStatus.CANNOT_VIEW_YET,
       checkCustomsDutyAndImportVat: TaskStatus.CANNOT_VIEW_YET,
+      exportResponsibleForDeclaringGoods: TaskStatus.CANNOT_VIEW_YET,
     },
   };
   sessionState = {
@@ -52,6 +54,7 @@ beforeEach(() => {
     exportDeclarations: 'notSure',
     exportGoodsIntent: ExportGoodsIntent.goodsExportedToBeSoldForBusiness,
     exportUserTypeTrader: 'NE',
+    exportResponsibleForDeclaringGoods: 'yes',
     tradeDateDay: '01',
     tradeDateMonth: '01',
     tradeDateYear: '2022',
@@ -62,6 +65,7 @@ beforeEach(() => {
       checkInformationAndDocuments: TaskStatus.CANNOT_VIEW_YET,
       checkCustomsDeclarations: TaskStatus.CANNOT_VIEW_YET,
       checkCustomsDutyAndImportVat: TaskStatus.CANNOT_VIEW_YET,
+      exportResponsibleForDeclaringGoods: TaskStatus.CANNOT_VIEW_YET,
     },
   };
 });
@@ -82,6 +86,7 @@ describe('Testing calcStatus', () => {
       exportDeclarations: 'yes',
       exportGoodsIntent: ExportGoodsIntent.goodsExportedToBeSoldForBusiness,
       exportUserTypeTrader: 'NE',
+      exportResponsibleForDeclaringGoods: 'yes',
       tradeDateDay: '01',
       tradeDateMonth: '01',
       tradeDateYear: '2022',
@@ -92,6 +97,7 @@ describe('Testing calcStatus', () => {
         checkInformationAndDocuments: TaskStatus.CANNOT_VIEW_YET,
         checkCustomsDeclarations: TaskStatus.CANNOT_VIEW_YET,
         checkCustomsDutyAndImportVat: TaskStatus.CANNOT_VIEW_YET,
+        exportResponsibleForDeclaringGoods: TaskStatus.CANNOT_VIEW_YET,
       },
     });
   });
@@ -110,6 +116,7 @@ describe('Testing calcStatus', () => {
       exportDeclarations: 'yes',
       exportGoodsIntent: ExportGoodsIntent.goodsExportedToBeSoldForBusiness,
       exportUserTypeTrader: 'NE',
+      exportResponsibleForDeclaringGoods: 'yes',
       tradeDateDay: '01',
       tradeDateMonth: '01',
       tradeDateYear: '2022',
@@ -120,6 +127,7 @@ describe('Testing calcStatus', () => {
         checkInformationAndDocuments: TaskStatus.CANNOT_VIEW_YET,
         checkCustomsDeclarations: TaskStatus.CANNOT_VIEW_YET,
         checkCustomsDutyAndImportVat: TaskStatus.CANNOT_VIEW_YET,
+        exportResponsibleForDeclaringGoods: TaskStatus.CANNOT_VIEW_YET,
       },
     });
   });
@@ -134,6 +142,7 @@ describe('Testing calcStatus', () => {
       exportDeclarations: 'yes',
       exportGoodsIntent: ExportGoodsIntent.goodsExportedToBeSoldForBusiness,
       exportUserTypeTrader: 'NE',
+      exportResponsibleForDeclaringGoods: 'yes',
       tradeDateDay: '01',
       tradeDateMonth: '01',
       tradeDateYear: '2022',
@@ -144,6 +153,7 @@ describe('Testing calcStatus', () => {
         checkInformationAndDocuments: TaskStatus.CANNOT_VIEW_YET,
         checkCustomsDeclarations: TaskStatus.CANNOT_VIEW_YET,
         checkCustomsDutyAndImportVat: TaskStatus.CANNOT_VIEW_YET,
+        exportResponsibleForDeclaringGoods: TaskStatus.CANNOT_VIEW_YET,
       },
     });
   });
@@ -159,6 +169,7 @@ describe('Testing calcStatus', () => {
       exportDeclarations: 'yes',
       exportGoodsIntent: ExportGoodsIntent.goodsExportedToBeSoldForBusiness,
       exportUserTypeTrader: 'NE',
+      exportResponsibleForDeclaringGoods: 'yes',
       tradeDateDay: '01',
       tradeDateMonth: '01',
       tradeDateYear: '2022',
@@ -169,6 +180,7 @@ describe('Testing calcStatus', () => {
         checkInformationAndDocuments: TaskStatus.CANNOT_VIEW_YET,
         checkCustomsDeclarations: TaskStatus.CANNOT_VIEW_YET,
         checkCustomsDutyAndImportVat: TaskStatus.CANNOT_VIEW_YET,
+        exportResponsibleForDeclaringGoods: TaskStatus.CANNOT_VIEW_YET,
       },
     });
   });
@@ -185,6 +197,7 @@ describe('Testing calculateNewTaskStatuses', () => {
       checkInformationAndDocuments: TaskStatus.CANNOT_VIEW_YET,
       checkCustomsDeclarations: TaskStatus.CANNOT_VIEW_YET,
       checkCustomsDutyAndImportVat: TaskStatus.CANNOT_VIEW_YET,
+      exportResponsibleForDeclaringGoods: TaskStatus.CANNOT_VIEW_YET,
     });
   });
 
@@ -198,6 +211,7 @@ describe('Testing calculateNewTaskStatuses', () => {
       checkInformationAndDocuments: TaskStatus.CANNOT_VIEW_YET,
       checkCustomsDeclarations: TaskStatus.CANNOT_VIEW_YET,
       checkCustomsDutyAndImportVat: TaskStatus.CANNOT_VIEW_YET,
+      exportResponsibleForDeclaringGoods: TaskStatus.CANNOT_VIEW_YET,
     });
   });
 
@@ -211,6 +225,7 @@ describe('Testing calculateNewTaskStatuses', () => {
       checkInformationAndDocuments: TaskStatus.TO_VIEW,
       checkCustomsDeclarations: TaskStatus.TO_VIEW,
       checkCustomsDutyAndImportVat: TaskStatus.TO_VIEW,
+      exportResponsibleForDeclaringGoods: TaskStatus.TO_VIEW,
     });
   });
 });
@@ -224,6 +239,7 @@ describe('Testing calculateNewTaskStatuses', () => {
       checkInformationAndDocuments: TaskStatus.TO_VIEW,
       checkCustomsDeclarations: TaskStatus.TO_VIEW,
       checkCustomsDutyAndImportVat: TaskStatus.TO_VIEW,
+      exportResponsibleForDeclaringGoods: TaskStatus.TO_VIEW,
     });
   });
   test('It should return the correct object when false', () => {
@@ -234,6 +250,7 @@ describe('Testing calculateNewTaskStatuses', () => {
       checkInformationAndDocuments: TaskStatus.CANNOT_VIEW_YET,
       checkCustomsDeclarations: TaskStatus.CANNOT_VIEW_YET,
       checkCustomsDutyAndImportVat: TaskStatus.CANNOT_VIEW_YET,
+      exportResponsibleForDeclaringGoods: TaskStatus.CANNOT_VIEW_YET,
     });
   });
 });

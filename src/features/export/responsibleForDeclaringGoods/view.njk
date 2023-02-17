@@ -1,0 +1,73 @@
+{% extends "layout.njk" %}
+
+{% set title = translation.page.exportResponsibleForDeclaringGoods.question(translation.common.countries[destinationCountry]) %}
+
+{% block pageTitle %}
+{% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+ <div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if errors %}
+      {{ govukErrorSummary({
+        titleText: translation.common.errors.problem,
+        errorList: [
+          {
+            text: errors.text,
+            href: "#exportResponsibleForDeclaringGoods"
+          }
+        ]
+      }) }}
+    {% endif %}
+
+    <form action="/export/responsible-for-declaring-goods?{{queryParams}}" method="POST" novalidate>
+
+      {{ govukRadios({
+          idPrefix: 'exportResponsibleForDeclaringGoods',
+          name: 'exportResponsibleForDeclaringGoods',
+          errorMessage: errors,
+          fieldset: {
+            legend: {
+              html: title,
+              isPageHeading: true,
+              classes: 'govuk-fieldset__legend--xl'
+            }
+          },
+          hint: {
+            html: translation.page.exportResponsibleForDeclaringGoods.hint
+          },
+          items: [
+            {
+              value: ResponsibleForDeclaringGoods.yes,
+              html: translation.page.exportResponsibleForDeclaringGoods.yes,
+              checked: (exportResponsibleForDeclaringGoods == ResponsibleForDeclaringGoods.yes)
+            },
+            {
+              value: ResponsibleForDeclaringGoods.no,
+              html: translation.page.exportResponsibleForDeclaringGoods.no,
+              checked: (exportResponsibleForDeclaringGoods == ResponsibleForDeclaringGoods.no)
+            },
+            {
+              value: ResponsibleForDeclaringGoods.notSure,
+              html: translation.page.exportResponsibleForDeclaringGoods.notSure,
+              checked: (exportResponsibleForDeclaringGoods == ResponsibleForDeclaringGoods.notSure)
+            }
+          ]
+        }) }}
+
+      {{ govukButton({
+          text: translation.common.buttons.continue
+        }) }}
+
+      {% if isEdit %}
+        <input type="hidden" name="isEdit" value="{{isEdit}}">
+      {% endif %}
+
+      <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    </form>
+  </div>
+</div>
+
+{% endblock %}

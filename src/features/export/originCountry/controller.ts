@@ -16,7 +16,7 @@
 
 import { RequestHandler, Request, Response } from 'express';
 import StwTradeTariffApi from '../../../services/StwTradeTariffApi.service';
-import { OriginCountry, DestinationCountry, ExportUserTypeTrader } from '../../../interfaces/enums.interface';
+import { OriginCountry, DestinationCountry } from '../../../interfaces/enums.interface';
 import { ImportDate } from '../../../interfaces/importDate.interface';
 import { Route } from '../../../interfaces/routes.interface';
 import {
@@ -51,12 +51,12 @@ class ExportOriginCountryController {
 
     try {
       const {
-        originCountry, exportUserTypeTrader, tradeDetails,
+        originCountry, tradeDetails,
       } = req.query;
       const { translation } = res.locals;
       const isEdit = req.query.isEdit === 'true';
       const original = originCountry;
-      const previousPage = `${journey.export.exportOriginCountry.previousPage(isEdit, exportUserTypeTrader as ExportUserTypeTrader)}?${res.locals.queryParams}`;
+      const previousPage = `${journey.export.exportOriginCountry.previousPage(isEdit)}?${res.locals.queryParams}`;
       const jsBackButton = !!tradeDetails;
 
       res.render('export/originCountry/view.njk', {

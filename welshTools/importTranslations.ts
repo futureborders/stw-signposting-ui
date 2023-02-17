@@ -39,8 +39,6 @@ interface TranslationRecord {
     cy: string
 }
 
-const urlRegex = /^[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/ig;
-
 const indentString = '  ';
 
 let output = `/**
@@ -71,7 +69,7 @@ import { MeasureType } from '../interfaces/enums.interface';
 const Translation = {
 `;
 
-const recordMap: { [key: string]: TranslationRecord } = {}
+const recordMap: { [key: string]: TranslationRecord } = {};
 const csvKeyUsageTracker = new Set<string>();
 
 if(fs.existsSync(inputFilename)) {

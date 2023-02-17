@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 /* eslint-disable no-param-reassign */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 const collapsible = require('markdown-it-collapsible');
 const container = require('markdown-it-container');
 
-export const getLangAttribute = (env: any,  token: any, isTranslated: boolean) => (env.translation && env.translation.common.numbers['1'] !== 'one' && isTranslated === false) ? token.attrPush(['lang', 'en']) : null;
+export const getLangAttribute = (env: any, token: any, isTranslated: boolean): any => ((env.translation && env.translation.common.numbers['1'] !== 'one' && isTranslated === false) ? token.attrPush(['lang', 'en']) : null);
 
 // eslint-disable-next-line global-require
 export const markdown = require('markdown-it')().use(collapsible).use(container, 'inset', {
@@ -35,7 +37,7 @@ export const markdown = require('markdown-it')().use(collapsible).use(container,
 const defaultRender = (tokens: any, idx: any, options: any, env: any, self: any) => {
   if (tokens[idx].type === 'link_close') {
     const displayPeriod = tokens[idx].content === '.' ? tokens[idx].content : '';
-    const setLangAttribute = env.translation.common.numbers['1'] === 'un' ? ' lang="cy"' : '' ;
+    const setLangAttribute = env.translation.common.numbers['1'] === 'un' ? ' lang="cy"' : '';
     return ` <span class="govuk-!-display-none-print"${setLangAttribute}>${env.translation.common.accessibility.opensNewTab}</span>${self.renderToken(tokens, idx, options)}${displayPeriod}`;
   }
   return self.renderToken(tokens, idx, options);
@@ -43,28 +45,27 @@ const defaultRender = (tokens: any, idx: any, options: any, env: any, self: any)
 
 markdown.renderer.rules.heading_open = (tokens: any, idx: any, options: any, env: any, self: any) => {
   const classDoesNotExist = (tokens[idx].attrIndex('class') < 0);
-  const setLangAttribute = getLangAttribute(env, tokens[idx], env.isTranslated);
   if (classDoesNotExist) {
     switch (tokens[idx].tag) {
       case 'h1':
         tokens[idx].attrPush(['class', 'govuk-heading-xl']);
-        setLangAttribute
+        getLangAttribute(env, tokens[idx], env.isTranslated);
         break;
       case 'h2':
         tokens[idx].attrPush(['class', 'govuk-heading-l']);
-        setLangAttribute
+        getLangAttribute(env, tokens[idx], env.isTranslated);
         break;
       case 'h3':
         tokens[idx].attrPush(['class', 'govuk-heading-m']);
-        setLangAttribute
+        getLangAttribute(env, tokens[idx], env.isTranslated);
         break;
       case 'h4':
         tokens[idx].attrPush(['class', 'govuk-heading-s']);
-        setLangAttribute
+        getLangAttribute(env, tokens[idx], env.isTranslated);
         break;
       default:
         tokens[idx].attrPush(['class', 'govuk-body']);
-        setLangAttribute
+        getLangAttribute(env, tokens[idx], env.isTranslated);
     }
   }
   return defaultRender(tokens, idx, options, env, self);
@@ -90,22 +91,20 @@ markdown.renderer.rules.link_close = (tokens: any, idx: any, options: any, env: 
 
 markdown.renderer.rules.bullet_list_open = (tokens: any, idx: any, options: any, env: any, self: any) => {
   const classDoesNotExist = (tokens[idx].attrIndex('class') < 0);
-  const setLangAttribute = getLangAttribute(env, tokens[idx], env.isTranslated);
 
   if (classDoesNotExist) {
     tokens[idx].attrPush(['class', 'govuk-list govuk-list--bullet']);
-    setLangAttribute
+    getLangAttribute(env, tokens[idx], env.isTranslated);
   }
   return defaultRender(tokens, idx, options, env, self);
 };
 
 markdown.renderer.rules.ordered_list_open = (tokens: any, idx: any, options: any, env: any, self: any) => {
   const classDoesNotExist = (tokens[idx].attrIndex('class') < 0);
-  const setLangAttribute = getLangAttribute(env, tokens[idx], env.isTranslated);
 
   if (classDoesNotExist) {
     tokens[idx].attrPush(['class', 'govuk-list govuk-list--number']);
-    setLangAttribute
+    getLangAttribute(env, tokens[idx], env.isTranslated);
   }
   return defaultRender(tokens, idx, options, env, self);
 };
@@ -113,11 +112,10 @@ markdown.renderer.rules.ordered_list_open = (tokens: any, idx: any, options: any
 // eslint-disable-next-line func-names
 markdown.renderer.rules.paragraph_open = (tokens: any, idx: any, options: any, env: any, self: any) => {
   const classDoesNotExist = (tokens[idx].attrIndex('class') < 0);
-  const setLangAttribute = getLangAttribute(env, tokens[idx], env.isTranslated);
 
   if (classDoesNotExist) {
     tokens[idx].attrPush(['class', 'govuk-body']);
-    setLangAttribute
+    getLangAttribute(env, tokens[idx], env.isTranslated);
   }
   return defaultRender(tokens, idx, options, env, self);
 };
@@ -128,11 +126,11 @@ markdown.renderer.rules.collapsible_summary = (tokens: any, idx: any, options: a
 
 markdown.renderer.rules.collapsible_open = (tokens: any, idx: any, options: any, env: any, self: any) => {
   const classDoesNotExist = (tokens[idx].attrIndex('class') < 0);
-  const setLangAttribute = getLangAttribute(env, tokens[idx], env.isTranslated);
+
   if (classDoesNotExist) {
     tokens[idx].attrPush(['class', 'govuk-details']);
     tokens[idx].attrPush(['data-module', 'govuk-details']);
-    setLangAttribute
+    getLangAttribute(env, tokens[idx], env.isTranslated);
   }
   return defaultRender(tokens, idx, options, env, self);
 };

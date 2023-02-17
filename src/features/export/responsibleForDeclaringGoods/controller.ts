@@ -16,18 +16,21 @@
 
 import { RequestHandler } from 'express';
 import { Route } from '../../../interfaces/routes.interface';
+import { ResponsibleForDeclaringGoods } from '../../../interfaces/enums.interface';
 import {
   setSessionCurrentPath,
   getErrorMessage,
   clearSessionErrorMessages,
 } from '../../../utils/sessionHelpers';
-import { updateQueryParams } from '../../../utils/queryHelper';
-import { redirectRoute } from '../../../utils/redirectRoute';
-import { journey } from '../../../utils/previousNextRoutes';
-import { ExportUserTypeTrader } from '../../../interfaces/enums.interface';
 
-class ExportUserTypeTraderController {
-  public exportUserTypeTrader: RequestHandler = (req, res, next) => {
+import { updateQueryParams } from '../../../utils/queryHelper';
+
+import { redirectRoute } from '../../../utils/redirectRoute';
+
+import { journey } from '../../../utils/previousNextRoutes';
+
+class ExportResponsibleForDeclaringGoodsController {
+  public exportResponsibleForDeclaringGoods: RequestHandler = (req, res, next) => {
     setSessionCurrentPath(req);
 
     const showErrorMessage = getErrorMessage(req);
@@ -35,18 +38,18 @@ class ExportUserTypeTraderController {
     clearSessionErrorMessages(req);
 
     try {
-      const { exportUserTypeTrader } = req.query;
-      const { translation } = res.locals;
+      const { exportResponsibleForDeclaringGoods, destinationCountry } = req.query;
+      const { queryParams } = res.locals;
       const isEdit = req.query.isEdit === 'true';
-      const previousPage = `${journey.export.exportUserTypeTrader.previousPage(isEdit)}?${res.locals.queryParams}`;
+      const previousPage = `${journey.export.exportResponsibleForDeclaringGoods.previousPage(isEdit)}?${queryParams}&isEdit=${isEdit}`;
 
-      res.render('export/userTypeTrader/view.njk', {
+      res.render('export/responsibleForDeclaringGoods/view.njk', {
         previousPage,
-        exportUserTypeTrader,
-        ExportUserTypeTrader,
+        exportResponsibleForDeclaringGoods,
+        ResponsibleForDeclaringGoods,
+        destinationCountry,
         isEdit,
-        Route,
-        errors: showErrorMessage ? { text: showErrorMessage, visuallyHiddenText: translation.common.errors.error } : null,
+        errors: showErrorMessage ? { text: showErrorMessage } : null,
         csrfToken: req.csrfToken(),
       });
     } catch (e) {
@@ -54,19 +57,20 @@ class ExportUserTypeTraderController {
     }
   };
 
-  public exportUserTypeTraderSubmit: RequestHandler = (req, res, next) => {
-    const { exportUserTypeTrader, isEdit } = req.body;
+  public exportResponsibleForDeclaringGoodsSubmit: RequestHandler = (req, res, next) => {
+    const { exportResponsibleForDeclaringGoods, isEdit } = req.body;
+    const { destinationCountry } = req.query;
     const { queryParams, translation } = res.locals;
-    const updatedQueryParams = updateQueryParams(queryParams, { exportUserTypeTrader });
-
+    const updatedQueryParams = updateQueryParams(queryParams, { exportResponsibleForDeclaringGoods });
+    const errorMessage = translation.page.exportResponsibleForDeclaringGoods.error(translation.common.countries[String(destinationCountry)]);
     try {
-      if (!exportUserTypeTrader) {
+      if (!exportResponsibleForDeclaringGoods) {
         redirectRoute(
-          Route.exportUserTypeTrader,
-          queryParams,
+          Route.exportResponsibleForDeclaringGoods,
+          updateQueryParams(queryParams, { isEdit }),
           res,
           req,
-          translation.page.exportUserTypeTrader.error,
+          errorMessage,
         );
       } else if (isEdit) {
         redirectRoute(
@@ -76,7 +80,7 @@ class ExportUserTypeTraderController {
         );
       } else {
         redirectRoute(
-          journey.export.exportUserTypeTrader.nextPage(),
+          journey.export.exportResponsibleForDeclaringGoods.nextPage(),
           updatedQueryParams,
           res,
         );
@@ -87,4 +91,4 @@ class ExportUserTypeTraderController {
   };
 }
 
-export default ExportUserTypeTraderController;
+export default ExportResponsibleForDeclaringGoodsController;

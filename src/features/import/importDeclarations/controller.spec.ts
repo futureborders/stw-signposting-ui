@@ -103,9 +103,6 @@ describe(`[GET] ${Route.importDeclarations}`, () => {
             path: Route.importDeclarations,
           },
           csrfToken: () => 'csrftoken',
-          session: () => {
-            'no';
-          },
         } as unknown as e.Request
     );
 

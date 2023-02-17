@@ -23,6 +23,7 @@ const exportParams = 'commodity=0301110000&'
   + 'exportDeclarations=yes&'
   + 'originCountry=GB&'
   + 'destinationCountry=CN&'
+  + 'exportResponsibleForDeclaringGoods=yes&'
   + 'tradeDateDay=01&'
   + 'tradeDateMonth=12&'
   + 'tradeDateYear=2022&'
@@ -109,6 +110,10 @@ const translation = {
     importGoods: {
       question: 'importGoods question',
     },
+    exportResponsibleForDeclaringGoods: {
+      question: (country: string) => `exportResponsibleForDeclaringGoods ${country}’s question`,
+      yes: 'yes',
+    },
   },
 };
 
@@ -131,7 +136,7 @@ export const mockedCheckYourAnswersRowsExports = {
       id: 'tradeType',
       key: {
         classes: 'govuk-!-width-one-third',
-        text: 'typeOfTrade question',
+        html: 'typeOfTrade question',
       },
       value: {
         html: 'export value',
@@ -154,7 +159,7 @@ export const mockedCheckYourAnswersRowsExports = {
       id: 'exportGoodsIntent',
       key: {
         classes: 'govuk-!-width-one-third',
-        text: 'exportGoodsIntent question',
+        html: 'exportGoodsIntent question',
       },
       value: {
         html: 'exportGoodsIntent value',
@@ -177,56 +182,10 @@ export const mockedCheckYourAnswersRowsExports = {
       id: 'tradeDateDay',
       key: {
         classes: 'govuk-!-width-one-third',
-        text: 'exportGoodsArrivalDate question',
+        html: 'exportGoodsArrivalDate question',
       },
       value: {
         html: '1 December 2022',
-      },
-    },
-    {
-      actions: {
-        items: [
-          {
-            attributes: {
-              id: 'edit_exportUserTypeTrader',
-            },
-            href: `/export/what-are-you-responsible-for?${exportParams}`,
-            text: 'Change',
-            visuallyHiddenText: 'exportUserTypeTrader question',
-            classes: 'govuk-!-display-none-print',
-          },
-        ],
-      },
-      id: 'exportUserTypeTrader',
-      key: {
-        classes: 'govuk-!-width-one-third',
-        text: 'exportUserTypeTrader question',
-      },
-      value: {
-        html: 'exportUserTypeTrader value',
-      },
-    },
-    {
-      actions: {
-        items: [
-          {
-            attributes: {
-              id: 'edit_exportDeclarations',
-            },
-            href: `/export/export-declarations?${exportParams}`,
-            text: 'Change',
-            visuallyHiddenText: 'exportDeclarations question',
-            classes: 'govuk-!-display-none-print',
-          },
-        ],
-      },
-      id: 'exportDeclarations',
-      key: {
-        classes: 'govuk-!-width-one-third',
-        text: 'exportDeclarations question',
-      },
-      value: {
-        html: 'yes',
       },
     },
     {
@@ -246,7 +205,7 @@ export const mockedCheckYourAnswersRowsExports = {
       id: 'originCountry',
       key: {
         classes: 'govuk-!-width-one-third',
-        text: 'exportOriginCountry question',
+        html: 'exportOriginCountry question',
       },
       value: {
         html: 'Great Britain (England, Scotland and Wales)',
@@ -269,10 +228,79 @@ export const mockedCheckYourAnswersRowsExports = {
       id: 'destinationCountry',
       key: {
         classes: 'govuk-!-width-one-third',
-        text: 'exportCountryDestination question',
+        html: 'exportCountryDestination question',
       },
       value: {
         html: 'China',
+      },
+    },
+    {
+      actions: {
+        items: [
+          {
+            attributes: {
+              id: 'edit_exportUserTypeTrader',
+            },
+            href: `/export/what-are-you-responsible-for?${exportParams}`,
+            text: 'Change',
+            visuallyHiddenText: 'exportUserTypeTrader question',
+            classes: 'govuk-!-display-none-print',
+          },
+        ],
+      },
+      id: 'exportUserTypeTrader',
+      key: {
+        classes: 'govuk-!-width-one-third',
+        html: 'exportUserTypeTrader question',
+      },
+      value: {
+        html: 'exportUserTypeTrader value',
+      },
+    },
+    {
+      actions: {
+        items: [
+          {
+            attributes: {
+              id: 'edit_exportDeclarations',
+            },
+            href: `/export/export-declarations?${exportParams}`,
+            text: 'Change',
+            visuallyHiddenText: 'exportDeclarations question',
+            classes: 'govuk-!-display-none-print',
+          },
+        ],
+      },
+      id: 'exportDeclarations',
+      key: {
+        classes: 'govuk-!-width-one-third',
+        html: 'exportDeclarations question',
+      },
+      value: {
+        html: 'yes',
+      },
+    },
+    {
+      actions: {
+        items: [
+          {
+            attributes: {
+              id: 'edit_exportResponsibleForDeclaringGoods',
+            },
+            href: `/export/responsible-for-declaring-goods?${exportParams}`,
+            text: 'Change',
+            visuallyHiddenText: 'exportResponsibleForDeclaringGoods China’s question',
+            classes: 'govuk-!-display-none-print',
+          },
+        ],
+      },
+      id: 'exportResponsibleForDeclaringGoods',
+      key: {
+        classes: 'govuk-!-width-one-third',
+        html: 'exportResponsibleForDeclaringGoods China’s question',
+      },
+      value: {
+        html: 'yes',
       },
     },
     {
@@ -292,7 +320,7 @@ export const mockedCheckYourAnswersRowsExports = {
       id: 'commodity',
       key: {
         classes: 'govuk-!-width-one-third',
-        text: 'exportCommoditySearch question',
+        html: 'exportCommoditySearch question',
       },
       value: { html: '0301110000<div id="classification">Live horses, asses, mules and hinnies  &mdash; Horses  &mdash; Other &mdash; <strong>Other</strong></div>' },
     },
@@ -318,7 +346,7 @@ export const mockedCheckYourAnswersRowsImports = {
       id: 'tradeType',
       key: {
         classes: 'govuk-!-width-one-third',
-        text: 'typeOfTrade question',
+        html: 'typeOfTrade question',
       },
       value: {
         html: 'import value',
@@ -341,7 +369,7 @@ export const mockedCheckYourAnswersRowsImports = {
       id: 'goodsIntent',
       key: {
         classes: 'govuk-!-width-one-third',
-        text: 'goodsIntent question',
+        html: 'goodsIntent question',
       },
       value: {
         html: 'goodsIntent value',
@@ -364,7 +392,7 @@ export const mockedCheckYourAnswersRowsImports = {
       id: 'importDateDay',
       key: {
         classes: 'govuk-!-width-one-third',
-        text: 'importDate question',
+        html: 'importDate question',
       },
       value: {
         html: '1 December 2022',
@@ -387,7 +415,7 @@ export const mockedCheckYourAnswersRowsImports = {
       id: 'originCountry',
       key: {
         classes: 'govuk-!-width-one-third',
-        text: 'importCountryOrigin question',
+        html: 'importCountryOrigin question',
       },
       value: {
         html: 'China',
@@ -410,12 +438,12 @@ export const mockedCheckYourAnswersRowsImports = {
       id: 'destinationCountry',
       key: {
         classes: 'govuk-!-width-one-third',
-        text: 'destinationCountry question',
+        html: 'destinationCountry question',
       },
       value: {
         html: 'Great Britain (England, Scotland and Wales)',
       },
-    },    
+    },
     {
       actions: {
         items: [
@@ -433,7 +461,7 @@ export const mockedCheckYourAnswersRowsImports = {
       id: 'userTypeTrader',
       key: {
         classes: 'govuk-!-width-one-third',
-        text: 'identifyUserType question',
+        html: 'identifyUserType question',
       },
       value: {
         html: 'identifyUserType value',
@@ -456,7 +484,7 @@ export const mockedCheckYourAnswersRowsImports = {
       id: 'importDeclarations',
       key: {
         classes: 'govuk-!-width-one-third',
-        text: 'importDeclarations question',
+        html: 'importDeclarations question',
       },
       value: {
         html: 'importDeclarations value',
@@ -479,7 +507,7 @@ export const mockedCheckYourAnswersRowsImports = {
       id: 'commodity',
       key: {
         classes: 'govuk-!-width-one-third',
-        text: 'importGoods question',
+        html: 'importGoods question',
       },
       value: { html: '0301110000 - 1234<div id="classification">Live horses, asses, mules and hinnies  &mdash; Horses  &mdash; Other &mdash; <strong>Other</strong></div>' },
     },
@@ -496,6 +524,7 @@ export const mockedResponseExports = (req: any): any => ({
       + `exportDeclarations=${req.query.exportDeclarations}&`
       + `originCountry=${req.query.originCountry}&`
       + `destinationCountry=${req.query.destinationCountry}&`
+      + `exportResponsibleForDeclaringGoods=${req.query.exportResponsibleForDeclaringGoods}&`
       + `tradeDateDay=${req.query.tradeDateDay}&`
       + `tradeDateMonth=${req.query.tradeDateMonth}&`
       + `tradeDateYear=${req.query.tradeDateYear}`,

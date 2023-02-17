@@ -117,9 +117,6 @@ describe(`[GET] ${Route.importGoods}`, () => {
             path: Route.importGoods,
           },
           csrfToken: () => 'csrftoken',
-          session: () => {
-            'no';
-          },
         } as unknown as e.Request
     );
 

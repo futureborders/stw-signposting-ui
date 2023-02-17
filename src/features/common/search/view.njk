@@ -16,6 +16,8 @@
 {% set categoryDescription = results.results[0].data.attributes.description | capitalize %}
 {% endif %}
 
+{% set searchAgainHref = searchRoute + "?" + queryParams | removeParam(['commodity']) + "#commodity" %}
+
 {% block pageTitle %}
 {{ currentSearchPrefix }} {{ title }} - {{ serviceName }} - {{ titleSuffix }}
 {% endblock %}
@@ -116,7 +118,7 @@
   {% if results.results[0] | length > 0 %}
     {{ govukButton({
       text: translation.page.searchResults.searchAgain,
-      href: searchRoute + "?" + queryParams | removeParam(['commodity']) + "#commodity",
+      href: searchAgainHref,
       classes: "govuk-button--secondary"
     }) }}
   {% endif %}

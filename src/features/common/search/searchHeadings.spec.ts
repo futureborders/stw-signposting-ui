@@ -195,9 +195,6 @@ describe(`[GET] ${Route.searchHeadings}`, () => {
             itemId: 'some-id',
           },
           csrfToken: () => 'csrftoken',
-          session: () => {
-            'no';
-          },
         } as unknown as e.Request
     );
 

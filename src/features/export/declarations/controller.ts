@@ -16,6 +16,7 @@
 
 import { RequestHandler } from 'express';
 import { Route } from '../../../interfaces/routes.interface';
+import { ExportDeclarations } from '../../../interfaces/enums.interface';
 import {
   setSessionCurrentPath,
   getErrorMessage,
@@ -38,14 +39,14 @@ class ExportDeclarationsController {
 
     try {
       const { exportDeclarations } = req.query;
-      const { backPath, queryParams, translation } = res.locals;
+      const { queryParams, translation } = res.locals;
       const isEdit = req.query.isEdit === 'true';
-      const isExportUserTypeTraderbackPath = String(backPath).includes(Route.exportUserTypeTrader);
-      const previousPage = `${journey.export.exportDeclarations.previousPage(isEdit, isExportUserTypeTraderbackPath)}?${queryParams}&isEdit=${isEdit}`;
+      const previousPage = `${journey.export.exportDeclarations.previousPage(isEdit)}?${queryParams}&isEdit=${isEdit}`;
 
       res.render('export/declarations/view.njk', {
         previousPage,
         exportDeclarations,
+        ExportDeclarations,
         isEdit,
         errors: showErrorMessage ? { text: showErrorMessage, visuallyHiddenText: translation.common.errors.error } : null,
         csrfToken: req.csrfToken(),
@@ -58,7 +59,9 @@ class ExportDeclarationsController {
   public exportDeclarationsSubmit: RequestHandler = (req, res, next) => {
     const { exportDeclarations, isEdit } = req.body;
     const { queryParams, translation } = res.locals;
-    const updatedQueryParams = updateQueryParams(queryParams, { exportDeclarations });
+    const { exportResponsibleForDeclaringGoods } = req.query;
+    const isAgent = exportDeclarations === ExportDeclarations.no;
+    let updatedQueryParams = updateQueryParams(queryParams, { exportDeclarations });
     try {
       if (!exportDeclarations) {
         redirectRoute(
@@ -68,7 +71,10 @@ class ExportDeclarationsController {
           req,
           translation.page.exportDeclarations.error,
         );
+      } else if (isEdit && !isAgent && !exportResponsibleForDeclaringGoods) {
+        redirectRoute(Route.exportResponsibleForDeclaringGoods, updateQueryParams(updatedQueryParams, { isEdit: true }), res);
       } else if (isEdit) {
+        updatedQueryParams = isAgent ? updateQueryParams(updatedQueryParams, { exportResponsibleForDeclaringGoods: '' }) : updatedQueryParams;
         redirectRoute(
           Route.checkYourAnswers,
           updatedQueryParams,
@@ -76,7 +82,7 @@ class ExportDeclarationsController {
         );
       } else {
         redirectRoute(
-          journey.export.exportDeclarations.nextPage(),
+          journey.export.exportDeclarations.nextPage(isAgent),
           updatedQueryParams,
           res,
         );

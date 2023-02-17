@@ -25,6 +25,7 @@ export enum Tasks {
   checkCustomsDeclarations = 'checkCustomsDeclarations',
   checkClearSecondBorder = 'checkClearSecondBorder',
   checkCustomsDutyAndImportVat = 'checkCustomsDutyAndImportVat',
+  exportResponsibleForDeclaringGoods = 'exportResponsibleForDeclaringGoods',
 }
 export type TaskStatuses = {
   [key in Tasks]?: TaskStatus;

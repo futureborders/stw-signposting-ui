@@ -42,6 +42,7 @@ describe('checkYourAnswersRows', () => {
         exportUserTypeTrader: 'NE',
         exportDeclarations: 'yes',
         destinationCountry: 'CN',
+        exportResponsibleForDeclaringGoods: 'yes',
         tradeDateDay: '01',
         tradeDateMonth: '12',
         tradeDateYear: '2022',

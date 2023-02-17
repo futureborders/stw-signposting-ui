@@ -16,7 +16,7 @@
 
 /* eslint-disable no-nested-ternary */
 import { Route } from '../interfaces/routes.interface';
-import { ExportUserTypeTrader, TypeOfTrade, ImportUserTypeTrader } from '../interfaces/enums.interface';
+import { TypeOfTrade, ImportUserTypeTrader } from '../interfaces/enums.interface';
 
 export const journey = {
   common: {
@@ -92,22 +92,22 @@ export const journey = {
   export: {
     exportGoodsArrivalDate: {
       previousPage: (isEdit: boolean): Route => (isEdit ? Route.checkYourAnswers : Route.exportGoodsIntent),
-      nextPage: (): Route => Route.exportUserTypeTrader,
-    },
-    exportDeclarations: {
-      previousPage: (isEdit: boolean, isExportUserTypeTraderbackPath: boolean): Route => (isExportUserTypeTraderbackPath && !isEdit ? Route.exportUserTypeTrader : (isEdit ? Route.checkYourAnswers : Route.exportUserTypeTrader)),
       nextPage: (): Route => Route.exportOriginCountry,
     },
+    exportDeclarations: {
+      previousPage: (isEdit: boolean): Route => (isEdit ? Route.checkYourAnswers : Route.exportUserTypeTrader),
+      nextPage: (isAgent: boolean): Route => (isAgent ? Route.exportCommoditySearch : Route.exportResponsibleForDeclaringGoods),
+    },
     exportOriginCountry: {
-      previousPage: (isEdit: boolean, userTypeTrader: ExportUserTypeTrader): Route => (isEdit ? Route.checkYourAnswers : (userTypeTrader === ExportUserTypeTrader.actingOnBehalfOfSeller ? Route.exportUserTypeTrader : Route.exportDeclarations)),
+      previousPage: (isEdit: boolean): Route => (isEdit ? Route.checkYourAnswers : Route.exportGoodsArrivalDate),
       nextPage: (): Route => Route.exportCountryDestination,
     },
     exportCountryDestination: {
       previousPage: (isEdit: boolean): Route => (isEdit ? Route.checkYourAnswers : Route.exportOriginCountry),
-      nextPage: (): Route => Route.exportCommoditySearch,
+      nextPage: (): Route => Route.exportUserTypeTrader,
     },
     exportCommoditySearch: {
-      previousPage: (isEdit: boolean): Route => (isEdit ? Route.checkYourAnswers : Route.exportCountryDestination),
+      previousPage: (isEdit: boolean, isAgent: boolean): Route => (isEdit ? Route.checkYourAnswers : (isAgent ? Route.exportDeclarations : Route.exportResponsibleForDeclaringGoods)),
     },
     exportCheckLicencesAndRestrictions: {
       previousPage: (): Route => Route.taskList,
@@ -119,7 +119,8 @@ export const journey = {
       previousPage: (): Route => Route.exportCountryDestination,
     },
     exportUserTypeTrader: {
-      previousPage: (isEdit: boolean): Route => (isEdit ? Route.checkYourAnswers : Route.exportGoodsArrivalDate),
+      previousPage: (isEdit: boolean): Route => (isEdit ? Route.checkYourAnswers : Route.exportCountryDestination),
+      nextPage: (): Route => Route.exportDeclarations,
     },
     exportGoodsIntent: {
       previousPage: (isEdit: boolean): Route => (isEdit ? Route.checkYourAnswers : Route.typeOfTrade),
@@ -133,6 +134,10 @@ export const journey = {
     },
     exportCheckDeclarations: {
       previousPage: (): Route => Route.taskList,
+    },
+    exportResponsibleForDeclaringGoods: {
+      previousPage: (isEdit: boolean): Route => (isEdit ? Route.checkYourAnswers : Route.exportDeclarations),
+      nextPage: (): Route => Route.exportCommoditySearch,
     },
   },
 };

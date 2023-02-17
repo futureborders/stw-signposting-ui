@@ -21,7 +21,7 @@ import {
   clearSessionErrorMessages,
 } from '../../../utils/sessionHelpers';
 import { Route } from '../../../interfaces/routes.interface';
-
+import { ExportDeclarations } from '../../../interfaces/enums.interface';
 import {
   updateQueryParams,
 } from '../../../utils/queryHelper';
@@ -39,13 +39,14 @@ class ExportCommoditySearchController {
     clearSessionErrorMessages(req);
 
     try {
-      const { commodity, tradeDetails } = req.query;
+      const { commodity, tradeDetails, exportDeclarations } = req.query;
       const { queryParams, translation } = res.locals;
       const isEdit = req.query.isEdit === 'true';
+      const isAgent = exportDeclarations === ExportDeclarations.no;
       const original = req.query.commodity || req.query.original || '';
       const getQueryParams = updateQueryParams(queryParams, { commodity: original });
       const jsBackButton = !!tradeDetails;
-      const previousPage = `${journey.export.exportCommoditySearch.previousPage(isEdit)}?${getQueryParams}`;
+      const previousPage = `${journey.export.exportCommoditySearch.previousPage(isEdit, isAgent)}?${getQueryParams}`;
 
       res.render('export/commoditySearch/view.njk', {
         jsBackButton,

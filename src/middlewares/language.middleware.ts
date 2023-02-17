@@ -18,6 +18,9 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-continue */
 /* eslint-disable no-param-reassign */
+/* eslint-disable guard-for-in */
+/* eslint-disable no-eval */
+/* eslint-disable no-useless-concat */
 
 import {
   Request, Response, NextFunction,
@@ -39,17 +42,16 @@ const copyMessages = (targetLanguageMessages: any, overrideLanguageMessages: any
   }
 
   for (const key in targetLanguageMessages) {
-
-    if (overrideLanguageMessages[key] === undefined && typeof targetLanguageMessages[key] === 'string'  && !targetLanguageMessages[key].startsWith('http', 0) ){
+    if (overrideLanguageMessages[key] === undefined && typeof targetLanguageMessages[key] === 'string' && !targetLanguageMessages[key].startsWith('http', 0)) {
       overrideLanguageMessages[key] = `<span lang='en'>${targetLanguageMessages[key]}</span>`;
     }
 
-    if (overrideLanguageMessages[key] === undefined && typeof targetLanguageMessages[key] === 'function' ){
-      overrideLanguageMessages[key] = eval(targetLanguageMessages[key].toString().replace(/`/, '`<span lang="en">').replace(/`([^`]*)$/, '</span>`' + '$1'))
+    if (overrideLanguageMessages[key] === undefined && typeof targetLanguageMessages[key] === 'function') {
+      overrideLanguageMessages[key] = eval(targetLanguageMessages[key].toString().replace(/`/, '`<span lang="en">').replace(/`([^`]*)$/, '</span>`' + '$1'));
     }
 
-    if (overrideLanguageMessages[key] === undefined && typeof targetLanguageMessages[key] === 'object' ){
-      overrideLanguageMessages[key] = JSON.parse(JSON.stringify(targetLanguageMessages[key]).replace(/:"/g, ':"<span lang=\'en\'>').replace(/",/g, '</span>",').replace(/"}/g, '</span>"}'))
+    if (overrideLanguageMessages[key] === undefined && typeof targetLanguageMessages[key] === 'object') {
+      overrideLanguageMessages[key] = JSON.parse(JSON.stringify(targetLanguageMessages[key]).replace(/:"/g, ':"<span lang=\'en\'>').replace(/",/g, '</span>",').replace(/"}/g, '</span>"}'));
     }
 
     if (!Object.hasOwnProperty.call(targetLanguageMessages, key)
