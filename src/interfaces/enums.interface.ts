@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -113,6 +113,8 @@ export enum DocumentCode {
   Y253 = 'Y253',
   Y256 = 'Y256',
   Y257 = 'Y257',
+  Y258 = 'Y258',
+  Y259 = 'Y259',
   Y501 = 'Y501',
   Y067 = 'Y067',
   Y250 = 'Y250',
@@ -127,26 +129,14 @@ export enum TaskStatus {
   NOT_REQUIRED = 'NOT_REQUIRED',
 }
 
-export enum ImportParamsOrder {
-  tradeType = 'tradeType',
-  goodsIntent = 'goodsIntent',
-  importDateDay = 'importDateDay',
-  originCountry = 'originCountry',
-  destinationCountry = 'destinationCountry',
-  userTypeTrader = 'userTypeTrader',
-  importDeclarations = 'importDeclarations',
-  commodity = 'commodity',
-}
-
 export enum ExportParamsOrder {
   tradeType = 'tradeType',
   exportGoodsIntent = 'exportGoodsIntent',
   tradeDateDay = 'tradeDateDay',
-  originCountry = 'originCountry',
-  destinationCountry = 'destinationCountry',
   exportUserTypeTrader = 'exportUserTypeTrader',
   exportDeclarations = 'exportDeclarations',
-  exportResponsibleForDeclaringGoods = 'exportResponsibleForDeclaringGoods',
+  originCountry = 'originCountry',
+  destinationCountry = 'destinationCountry',
   commodity = 'commodity',
 }
 
@@ -161,29 +151,6 @@ export enum ExportUserTypeTrader {
   goodsExportedToBeSold = 'goodsExportedToBeSold',
   actingOnBehalfOfSeller = 'actingOnBehalfOfSeller',
   neitherApply = 'neitherApply',
-}
-
-export enum ImportUserTypeTrader {
-  yes = 'yes',
-  no = 'no',
-  neither = 'neither'
-}
-
-export enum ExportDeclarations {
-  yes = 'yes',
-  no = 'no',
-  notSure = 'notSure'
-}
-
-export enum ResponsibleForDeclaringGoods {
-  yes = 'yes',
-  no = 'no',
-  notSure = 'notSure'
-}
-
-export enum LANGUAGE {
-  en = 'en',
-  cy = 'cy',
 }
 
 export default UserType;

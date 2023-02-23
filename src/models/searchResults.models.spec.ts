@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ import {
 
 import Translation from '../translation/en';
 
-const commonQueryString = '&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true';
+const commonQueryString = '&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true';
 const commonExportsQueryString = '&originCountry=GB&tradeType=export&destinationCountry=CN&exportDeclarations=yes&isSubheading=true';
 
 describe('Testing models', () => {
@@ -60,7 +60,6 @@ describe('Testing models', () => {
         '0',
         'undefined',
         mockedSearchDataCheese.data.data.attributes.goods_nomenclature_item_id,
-        Translation,
       );
       expect(result).toEqual(mockedSearchDataCheeseHtmlLevel1);
     });
@@ -73,7 +72,6 @@ describe('Testing models', () => {
         String(mockedSearchDataCheese.data.included[1].attributes.parent_sid),
         'undefined',
         mockedSearchDataCheese.data.data.attributes.goods_nomenclature_item_id,
-        Translation,
       );
       expect(result).toEqual(mockedSearchDataCheeseHtmlLevel2);
     });
@@ -88,7 +86,6 @@ describe('Testing models', () => {
         '0',
         '10',
         mockedSearchDataSubheadingLvl.data.data.attributes.goods_nomenclature_item_id,
-        Translation,
       );
       expect(result).toEqual(mockedSearchDataSubheadingHtmlLvl);
     });
@@ -98,21 +95,21 @@ describe('Testing models', () => {
     test('It should return the correct html rows for frogs', async () => {
       const searchTerm = 'frogs';
       const queryParams = `commodity=${searchTerm}${commonQueryString}`;
-      const result = await getResultsRows(mockedSearchDataFrogs.data, searchTerm, queryParams, Translation, 'en');
+      const result = await getResultsRows(mockedSearchDataFrogs.data, searchTerm, queryParams);
       expect(result).toEqual(mockedSearchDataFrogsHtml);
     });
 
     test('It should return the correct html rows for ricotta', async () => {
       const searchTerm = 'ricotta';
       const queryParams = `commodity=${searchTerm}${commonQueryString}`;
-      const result = await getResultsRows(mockedSearchDataRicotta.data, searchTerm, queryParams, Translation, 'en');
+      const result = await getResultsRows(mockedSearchDataRicotta.data, searchTerm, queryParams);
       expect(result).toEqual(mockedSearchDataRicottaHtml);
     });
 
     test('It should return the correct html rows for tin', async () => {
       const searchTerm = 'tin';
       const queryParams = `commodity=${searchTerm}${commonQueryString}`;
-      const result = await getResultsRows(mockedSearchDataTin.data, searchTerm, queryParams, Translation, 'en');
+      const result = await getResultsRows(mockedSearchDataTin.data, searchTerm, queryParams);
       expect(result).toEqual(mockedSearchDataTinHtml);
     });
   });
@@ -121,11 +118,11 @@ describe('Testing models', () => {
     const searchTerm = '123';
     const queryParams = `commodity=${searchTerm}${commonQueryString}`;
     test('It should return the correct html rows for 123', async () => {
-      const result = await getResultsRowsChapters(mockedSearchData123, searchTerm, queryParams, Translation);
+      const result = await getResultsRowsChapters(mockedSearchData123, searchTerm, queryParams);
       expect(result).toEqual(mockedSearchData123Html);
     });
     test('It should return the correct html rows for Chapters with unmatched commodity code', async () => {
-      const result = await getResultsRowsChapters(mockedSearchDataChaptersUnmatched, searchTerm, queryParams, Translation);
+      const result = await getResultsRowsChapters(mockedSearchDataChaptersUnmatched, searchTerm, queryParams);
       expect(result).toEqual(mockedSearchDataChaptersUnmatchedHtml);
     });
   });
@@ -167,7 +164,7 @@ describe('Testing models', () => {
       expect(result).toEqual([{
         sid: null,
         text: 'Search',
-        href: '/import-goods?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes',
+        href: '/import-goods?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes',
       }]);
     });
 
@@ -185,11 +182,11 @@ describe('Testing models', () => {
       expect(result).toEqual([{
         sid: null,
         text: 'Search',
-        href: '/import-goods?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes',
+        href: '/import-goods?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes',
       }, {
         sid: null,
-        html: 'jam',
-        href: '/search?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&commodity=jam',
+        text: 'jam',
+        href: '/search?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&commodity=jam',
       }]);
     });
 
@@ -198,15 +195,15 @@ describe('Testing models', () => {
       expect(result).toEqual([{
         sid: null,
         text: 'Search',
-        href: '/import-goods?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes',
+        href: '/import-goods?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes',
       }, {
         sid: null,
-        html: 'jam',
-        href: '/search?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&commodity=jam',
+        text: 'jam',
+        href: '/search?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&commodity=jam',
       }, {
         sid: 33698,
-        html: 'Other',
-        href: '/search/2007910000/33698?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&commodity=jam&depth=1',
+        text: 'Other',
+        href: '/search/2007910000/33698?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&commodity=jam&depth=1',
       }]);
     });
 
@@ -215,19 +212,19 @@ describe('Testing models', () => {
       expect(result).toEqual([{
         sid: null,
         text: 'Search',
-        href: '/import-goods?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes',
+        href: '/import-goods?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes',
       }, {
         sid: null,
-        html: '000',
-        href: '/search?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&commodity=000',
+        text: '000',
+        href: '/search?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&commodity=000',
       }, {
         sid: null,
         text: 'Category: 8536',
-        href: '/search/8536690000/0?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&commodity=000&searchParent=000',
+        href: '/search/8536690000/0?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&commodity=000&searchParent=000',
       }, {
         sid: 50781,
-        html: 'Lamp holders, plugs and sockets',
-        href: '/search/8536610000/50781?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&commodity=000&searchParent=000&depth=1',
+        text: 'Lamp holders, plugs and sockets',
+        href: '/search/8536610000/50781?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&commodity=000&searchParent=000&depth=1',
       }]);
     });
 
@@ -236,7 +233,7 @@ describe('Testing models', () => {
       expect(result).toEqual([{
         sid: null,
         text: 'Search',
-        href: '/import-goods?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes',
+        href: '/import-goods?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes',
       }]);
     });
 
@@ -245,11 +242,11 @@ describe('Testing models', () => {
       expect(result).toEqual([{
         sid: null,
         text: 'Search',
-        href: '/import-goods?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes',
+        href: '/import-goods?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes',
       }, {
         sid: null,
-        html: 'lvl',
-        href: '/search?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&commodity=lvl&isSubheading=true',
+        text: 'lvl',
+        href: '/search?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&commodity=lvl&isSubheading=true',
       }]);
     });
 
@@ -258,15 +255,15 @@ describe('Testing models', () => {
       expect(result).toEqual([{
         sid: null,
         text: 'Search',
-        href: '/import-goods?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes',
+        href: '/import-goods?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes',
       }, {
         sid: null,
-        html: 'lvl',
-        href: '/search?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&commodity=lvl&isSubheading=true',
+        text: 'lvl',
+        href: '/search?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&commodity=lvl&isSubheading=true',
       }, {
         sid: 107457,
-        html: 'With at least one outer ply of tropical wood',
-        href: '/search/4412410000/107457?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&commodity=lvl&subheadingSuffix=10&isSubheading=true&depth=2',
+        text: 'With at least one outer ply of tropical wood',
+        href: '/search/4412410000/107457?originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&commodity=lvl&subheadingSuffix=10&isSubheading=true&depth=2',
       }]);
     });
   });

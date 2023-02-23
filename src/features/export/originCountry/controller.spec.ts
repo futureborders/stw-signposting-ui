@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,10 +25,10 @@ import StwTradeTariffApi from '../../../services/StwTradeTariffApi.service';
 import TradeTariffApi from '../../../services/TradeTariffApi.service';
 import { Route } from '../../../interfaces/routes.interface';
 import IndexRoute from '../../../routes/index.route';
-import { Params } from '../../../interfaces/params.interface';
+import { ExportsParams } from '../../../interfaces/exports.interface';
 import getTodaysDate from '../../../utils/tests/getTodaysDate';
 import { getParams } from '../../../utils/queryHelper';
-import { mockedAdditionalCodeData } from '../../common/additionalCode/mockedData';
+import { mockedAdditionalCodeData } from '../additionalCode/mockedData';
 
 jest.mock('../../../services/TradeTariffApi.service');
 jest.mock('../../../services/StwTradeTariffApi.service');
@@ -42,6 +42,8 @@ const MockedStwTradeTariffApi = <jest.Mock<StwTradeTariffApi>>StwTradeTariffApi;
 const mockedStwTradeTariffApi = <jest.Mocked<StwTradeTariffApi>>(
   new MockedStwTradeTariffApi()
 );
+
+jest.mock('../../../middlewares/auth-middleware', () => jest.fn((req, res, next) => next()));
 
 const indexRoute = new IndexRoute(
   mockedTradeTariffApi,
@@ -115,7 +117,7 @@ describe(`[POST] ${Route.exportOriginCountry}`, () => {
       .expect('Location', `${Route.exportOriginCountry}?tradeType=export&exportDeclarations=yes`);
   });
 
-  it(`It should respond with statusCode 302 and redirect to ${Route.checkYourAnswers} when isEdit`, async (done) => {
+  it(`It should respond with statusCode 302 and redirect to ${Route.exportCheckYourAnswers} when isEdit`, async (done) => {
     await request(app.getServer())
       .get(`${Route.exportOriginCountry}`)
       .set('user-agent', 'node-superagent')
@@ -137,10 +139,10 @@ describe(`[POST] ${Route.exportOriginCountry}`, () => {
       .set('Cookie', csrfResponse.cookies)
       .send(data)
       .expect(302, {})
-      .expect('Location', `${Route.checkYourAnswers}?tradeType=export&exportDeclarations=yes&originCountry=XI`);
+      .expect('Location', `${Route.exportCheckYourAnswers}?tradeType=export&exportDeclarations=yes&originCountry=XI`);
   });
 
-  it(`It should respond with statusCode 302 and redirect to ${Route.checkYourAnswers} when isEdit`, async (done) => {
+  it(`It should respond with statusCode 302 and redirect to ${Route.exportCheckYourAnswers} when isEdit`, async (done) => {
     await request(app.getServer())
       .get(`${Route.exportOriginCountry}`)
       .set('user-agent', 'node-superagent')
@@ -163,11 +165,11 @@ describe(`[POST] ${Route.exportOriginCountry}`, () => {
       .set('Cookie', csrfResponse.cookies)
       .send(data)
       .expect(302, {})
-      .expect('Location', `${Route.checkYourAnswers}?tradeType=export&exportDeclarations=yes&originCountry=XI`);
+      .expect('Location', `${Route.exportCheckYourAnswers}?tradeType=export&exportDeclarations=yes&originCountry=XI`);
   });
 
-  it(`It should respond with statusCode 302 and redirect to ${Route.additionalCode} when isEdit and originCountryHasChanged`, async (done) => {
-    const params: Params = {
+  it(`It should respond with statusCode 302 and redirect to ${Route.exportAdditionalCode} when isEdit and originCountryHasChanged`, async (done) => {
+    const params: ExportsParams = {
       tradeType: 'export',
       tradeDateDay: getTodaysDate.day,
       tradeDateMonth: getTodaysDate.month,
@@ -212,7 +214,7 @@ describe(`[POST] ${Route.exportOriginCountry}`, () => {
       .set('Cookie', csrfResponse.cookies)
       .send(data)
       .expect(302, {})
-      .expect('Location', `${Route.additionalCode}${getParams(params)}`);
+      .expect('Location', `${Route.exportAdditionalCode}${getParams(params)}`);
   });
 
   it(`It should respond with statusCode 302 and redirect to ${Route.exportMovingGoodsFromNorthernIrelandToAnEUCountry} when importFromXIToEU`, async (done) => {

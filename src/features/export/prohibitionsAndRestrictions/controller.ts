@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,9 @@
 
 import { RequestHandler } from 'express';
 import { journey } from '../../../utils/previousNextRoutes';
+import { getCountryNameByCode } from '../../../utils/filters/getCountryNameByCode';
 import { Route } from '../../../interfaces/routes.interface';
-import { hierarchy } from '../../common/checkYourAnswers/model';
+import { hierarchy } from '../checkYourAnswers/model';
 import { findCode } from '../../../utils/findCode';
 import { getImportDateFromQuery } from '../../../utils/queryHelper';
 import { markdown } from '../../../utils/markdown';
@@ -35,7 +36,7 @@ class ExportProhibitionsAndRestrictionsController {
   }
 
   public exportProhibitionsAndRestrictions: RequestHandler = async (req, res, next) => {
-    const commodity = String(req.query.commodity);
+    const commodityCode = String(req.query.commodity);
     const destinationCountry = String(req.query.destinationCountry);
     const originCountry = String(req.query.originCountry);
     const additionalCode = String(req.query.additionalCode);
@@ -44,12 +45,14 @@ class ExportProhibitionsAndRestrictionsController {
     let restrictions;
 
     try {
-      const previousPage = `${journey.export.exportProhibitionsAndRestrictions.previousPage()}?${res.locals.queryParams}`;
+      const previousPage = journey.export.exportProhibitionsAndRestrictions.previousPage();
 
-      const commodityClassification = hierarchy(findCode(commodity));
+      const destinationCountryName = getCountryNameByCode(destinationCountry, res.locals.language);
+
+      const commodityClassification = hierarchy(findCode(commodityCode));
 
       const { data } = await this.stwTradeTariffApi.getRestrictiveMeasures(
-        commodity,
+        commodityCode,
         tradeType,
         originCountry,
         destinationCountry as DestinationCountry,
@@ -58,19 +61,18 @@ class ExportProhibitionsAndRestrictionsController {
 
       const result = data.measures.find((item: any) => item.measureType === 'PROHIBITIVE');
 
-      restrictions = markdown.render(decode(result.description), { translation: res.locals.translation });
+      restrictions = markdown.render(decode(result.description));
 
       res.render('export/prohibitionsAndRestrictions/view.njk', {
         previousPage,
-        destinationCountry,
+        destinationCountryName,
         tradeDate,
-        commodity,
+        commodityCode,
         additionalCode,
         originCountry,
         commodityClassification,
         Route,
         restrictions,
-        tradeType,
         csrfToken: req.csrfToken(),
       });
     } catch (e) {

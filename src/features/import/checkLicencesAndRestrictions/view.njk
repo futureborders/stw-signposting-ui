@@ -1,6 +1,6 @@
-{% extends "layout.njk" %}
+{% extends "layout.html" %}
 
-{% set title = translation.common.measures.subsidary['check-licences-certificates-and-other-restrictions'] %}
+{% set title = translation.page.manageThisTrade.subsidary['check-licences-certificates-and-other-restrictions'] %}
 
 {% block pageTitle %}
 {{title}} - {{serviceName}} - {{titleSuffix}}
@@ -8,50 +8,60 @@
 
 {% block content %}
 
-{% set tradeDetails %}
-  {% include "../../common/tradeDetails/trade-details-import.partial.njk" %}
+{% set commoditySummaryDetails %}
+  {% include "../../../views/includes/commodity-summary.html" %}
 {% endset %}
 
+{{ govukBackLink({
+  text: translation.common.buttons.back,
+  href:  "/manage-this-trade?" + queryParams | clearAdditionalQuestions(questionsId),
+  classes: "govuk-!-margin-bottom-9",
+  attributes: {
+    id: "back-link",
+    rel: "noreferrer noopener"
+  }
+}) }}
+
 {% if show999l %}
-{% set showSdsContent = '#### ' + translation.common.measures['999L'].header + '\n\n' + translation.common.measures['999L'].body %}
+{% set showSdsContent = '#### ' + translation.page.manageThisTrade['999L'].header + '\n\n' + translation.page.manageThisTrade['999L'].body %}
 {% else %}
 {% set showSdsContent = '' %}
 {% endif %}
 
-<div class="govuk-grid-row">
+<div class="govuk-grid-row" id="main-content">
   <div class="govuk-grid-column-two-thirds">
-    <p class="print-disclaimer" aria-hidden="true">{{ translation.common.measures.printDisclaimer }}</p>
+    <p class="print-disclaimer" aria-hidden="true">{{ translation.page.manageThisTrade.printDisclaimer }}</p>
+    <span class="govuk-caption-xl">{{ caption }}</span>
     <h1 class="govuk-heading-xl">
-      <span class="govuk-caption-xl">{{ translation.page.taskList.beforeTheGoodsAreSoldHeading }}</span>
       {{ title }}
     </h1>
 
     {{ govukDetails({
-       summaryText: translation.common.tradeDetails.summaryLinkText[tradeType] | capitalize,
-       html: tradeDetails
-     }) }}
+      summaryText: translation.page.manageThisTrade.commoditySummaryDetailsLink,
+      html: commoditySummaryDetails
+    }) }}
 
   </div>
 </div>
 <div class="govuk-grid-row govuk-main-wrapper">
   <div class="govuk-grid-column-two-thirds">
 
-    {{ translation.common.measures.checkLicensesAndCertificates[userType](showSdsContent) | renderMarkdown(translation) | safe }}
+    {{ translation.page.manageThisTrade.checkLicensesAndCertificates[userType](showSdsContent) | renderMarkdown | safe }}
     {% if complexMeasuresAsHtml %}
       {{ complexMeasuresAsHtml | safe }}
     {% else %}
-      {{ translation.common.measures.noMeasuresOrRestrictions(translation.common.countries[originCountry]) | safe }}
+      {{ translation.page.manageThisTrade.noMeasuresOrRestrictions(country) | safe }}
     {% endif %}
 
-    {{ govukButton({
-      text: translation.common.buttons.backToResults,
-      href: previousPage,
-      classes: "govuk-!-margin-top-6"
-    }) }}
-
-    {% include "../../../views/includes/print-button.njk" %}
+    <a href="#" role="button" class="govuk-link gem-c-print-link__link govuk-link--no-visited-state govuk-!-margin-top-4 hideNoJs printButton" data-module="govuk-button" id="printButton">
+      {{ translation.page.manageThisTrade.print }}
+    </a>
 
   </div>
 </div>
 
+{% endblock %}
+
+{% block pageScripts %}
+  {% include "../../../views/includes/truncate-scripts.html" %}
 {% endblock %}

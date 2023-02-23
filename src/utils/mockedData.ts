@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,529 @@
  * limitations under the License.
  */
 
-/* istanbul ignore file */
+export const tradeRowDataOutputDeclarant = [{
+  superHeader: 'Before you start importing',
+  content: [
+    {
+      header: 'Prepare your business for importing',
+      headerLinkText: 'Link text prepare your business for importing',
+      signpostingStepsAsHtml: '<p class="govuk-body">declaringTraderContent</p>\n',
+      externalLink: null,
+      relatedTo: 'DOCUMENTATION',
+      complexMeasuresAsHtml: '\n'
+          + '    <p class="govuk-body">measure description</p>\n'
+          + '\n'
+          + '    \n'
+          + '     \n'
+          + '      <p class="govuk-body">Follow the rules that apply to import your goods.</p>\n'
+          + '      \n'
+          + '        <h3 class="govuk-heading-m">Rules that apply to your goods</h3>\n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">N851</h4>\n'
+          + '  <p class="govuk-body">CERTIFICATE description1 <a href="https://www.somelink.com" target="_blank" rel="noopener noreferrer">https://www.somelink.com (opens in new tab)</a></p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">N852</h4>\n'
+          + '  <p class="govuk-body">CERTIFICATE description2</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">N852</h4>\n'
+          + '  <p class="govuk-body">MULTI_CERTIFICATE prefix</p><p class="govuk-body">MULTI_CERTIFICATE description</p>\n'
+          + '\n'
+          + '    \n'
+          + '        <h3 class="govuk-heading-m">When rules are different or do not apply</h3>\n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">N852</h4>\n'
+          + '  <p class="govuk-body">EXCEPTION description</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">N852</h4>\n'
+          + '  <p class="govuk-body">THRESHOLD description</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">Y058</h4>\n'
+          + '  <p class="govuk-body">THRESHOLD_CERTIFICATE description</p>\n'
+          + '\n'
+          + '    \n'
+          + '  \n'
+          + ' ',
+    }],
+}];
+
+export const tradeRowDataOutputDeclarantNoMeasureOptions = [{
+  superHeader: 'Before you start importing',
+  content: [{
+    header: 'Prepare your business for importing',
+    headerLinkText: 'Link text prepare your business for importing',
+    externalLink: null,
+    relatedTo: 'DOCUMENTATION',
+    signpostingStepsAsHtml: '<p class="govuk-body">declaringTraderContent</p>\n',
+    complexMeasuresAsHtml: '\n    <p class="govuk-body">measure description</p>\n\n    \n     \n ',
+  }],
+}];
+
+export const tradeRowDataOutputNonDeclarantNoMeasureOptions = [{
+  superHeader: 'Before you start importing',
+  content: [{
+    header: 'Prepare your business for importing',
+    headerLinkText: 'Link text prepare your business for importing',
+    externalLink: null,
+    relatedTo: 'DOCUMENTATION',
+    signpostingStepsAsHtml: '<p class="govuk-body">nonDeclaringTraderContent</p>\n',
+    complexMeasuresAsHtml: '\n    <p class="govuk-body">measure description</p>\n\n    \n     \n ',
+  }],
+}];
+
+export const tradeRowDataOutputAgentNoMeasureOptions = [{
+  superHeader: 'Before you start importing',
+  content: [{
+    header: 'Prepare your business for importing',
+    headerLinkText: 'Link text prepare your business for importing',
+    externalLink: null,
+    relatedTo: 'DOCUMENTATION',
+    signpostingStepsAsHtml: '<p class="govuk-body">agentContent</p>\n',
+    complexMeasuresAsHtml: '\n    <p class="govuk-body">measure description</p>\n\n    \n     \n ',
+  }],
+}];
+
+export const tradeRowDataOutputNonDeclarant = [{
+  superHeader: 'Before you start importing',
+  content: [{
+    header: 'Prepare your business for importing',
+    headerLinkText: 'Link text prepare your business for importing',
+    externalLink: null,
+    relatedTo: 'DOCUMENTATION',
+    signpostingStepsAsHtml: '<p class="govuk-body">nonDeclaringTraderContent</p>\n',
+    complexMeasuresAsHtml: '\n'
+          + '    <p class="govuk-body">measure description</p>\n'
+          + '\n'
+          + '    \n'
+          + '     \n'
+          + '      <p class="govuk-body">Follow the rules that apply to import your goods.</p>\n'
+          + '      \n'
+          + '        <h3 class="govuk-heading-m">Rules that apply to your goods</h3>\n'
+          + '        \n'
+          + '  <p class="govuk-body">CERTIFICATE description1 <a href="https://www.somelink.com" target="_blank" rel="noopener noreferrer">https://www.somelink.com (opens in new tab)</a></p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        \n'
+          + '  <p class="govuk-body">CERTIFICATE description2</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        \n'
+          + '  <p class="govuk-body">MULTI_CERTIFICATE prefix</p><p class="govuk-body">MULTI_CERTIFICATE description</p>\n'
+          + '\n'
+          + '    \n'
+          + '        <h3 class="govuk-heading-m">When rules are different or do not apply</h3>\n'
+          + '        \n'
+          + '  <p class="govuk-body">EXCEPTION description</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        \n'
+          + '  <p class="govuk-body">THRESHOLD description</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        \n'
+          + '  <p class="govuk-body">THRESHOLD_CERTIFICATE description</p>\n'
+          + '\n'
+          + '    \n'
+          + '  \n'
+          + ' ',
+  }],
+}];
+
+export const tradeRowDataOutputNonDeclarantWithOne999LMeasure = [{
+  superHeader: 'Before you start importing',
+  content: [{
+    header: 'Prepare your business for importing',
+    headerLinkText: 'Link text prepare your business for importing',
+    externalLink: null,
+    relatedTo: 'DOCUMENTATION',
+    signpostingStepsAsHtml: '<p class="govuk-body">nonDeclaringTraderContent</p>\n',
+    complexMeasuresAsHtml: '\n'
+          + '    <p class="govuk-body">measure 1 description</p>\n'
+          + '\n'
+          + '    \n'
+          + '     \n'
+          + '      <p class="govuk-body">Follow the rules that apply to import your goods.</p>\n'
+          + '      \n'
+          + '        <h3 class="govuk-heading-m">Rules that apply to your goods</h3>\n'
+          + '        \n'
+          + '  <p class="govuk-body">Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '        <h3 class="govuk-heading-m">When rules are different or do not apply</h3>\n'
+          + '        \n'
+          + '  <p class="govuk-body">Y900 EXCEPTION description</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        \n'
+          + '  \n'
+          + '    \n'
+          + '  \n'
+          + ' \n'
+          + '    <p class="govuk-body">measure 2 description</p>\n'
+          + '\n'
+          + '    \n'
+          + '     \n'
+          + '      <p class="govuk-body">Follow the rules that apply to import your goods.</p>\n'
+          + '      \n'
+          + '        <h3 class="govuk-heading-m">Rules that apply to your goods</h3>\n'
+          + '        \n'
+          + '  <p class="govuk-body">Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        \n'
+          + '  \n'
+          + '    \n'
+          + '  \n'
+          + ' ',
+  }],
+}];
+
+export const tradeRowDataOutputDeclaringTraderWithOne999LMeasure = [{
+  superHeader: 'Before you start importing',
+  content: [{
+    header: 'Prepare your business for importing',
+    headerLinkText: 'Link text prepare your business for importing',
+    externalLink: null,
+    relatedTo: 'DOCUMENTATION',
+    signpostingStepsAsHtml: '<p class="govuk-body">declaringTraderContent</p>\n',
+    complexMeasuresAsHtml: '\n'
+          + '    <p class="govuk-body">measure 1 description</p>\n'
+          + '\n'
+          + '    \n'
+          + '     \n'
+          + '      <p class="govuk-body">Follow the rules that apply to import your goods.</p>\n'
+          + '      \n'
+          + '        <h3 class="govuk-heading-m">Rules that apply to your goods</h3>\n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">C082</h4>\n'
+          + '  <p class="govuk-body">Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '        <h3 class="govuk-heading-m">When rules are different or do not apply</h3>\n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">Y900</h4>\n'
+          + '  <p class="govuk-body">Y900 EXCEPTION description</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s ">999L waiver also applies</h4>\n'
+          + '  \n'
+          + '    \n'
+          + '  \n'
+          + ' \n'
+          + '    <p class="govuk-body">measure 2 description</p>\n'
+          + '\n'
+          + '    \n'
+          + '     \n'
+          + '      <p class="govuk-body">Follow the rules that apply to import your goods.</p>\n'
+          + '      \n'
+          + '        <h3 class="govuk-heading-m">Rules that apply to your goods</h3>\n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">C082</h4>\n'
+          + '  <p class="govuk-body">Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '        <h3 class="govuk-heading-m">When rules are different or do not apply</h3>\n'
+          + '        <h4 class="govuk-heading-s ">999L waiver also applies</h4>\n'
+          + '  \n'
+          + '    \n'
+          + '  \n'
+          + ' ',
+  }],
+}];
+
+export const tradeRowDataOutputAgent = [{
+  superHeader: 'Before you start importing',
+  content: [{
+    header: 'Prepare your business for importing',
+    headerLinkText: 'Link text prepare your business for importing',
+    signpostingStepsAsHtml: '<p class="govuk-body">agentContent</p>\n',
+    externalLink: null,
+    relatedTo: 'DOCUMENTATION',
+    complexMeasuresAsHtml: '\n'
+          + '    <p class="govuk-body">measure description</p>\n'
+          + '\n'
+          + '    \n'
+          + '     \n'
+          + '      <p class="govuk-body">Follow the rules that apply to import your goods.</p>\n'
+          + '      \n'
+          + '        <h3 class="govuk-heading-m">Rules that apply to your goods</h3>\n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">N851</h4>\n'
+          + '  <p class="govuk-body">CERTIFICATE description1 <a href="https://www.somelink.com" target="_blank" rel="noopener noreferrer">https://www.somelink.com (opens in new tab)</a></p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">N852</h4>\n'
+          + '  <p class="govuk-body">CERTIFICATE description2</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">N852</h4>\n'
+          + '  <p class="govuk-body">MULTI_CERTIFICATE prefix</p><p class="govuk-body">MULTI_CERTIFICATE description</p>\n'
+          + '\n'
+          + '    \n'
+          + '        <h3 class="govuk-heading-m">When rules are different or do not apply</h3>\n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">N852</h4>\n'
+          + '  <p class="govuk-body">EXCEPTION description</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">N852</h4>\n'
+          + '  <p class="govuk-body">THRESHOLD description</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">Y058</h4>\n'
+          + '  <p class="govuk-body">THRESHOLD_CERTIFICATE description</p>\n'
+          + '\n'
+          + '    \n'
+          + '  \n'
+          + ' ',
+  }],
+}];
+
+export const tradeRowDataOutputDeclarantMultipleMeasureOptions = [{
+  superHeader: 'Before you start importing',
+  content: [
+    {
+      header: 'Prepare your business for importing',
+      headerLinkText: 'Link text prepare your business for importing',
+      signpostingStepsAsHtml: '<p class="govuk-body">declaringTraderContent</p>\n',
+      externalLink: null,
+      relatedTo: 'DOCUMENTATION',
+      complexMeasuresAsHtml: '\n'
+          + '    <p class="govuk-body">measure description</p>\n'
+          + '\n'
+          + '    <p class="govuk-body">Follow the rules that apply to import your goods.</p>\n'
+          + '     \n'
+          + '      <h3 class="govuk-heading-m">You must meet one of these four conditions</h3>\n'
+          + '      \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">C057</h4>\n'
+          + '  <p class="govuk-body">C057 Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">C079</h4>\n'
+          + '  <p class="govuk-body">C079 Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">C082</h4>\n'
+          + '  <p class="govuk-body">C082 Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">Y951</h4>\n'
+          + '  <p class="govuk-body">Y951 Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s ">999L waiver also applies</h4>\n'
+          + '  \n'
+          + '    \n'
+          + '  \n'
+          + '      <h3 class="govuk-heading-m">You must meet this condition</h3>\n'
+          + '      \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">Y926</h4>\n'
+          + '  <p class="govuk-body">Y926 Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '  \n'
+          + ' ',
+    },
+  ],
+}];
+
+export const tradeRowDataOutputDeclarantMultipleMeasureOptionsNo999l = [{
+  superHeader: 'Before you start importing',
+  content: [
+    {
+      header: 'Prepare your business for importing',
+      headerLinkText: 'Link text prepare your business for importing',
+      signpostingStepsAsHtml: '<p class="govuk-body">declaringTraderContent</p>\n',
+      externalLink: null,
+      relatedTo: 'DOCUMENTATION',
+      complexMeasuresAsHtml: '\n'
+          + '    <p class="govuk-body">measure description</p>\n'
+          + '\n'
+          + '    <p class="govuk-body">Follow the rules that apply to import your goods.</p>\n'
+          + '     \n'
+          + '      <h3 class="govuk-heading-m">You must meet one of these five conditions</h3>\n'
+          + '      \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">C057</h4>\n'
+          + '  <p class="govuk-body">C057 Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">C079</h4>\n'
+          + '  <p class="govuk-body">C079 Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">C081</h4>\n'
+          + '  <p class="govuk-body">C081 Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">C082</h4>\n'
+          + '  <p class="govuk-body">C082 Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">Y951</h4>\n'
+          + '  <p class="govuk-body">Y951 Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '  \n'
+          + '      <h3 class="govuk-heading-m">You must meet this condition</h3>\n'
+          + '      \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">Y926</h4>\n'
+          + '  <p class="govuk-body">Y926 Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '  \n'
+          + ' ',
+    },
+  ],
+}];
+
+export const tradeRowDataOutputNonDeclarantMultipleMeasureOptions = [{
+  superHeader: 'Before you start importing',
+  content: [
+    {
+      header: 'Prepare your business for importing',
+      headerLinkText: 'Link text prepare your business for importing',
+      signpostingStepsAsHtml: '<p class="govuk-body">nonDeclaringTraderContent</p>\n',
+      externalLink: null,
+      relatedTo: 'DOCUMENTATION',
+      complexMeasuresAsHtml: '\n'
+          + '    <p class="govuk-body">measure description</p>\n'
+          + '\n'
+          + '    <p class="govuk-body">Follow the rules that apply to import your goods.</p>\n'
+          + '     \n'
+          + '      <h3 class="govuk-heading-m">You must meet one of these four conditions</h3>\n'
+          + '      \n'
+          + '        \n'
+          + '        \n'
+          + '  <p class="govuk-body">C057 Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        \n'
+          + '  <p class="govuk-body">C079 Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        \n'
+          + '  <p class="govuk-body">C082 Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        \n'
+          + '  <p class="govuk-body">Y951 Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        \n'
+          + '  \n'
+          + '    \n'
+          + '  \n'
+          + '      <h3 class="govuk-heading-m">You must meet this condition</h3>\n'
+          + '      \n'
+          + '        \n'
+          + '        \n'
+          + '  <p class="govuk-body">Y926 Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '  \n'
+          + ' ',
+    },
+  ],
+}];
+
+export const tradeRowDataOutputAgentMultipleMeasureOptions = [{
+  superHeader: 'Before you start importing',
+  content: [
+    {
+      header: 'Prepare your business for importing',
+      headerLinkText: 'Link text prepare your business for importing',
+      signpostingStepsAsHtml: '<p class="govuk-body">agentContent</p>\n',
+      externalLink: null,
+      relatedTo: 'DOCUMENTATION',
+      complexMeasuresAsHtml: '\n'
+          + '    <p class="govuk-body">measure description</p>\n'
+          + '\n'
+          + '    <p class="govuk-body">Follow the rules that apply to import your goods.</p>\n'
+          + '     \n'
+          + '      <h3 class="govuk-heading-m">You must meet one of these four conditions</h3>\n'
+          + '      \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">C057</h4>\n'
+          + '  <p class="govuk-body">C057 Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">C079</h4>\n'
+          + '  <p class="govuk-body">C079 Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">C082</h4>\n'
+          + '  <p class="govuk-body">C082 Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">Y951</h4>\n'
+          + '  <p class="govuk-body">Y951 Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s ">999L waiver also applies</h4>\n'
+          + '  \n'
+          + '    \n'
+          + '  \n'
+          + '      <h3 class="govuk-heading-m">You must meet this condition</h3>\n'
+          + '      \n'
+          + '        \n'
+          + '        <h4 class="govuk-heading-s govuk-!-margin-bottom-0">Y926</h4>\n'
+          + '  <p class="govuk-body">Y926 Overlay</p>\n'
+          + '\n'
+          + '    \n'
+          + '  \n'
+          + ' ',
+    },
+  ],
+}];
 
 export const translation = {
   page: {
+    manageThisTrade: {
+      rules: 'Rules that apply to your goods',
+      exceptions: 'When rules are different or do not apply',
+      multiCertificatePrefix: 'MULTI_CERTIFICATE prefix',
+      condition: 'You must meet this condition',
+      multipleConditions: (amount: string): string => `You must meet one of these ${amount} conditions`,
+      code: 'Code',
+      followRules: 'followRules text',
+      followRulesExport: 'followRules export text',
+      waiverApplies: 'waiver also applies',
+      '999L': {
+        header: 'Customs Declaration Service (CDS) universal waiver',
+        body: 'Requirement for a licence is waived by entering the 999L document code and the document identifier CDS WAIVER in the additional documentation field for this commodity item. 999L can be used for CDS in a similar way to LIC99 on the CHIEF system, when a waiver may be applied.',
+      },
+    },
     calculateCustomsDutyImportVat: {
       tariffs: 'Tariffs',
       taxes: 'Taxes',
@@ -29,30 +548,6 @@ export const translation = {
     },
   },
   common: {
-    measures: {
-      rules: 'Rules that apply to your goods',
-      exceptions: 'When rules are different or do not apply',
-      multiCertificatePrefix: 'MULTI_CERTIFICATE prefix',
-      condition: 'You must meet this condition',
-      multipleConditions: (amount: string): string => `You must meet one of these ${amount} conditions`,
-      code: 'Code',
-      followRules: 'followRules text',
-      followRulesExport: 'followRules export text',
-      waiverApplies: (certificateCode: string): string => `${certificateCode} waiver applies`,
-      waiverAlsoApplies: (certificateCode: string): string => `${certificateCode} waiver also applies`,
-      '999L': {
-        header: 'Customs Declaration Service (CDS) universal waiver',
-        body: 'Requirement for a licence is waived by entering the 999L document code and the document identifier CDS WAIVER in the additional documentation field for this commodity item. 999L can be used for CDS in a similar way to LIC99 on the CHIEF system, when a waiver may be applied.',
-      },
-      measureOptionSubtype: {
-        PRICE_BASED: 'Price threshold applies',
-        VOLUME_BASED: 'Volume threshold applies',
-        UNIT_BASED: 'Unit threshold applies',
-        WEIGHT_BASED: 'Weight threshold applies',
-        PRICE_PER_UNIT_BASED: (unit: string): string => `Price / ${unit} threshold applies`,
-      },
-      thresholdConditionsApply: 'Threshold conditions apply:',
-    },
     accessibility: {
       opensNewTab: '(opens in new tab)',
     },
@@ -226,6 +721,933 @@ export const mockedRestrictiveMeasuresWithProhibitions = {
         legalAct: 'X1904110',
         description: '## Some prohibition description',
         measureType: 'PROHIBITIVE',
+      },
+    ],
+  },
+};
+
+export const mockedTradeRowsData = {
+  commodityCode: '00000000',
+  commodityDescription: 'commodityDescription',
+  signpostingContents: [
+    {
+      superHeader: {
+        orderIndex: 1,
+        description: 'Before you start importing',
+        explanatoryText: 'Some intro text 1',
+      },
+      headers: [
+        {
+          header: {
+            id: 100,
+            orderIndex: 1,
+            description: 'Prepare your business for importing',
+            explanatoryText: null,
+            linkText: 'Link text prepare your business for importing',
+            externalLink: null,
+            relatedTo: 'DOCUMENTATION',
+          },
+          steps: [
+            {
+              id: 28,
+              nonDeclaringTraderContent: 'nonDeclaringTraderContent',
+              declaringTraderContent: 'declaringTraderContent',
+              agentContent: 'agentContent',
+            },
+
+          ],
+          measures: [
+            {
+              id: '1',
+              descriptionOverlay: 'measure description',
+              subtext: 'measure subtext',
+              measureOptions: [
+                {
+                  options: [
+                    {
+                      type: 'THRESHOLD_CERTIFICATE',
+                      descriptionOverlay: 'THRESHOLD_CERTIFICATE description',
+                      certificateCode: 'Y058',
+                      thresholdDescription: 'Or if your goods weigh 2.0 Kilograms or less',
+                    },
+                    {
+                      type: 'CERTIFICATE',
+                      descriptionOverlay: 'CERTIFICATE description1 (<a href="https://www.somelink.com">https://www.somelink.com</a>)',
+                      subtext: 'CERTIFICATE subtext1',
+                      certificateCode: 'N851',
+                    },
+                    {
+                      type: 'CERTIFICATE',
+                      descriptionOverlay: 'CERTIFICATE description2',
+                      subtext: 'CERTIFICATE subtext2',
+                      certificateCode: 'N852',
+                    },
+                    {
+                      type: 'MULTI_CERTIFICATE',
+                      descriptionOverlay: 'MULTI_CERTIFICATE description',
+                      subtext: 'MULTI_CERTIFICATE subtext',
+                      certificateCode: 'N852',
+                    },
+                    {
+                      type: 'EXCEPTION',
+                      descriptionOverlay: 'EXCEPTION description',
+                      subtext: 'EXCEPTION subtext',
+                      certificateCode: 'N852',
+                    },
+                    {
+                      type: 'THRESHOLD',
+                      descriptionOverlay: 'THRESHOLD description',
+                      subtext: 'THRESHOLD subtext',
+                      certificateCode: 'N852',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  prohibitions: [],
+  commodityHierarchy: [],
+};
+
+export const mockedTradeRowsDataWithOne999LMeasure = {
+  commodityCode: '00000000',
+  commodityDescription: 'commodityDescription',
+  signpostingContents: [
+    {
+      superHeader: {
+        orderIndex: 1,
+        description: 'Before you start importing',
+        explanatoryText: 'Some intro text 1',
+      },
+      headers: [
+        {
+          header: {
+            id: 100,
+            orderIndex: 1,
+            description: 'Prepare your business for importing',
+            explanatoryText: null,
+            linkText: 'Link text prepare your business for importing',
+            externalLink: null,
+            relatedTo: 'DOCUMENTATION',
+          },
+          steps: [
+            {
+              id: 28,
+              nonDeclaringTraderContent: 'nonDeclaringTraderContent',
+              declaringTraderContent: 'declaringTraderContent',
+              agentContent: 'agentContent',
+            },
+
+          ],
+          measures: [
+            {
+              id: '1',
+              descriptionOverlay: 'measure 1 description',
+              subtext: 'measure subtext',
+              measureOptions: [
+                {
+                  options: [
+                    {
+                      certificateCode: 'C082',
+                      type: 'CERTIFICATE',
+                      descriptionOverlay: 'Overlay',
+                    },
+                    {
+                      type: 'EXCEPTION',
+                      descriptionOverlay: '999L EXCEPTION description',
+                      subtext: 'EXCEPTION subtext',
+                      certificateCode: '999L',
+                    },
+                    {
+                      type: 'EXCEPTION',
+                      descriptionOverlay: 'Y900 EXCEPTION description',
+                      subtext: 'EXCEPTION subtext',
+                      certificateCode: 'Y900',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: '2',
+              descriptionOverlay: 'measure 2 description',
+              subtext: 'measure subtext',
+              measureOptions: [
+                {
+                  options: [
+                    {
+                      certificateCode: 'C082',
+                      type: 'CERTIFICATE',
+                      descriptionOverlay: 'Overlay',
+                    },
+                    {
+                      type: 'EXCEPTION',
+                      descriptionOverlay: '999L EXCEPTION description',
+                      subtext: 'EXCEPTION subtext',
+                      certificateCode: '999L',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  prohibitions: [],
+  commodityHierarchy: [],
+};
+
+export const mockedTradeRowsDataNoMeasureOptions = {
+  commodityCode: '00000000',
+  commodityDescription: 'commodityDescription',
+  signpostingContents: [
+    {
+      superHeader: {
+        orderIndex: 1,
+        description: 'Before you start importing',
+        explanatoryText: 'Some intro text 1',
+      },
+      headers: [
+        {
+          header: {
+            id: 100,
+            orderIndex: 1,
+            description: 'Prepare your business for importing',
+            explanatoryText: null,
+            linkText: 'Link text prepare your business for importing',
+            externalLink: null,
+            relatedTo: 'DOCUMENTATION',
+          },
+          steps: [
+            {
+              id: 28,
+              nonDeclaringTraderContent: 'nonDeclaringTraderContent',
+              declaringTraderContent: 'declaringTraderContent',
+              agentContent: 'agentContent',
+            },
+
+          ],
+          measures: [
+            {
+              id: '1',
+              descriptionOverlay: 'measure description',
+              subtext: 'measure subtext',
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  prohibitions: [],
+  commodityHierarchy: [],
+};
+
+export const mockedTradeRowsDataMultipleMeasureOptions = {
+  commodityCode: '00000000',
+  commodityDescription: 'commodityDescription',
+  signpostingContents: [
+    {
+      superHeader: {
+        orderIndex: 1,
+        description: 'Before you start importing',
+        explanatoryText: 'Some intro text 1',
+      },
+      headers: [
+        {
+          header: {
+            id: 100,
+            orderIndex: 1,
+            description: 'Prepare your business for importing',
+            explanatoryText: null,
+            linkText: 'Link text prepare your business for importing',
+            externalLink: null,
+            relatedTo: 'DOCUMENTATION',
+          },
+          steps: [
+            {
+              id: 28,
+              nonDeclaringTraderContent: 'nonDeclaringTraderContent',
+              declaringTraderContent: 'declaringTraderContent',
+              agentContent: 'agentContent',
+            },
+
+          ],
+          measures: [
+            {
+              id: '1',
+              descriptionOverlay: 'measure description',
+              subtext: 'measure subtext',
+              measureOptions: [
+                {
+                  options: [
+                    {
+                      certificateCode: '999L',
+                      type: 'EXCEPTION',
+                      descriptionOverlay: '999L Overlay',
+                    },
+                    {
+                      certificateCode: 'C082',
+                      type: 'CERTIFICATE',
+                      descriptionOverlay: 'C082 Overlay',
+                    },
+                    {
+                      certificateCode: 'C057',
+                      type: 'CERTIFICATE',
+                      descriptionOverlay: 'C057 Overlay',
+                    },
+                    {
+                      certificateCode: 'C079',
+                      type: 'CERTIFICATE',
+                      descriptionOverlay: 'C079 Overlay',
+                    },
+                    {
+                      certificateCode: 'Y951',
+                      type: 'EXCEPTION',
+                      descriptionOverlay: 'Y951 Overlay',
+                    },
+                  ],
+                },
+                {
+                  options: [
+                    {
+                      certificateCode: 'Y926',
+                      type: 'EXCEPTION',
+                      descriptionOverlay: 'Y926 Overlay',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  prohibitions: [],
+  commodityHierarchy: [],
+};
+
+export const mockedTradeRowsDataMultipleMeasureOptionsNo999l = {
+  commodityCode: '00000000',
+  commodityDescription: 'commodityDescription',
+  signpostingContents: [
+    {
+      superHeader: {
+        orderIndex: 1,
+        description: 'Before you start importing',
+        explanatoryText: 'Some intro text 1',
+      },
+      headers: [
+        {
+          header: {
+            id: 100,
+            orderIndex: 1,
+            description: 'Prepare your business for importing',
+            explanatoryText: null,
+            linkText: 'Link text prepare your business for importing',
+            externalLink: null,
+            relatedTo: 'DOCUMENTATION',
+          },
+          steps: [
+            {
+              id: 28,
+              nonDeclaringTraderContent: 'nonDeclaringTraderContent',
+              declaringTraderContent: 'declaringTraderContent',
+              agentContent: 'agentContent',
+            },
+
+          ],
+          measures: [
+            {
+              id: '1',
+              descriptionOverlay: 'measure description',
+              subtext: 'measure subtext',
+              measureOptions: [
+                {
+                  options: [
+                    {
+                      certificateCode: 'C081',
+                      type: 'CERTIFICATE',
+                      descriptionOverlay: 'C081 Overlay',
+                    },
+                    {
+                      certificateCode: 'C082',
+                      type: 'CERTIFICATE',
+                      descriptionOverlay: 'C082 Overlay',
+                    },
+                    {
+                      certificateCode: 'C057',
+                      type: 'CERTIFICATE',
+                      descriptionOverlay: 'C057 Overlay',
+                    },
+                    {
+                      certificateCode: 'C079',
+                      type: 'CERTIFICATE',
+                      descriptionOverlay: 'C079 Overlay',
+                    },
+                    {
+                      certificateCode: 'Y951',
+                      type: 'EXCEPTION',
+                      descriptionOverlay: 'Y951 Overlay',
+                    },
+                  ],
+                },
+                {
+                  options: [
+                    {
+                      certificateCode: 'Y926',
+                      type: 'EXCEPTION',
+                      descriptionOverlay: 'Y926 Overlay',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  prohibitions: [],
+  commodityHierarchy: [],
+};
+
+export const mockedTradeDataWithHeaders = {
+  data: {
+    commodityCode: '8419600000',
+    commodityDescription: 'Some commodity description',
+    measures: [
+      {
+        id: '20101505',
+        tradeType: 'IMPORT',
+        measureType: {
+          id: '277',
+          description: 'Import prohibition',
+          seriesId: 'A',
+        },
+        geographicalArea: {
+          id: '1011',
+          description: 'ERGA OMNES',
+        },
+        measureConditions: [],
+      },
+      {
+        id: '20140916',
+        tradeType: 'IMPORT',
+        measureType: {
+          id: '724',
+          description: 'Import control of fluorinated greenhouse gases',
+          seriesId: 'B',
+        },
+        geographicalArea: {
+          id: '1011',
+          description: 'ERGA OMNES',
+        },
+        measureConditions: [
+          {
+            id: '20115258',
+            conditionCode: 'C',
+            condition: 'Some condition',
+            documentCode: 'Y951',
+            requirement: 'Some requirement',
+            action: 'Import/export allowed after control',
+            dutyExpression: '',
+            measureConditionType: 'EXCEPTION',
+          },
+        ],
+      },
+    ],
+    signpostingContents: [
+      {
+        superHeader: {
+          orderIndex: 1,
+          description: 'superHeader 1',
+          explanatoryText: 'superHeader 1 explanatoryText',
+        },
+        headers: [
+          {
+            header: {
+              id: 4,
+              orderIndex: 1,
+              description: 'Import controls description',
+              explanatoryText: null,
+              linkText: 'Import controls linkText',
+              externalLink: null,
+              relatedTo: 'IMPORT_CONTROLS',
+            },
+            steps: [],
+            measures: [
+              {
+                id: '724',
+                descriptionOverlay: 'Some descriptionOverlay',
+                subtext: null,
+                measureOptions: [
+                  {
+                    options: [
+                      {
+                        certificateCode: 'Y926',
+                        type: 'EXCEPTION',
+                        descriptionOverlay: 'Some descriptionOverlay',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            header: {
+              id: 2,
+              orderIndex: 2,
+              description: 'Calculate the Customs Duty and Import VAT description',
+              explanatoryText: null,
+              linkText: 'Calculate duty linkText',
+              externalLink: null,
+              relatedTo: 'CALCULATE_DUTY',
+            },
+            steps: [
+              {
+                id: 5,
+                stepDescription: null,
+                stepHowtoDescription: null,
+                stepUrl: null,
+                nonDeclaringTraderContent: 'Some nonDeclaringTraderContent',
+                declaringTraderContent: 'Some declaringTraderContent',
+                agentContent: 'Some agentContent',
+              },
+            ],
+            measures: [],
+          },
+          {
+            header: {
+              id: 1,
+              orderIndex: 3,
+              description: 'Import registration description',
+              explanatoryText: null,
+              linkText: 'Import registration linkText',
+              externalLink: null,
+              relatedTo: 'IMPORT_REGISTRATION',
+            },
+            steps: [
+              {
+                id: 1,
+                stepDescription: null,
+                stepHowtoDescription: null,
+                stepUrl: null,
+                nonDeclaringTraderContent: 'Some nonDeclaringTraderContent',
+                declaringTraderContent: 'Some declaringTraderContent',
+                agentContent: 'Some agentContent',
+              },
+            ],
+            measures: [],
+          },
+        ],
+      },
+      {
+        superHeader: {
+          orderIndex: 2,
+          description: 'superHeader 2',
+          explanatoryText: 'superHeader 2 explanatoryText',
+        },
+        headers: [
+          {
+            header: {
+              id: 5,
+              orderIndex: 1,
+              description: 'Import documentation description',
+              explanatoryText: null,
+              linkText: 'Import documentation linkText',
+              externalLink: null,
+              relatedTo: 'IMPORT_DOCUMENTATION',
+            },
+            steps: [
+              {
+                id: 7,
+                stepDescription: null,
+                stepHowtoDescription: null,
+                stepUrl: null,
+                nonDeclaringTraderContent: 'Some nonDeclaringTraderContent',
+                declaringTraderContent: 'Some declaringTraderContent',
+                agentContent: 'Some agentContent',
+              },
+            ],
+            measures: [],
+          },
+          {
+            header: {
+              id: 10,
+              orderIndex: 2,
+              description: 'Ens declaration description',
+              explanatoryText: null,
+              linkText: 'Ens declarationlinkText',
+              externalLink: 'https://www.some-externalLink1.com',
+              relatedTo: 'ENS_DECLARATION',
+            },
+            steps: [],
+            measures: [],
+          },
+          {
+            header: {
+              id: 6,
+              orderIndex: 3,
+              description: 'Import declaration description',
+              explanatoryText: null,
+              linkText: 'Import declaration linkText',
+              externalLink: 'https://www.some-externalLink2.com',
+              relatedTo: 'IMPORT_DECLARATION',
+            },
+            steps: [
+              {
+                id: 9,
+                stepDescription: null,
+                stepHowtoDescription: null,
+                stepUrl: null,
+                nonDeclaringTraderContent: 'Some nonDeclaringTraderContent',
+                declaringTraderContent: 'Some declaringTraderContent',
+                agentContent: 'Some agentContent',
+              },
+            ],
+            measures: [],
+          },
+        ],
+      },
+    ],
+    prohibitions: [],
+    commodityHierarchy: [
+      {
+        id: '16',
+        description: 'Some description',
+        type: 'SECTION',
+      },
+      {
+        id: '8400000000',
+        description: 'Some description',
+        type: 'CHAPTER',
+      },
+      {
+        id: '8419000000',
+        description: 'Some description',
+        type: 'HEADING',
+      },
+    ],
+  },
+};
+
+export const mockedTradeDataWithMeasures = {
+  data: {
+    commodityCode: '8419600000',
+    commodityDescription: 'Some commodity description',
+    measures: [
+      {
+        id: '20168318',
+        tradeType: 'IMPORT',
+        measureType: { id: '410', description: 'Veterinary control', seriesId: 'B' },
+        geographicalArea: { id: '1008', description: 'All third countries' },
+        measureConditions: [
+          {
+            id: '20145719',
+            conditionCode: 'B',
+            condition: 'B: Presentation of a certificate/licence/document',
+            documentCode: 'N853',
+            requirement: 'some text',
+            action: 'Import/export allowed after control',
+            dutyExpression: '',
+            measureConditionType: 'CERTIFICATE',
+          },
+          {
+            id: '20145720',
+            conditionCode: 'B',
+            condition: 'B: Presentation of a certificate/licence/document',
+            documentCode: 'C084',
+            requirement: 'some text',
+            action: 'Import/export allowed after control',
+            dutyExpression: '',
+            measureConditionType: 'EXCEPTION',
+          },
+          {
+            id: '20145722',
+            conditionCode: 'B',
+            condition: 'B: Presentation of a certificate/licence/document',
+            documentCode: '999L',
+            requirement: 'some text',
+            action: 'Import/export allowed after control',
+            dutyExpression: '',
+            measureConditionType: 'EXCEPTION',
+          },
+          {
+            id: '20145721',
+            conditionCode: 'B',
+            condition: 'B: Presentation of a certificate/licence/document',
+            documentCode: '',
+            requirement: null,
+            action: 'Import/export not allowed after control',
+            dutyExpression: '',
+            measureConditionType: 'NEGATIVE',
+          },
+        ],
+      },
+      {
+        id: '20172980',
+        tradeType: 'IMPORT',
+        measureType: {
+          id: '350',
+          description: 'Animal Health Certificate',
+          seriesId: 'B',
+        },
+        geographicalArea: { id: '1011', description: 'ERGA OMNES' },
+        measureConditions: [
+          {
+            id: '20167053',
+            conditionCode: 'B',
+            condition: 'B: Presentation of a certificate/licence/document',
+            documentCode: '999L',
+            requirement: 'some text',
+            action: 'Entry into free circulation allowed',
+            dutyExpression: '',
+            measureConditionType: 'EXCEPTION',
+          },
+          {
+            id: '20167051',
+            conditionCode: 'B',
+            condition: 'B: Presentation of a certificate/licence/document',
+            documentCode: '',
+            requirement: null,
+            action: 'The entry into free circulation is not allowed',
+            dutyExpression: '',
+            measureConditionType: 'NEGATIVE',
+          },
+          {
+            id: '20167052',
+            conditionCode: 'B',
+            condition: 'B: Presentation of a certificate/licence/document',
+            documentCode: '9120',
+            requirement: 'some text',
+            action: 'Entry into free circulation allowed',
+            dutyExpression: '',
+            measureConditionType: 'CERTIFICATE',
+          },
+        ],
+      },
+      {
+        id: '20179089',
+        tradeType: 'IMPORT',
+        measureType: {
+          id: '750',
+          description: 'Import control of organic products',
+          seriesId: 'B',
+        },
+        geographicalArea: { id: '1011', description: 'ERGA OMNES' },
+        measureConditions: [
+          {
+            id: '20180229',
+            conditionCode: 'B',
+            condition: 'B: Presentation of a certificate/licence/document',
+            documentCode: 'Y929',
+            requirement: 'some text',
+            action: 'Import/export allowed after control',
+            dutyExpression: '',
+            measureConditionType: 'EXCEPTION',
+          },
+          {
+            id: '20180228',
+            conditionCode: 'B',
+            condition: 'B: Presentation of a certificate/licence/document',
+            documentCode: 'C644',
+            requirement: 'some text',
+            action: 'Import/export allowed after control',
+            dutyExpression: '',
+            measureConditionType: 'CERTIFICATE',
+          },
+          {
+            id: '20180230',
+            conditionCode: 'B',
+            condition: 'B: Presentation of a certificate/licence/document',
+            documentCode: '',
+            requirement: null,
+            action: 'Import/export not allowed after control',
+            dutyExpression: '',
+            measureConditionType: 'NEGATIVE',
+          },
+        ],
+      },
+    ],
+    signpostingContents: [
+      {
+        superHeader: {
+          orderIndex: 1,
+          description: 'superHeader 1',
+          explanatoryText: 'superHeader 1 explanatoryText',
+        },
+        headers: [
+          {
+            header: {
+              id: 4,
+              orderIndex: 1,
+              description: 'Import controls description',
+              explanatoryText: null,
+              linkText: 'Import controls linkText',
+              externalLink: null,
+              relatedTo: 'IMPORT_CONTROLS',
+            },
+            steps: [],
+            measures: [
+              {
+                id: '724',
+                descriptionOverlay: 'Some descriptionOverlay',
+                subtext: null,
+                measureOptions: [
+                  {
+                    options: [
+                      {
+                        certificateCode: 'Y926',
+                        type: 'EXCEPTION',
+                        descriptionOverlay: 'Some descriptionOverlay',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            header: {
+              id: 2,
+              orderIndex: 2,
+              description: 'Calculate the Customs Duty and Import VAT description',
+              explanatoryText: null,
+              linkText: 'Calculate duty linkText',
+              externalLink: null,
+              relatedTo: 'CALCULATE_DUTY',
+            },
+            steps: [
+              {
+                id: 5,
+                stepDescription: null,
+                stepHowtoDescription: null,
+                stepUrl: null,
+                nonDeclaringTraderContent: 'Some nonDeclaringTraderContent',
+                declaringTraderContent: 'Some declaringTraderContent',
+                agentContent: 'Some agentContent',
+              },
+            ],
+            measures: [],
+          },
+          {
+            header: {
+              id: 1,
+              orderIndex: 3,
+              description: 'Import registration description',
+              explanatoryText: null,
+              linkText: 'Import registration linkText',
+              externalLink: null,
+              relatedTo: 'IMPORT_REGISTRATION',
+            },
+            steps: [
+              {
+                id: 1,
+                stepDescription: null,
+                stepHowtoDescription: null,
+                stepUrl: null,
+                nonDeclaringTraderContent: 'Some nonDeclaringTraderContent',
+                declaringTraderContent: 'Some declaringTraderContent',
+                agentContent: 'Some agentContent',
+              },
+            ],
+            measures: [],
+          },
+        ],
+      },
+      {
+        superHeader: {
+          orderIndex: 2,
+          description: 'superHeader 2',
+          explanatoryText: 'superHeader 2 explanatoryText',
+        },
+        headers: [
+          {
+            header: {
+              id: 5,
+              orderIndex: 1,
+              description: 'Import documentation description',
+              explanatoryText: null,
+              linkText: 'Import documentation linkText',
+              externalLink: null,
+              relatedTo: 'IMPORT_DOCUMENTATION',
+            },
+            steps: [
+              {
+                id: 7,
+                stepDescription: null,
+                stepHowtoDescription: null,
+                stepUrl: null,
+                nonDeclaringTraderContent: 'Some nonDeclaringTraderContent',
+                declaringTraderContent: 'Some declaringTraderContent',
+                agentContent: 'Some agentContent',
+              },
+            ],
+            measures: [],
+          },
+          {
+            header: {
+              id: 10,
+              orderIndex: 2,
+              description: 'Ens declaration description',
+              explanatoryText: null,
+              linkText: 'Ens declarationlinkText',
+              externalLink: 'https://www.some-externalLink1.com',
+              relatedTo: 'ENS_DECLARATION',
+            },
+            steps: [],
+            measures: [],
+          },
+          {
+            header: {
+              id: 6,
+              orderIndex: 3,
+              description: 'Import declaration description',
+              explanatoryText: null,
+              linkText: 'Import declaration linkText',
+              externalLink: 'https://www.some-externalLink2.com',
+              relatedTo: 'IMPORT_DECLARATION',
+            },
+            steps: [
+              {
+                id: 9,
+                stepDescription: null,
+                stepHowtoDescription: null,
+                stepUrl: null,
+                nonDeclaringTraderContent: 'Some nonDeclaringTraderContent',
+                declaringTraderContent: 'Some declaringTraderContent',
+                agentContent: 'Some agentContent',
+              },
+            ],
+            measures: [],
+          },
+        ],
+      },
+    ],
+    prohibitions: [],
+    commodityHierarchy: [
+      {
+        id: '16',
+        description: 'Some description',
+        type: 'SECTION',
+      },
+      {
+        id: '8400000000',
+        description: 'Some description',
+        type: 'CHAPTER',
+      },
+      {
+        id: '8419000000',
+        description: 'Some description',
+        type: 'HEADING',
       },
     ],
   },

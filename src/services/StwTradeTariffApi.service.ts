@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import CommodityNotFoundError from '../exceptions/commodityNotFoundException';
 import InvalidDestinationCountryError from '../exceptions/invalidDestinationCountry';
 import InvalidOriginCountryError from '../exceptions/invalidOriginCountry';
 import InvalidCommodityCodeError from '../exceptions/invalidCommodityCode';
-import InvalidAdditionalCodeError from '../exceptions/invalidAdditionalCode';
 import InvalidTradeTypeError from '../exceptions/invalidTradeType';
 import InvalidImportDateError from '../exceptions/invalidImportDate';
 import { DestinationCountry } from '../interfaces/enums.interface';
@@ -142,7 +141,6 @@ class StwTradeTariffApi {
       const invalidCommodityCode = this.hasValidationErros(validationErrors, 'commodityCode');
       const invalidTradeType = this.hasValidationErros(validationErrors, 'tradeType');
       const invalidImportDate = this.hasValidationErros(validationErrors, 'importDate');
-      const invalidAdditionalCode = this.hasValidationErros(validationErrors, 'additionalCode');
 
       if (e.response.status === 404) {
         throw new CommodityNotFoundError(commodityCode);
@@ -156,8 +154,6 @@ class StwTradeTariffApi {
         throw new InvalidTradeTypeError(e);
       } else if (invalidImportDate) {
         throw new InvalidImportDateError(e);
-      } else if (invalidAdditionalCode) {
-        throw new InvalidAdditionalCodeError(e);
       } else {
         throw e;
       }

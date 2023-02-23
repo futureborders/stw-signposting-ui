@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% set title = translation.page.northernIrelandAndEUTrading.title %}
+
+{% block pageTitle %}
+{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+
+{{ govukBackLink({
+  text: translation.common.buttons.back,
+  href: previousPage + "?" + queryParams,
+  classes: "govuk-!-margin-bottom-9 js-back-button",
+  attributes: {
+    id: "back-link",
+    rel: "noreferrer noopener"
+  }
+}) }}
+
+<div class="govuk-grid-row" id="main-content">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl">{{title}}</h1>
+
+    <p>{{translation.page.northernIrelandAndEUTrading.body}}</p>
+
+    <p>{{translation.page.northernIrelandAndEUTrading.learnMore | safe}}</p>
+
+  </div>
+</div>
+
+{% endblock %}

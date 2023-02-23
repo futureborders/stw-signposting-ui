@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ import { add, format } from 'date-fns';
 import validateImportDate, { handleYear } from './validateImportDate';
 import { handleDoubleDigits } from './queryHelper';
 import getTodaysDate from './tests/getTodaysDate';
-import { formatDate } from './filters/formatDate';
 
 const translation = {
   page: {
@@ -64,103 +63,91 @@ const translation = {
 describe('validateImportDate', () => {
   test('It should return errorInvalidDate', () => {
     const importDate = { day: '', month: '', year: '' };
-    const error = validateImportDate(importDate, translation, 'import');
+    const error = validateImportDate(importDate, translation);
     expect(error.message).toEqual(translation.page.importDate.errorMissingDate);
   });
 
   test('It should return errorInvalidDate missing day', () => {
     const importDate = { day: '', month: '2', year: '2020' };
-    const error = validateImportDate(importDate, translation, 'import');
+    const error = validateImportDate(importDate, translation);
     expect(error.message).toEqual(translation.page.importDate.errorMissingDay);
   });
 
   test('It should return errorInvalidDate missing month', () => {
     const importDate = { day: '1', month: '', year: '2020' };
-    const error = validateImportDate(importDate, translation, 'import');
+    const error = validateImportDate(importDate, translation);
     expect(error.message).toEqual(translation.page.importDate.errorMissingMonth);
   });
 
   test('It should return errorInvalidDate missing year', () => {
     const importDate = { day: '1', month: '2', year: '' };
-    const error = validateImportDate(importDate, translation, 'import');
+    const error = validateImportDate(importDate, translation);
     expect(error.message).toEqual(translation.page.importDate.errorMissingYear);
   });
 
   test('It should return errorInvalidDate missing day and month', () => {
     const importDate = { day: '', month: '', year: '2020' };
-    const error = validateImportDate(importDate, translation, 'import');
+    const error = validateImportDate(importDate, translation);
     expect(error.message).toEqual(translation.page.importDate.errorMissingDayMonth);
   });
 
   test('It should return errorInvalidDate missing day and year', () => {
     const importDate = { day: '', month: '2', year: '' };
-    const error = validateImportDate(importDate, translation, 'import');
+    const error = validateImportDate(importDate, translation);
     expect(error.message).toEqual(translation.page.importDate.errorMissingDayYear);
   });
 
   test('It should return errorInvalidDate missing month and year', () => {
     const importDate = { day: '1', month: '', year: '' };
-    const error = validateImportDate(importDate, translation, 'import');
+    const error = validateImportDate(importDate, translation);
     expect(error.message).toEqual(translation.page.importDate.errorMissingMonthYear);
   });
 
   test('It should return errorDateInThePast', () => {
     const importDate = { day: '1', month: '1', year: '1999' };
-    const error = validateImportDate(importDate, translation, 'import');
+    const error = validateImportDate(importDate, translation);
     expect(error.message).toEqual(translation.page.importDate.errorDateInThePast);
   });
 
-  test('It should return errorDateWithinYear in english', () => {
+  test('It should return errorDateWithinYear', () => {
     const importDate = { day: '1', month: '1', year: '2030' };
-    const error = validateImportDate(importDate, translation, 'import');
+    const error = validateImportDate(importDate, translation);
     expect(error.message).toEqual(translation.page.importDate.errorDateWithinYear(`${format(add(new Date(), { years: 1 }), 'd LLLL yyyy')}`));
-  });
-
-  test('It should return errorDateWithinYear in welsh', () => {
-    const importDate = { day: '1', month: '1', year: '2030' };
-    const error = validateImportDate(importDate, translation, 'import', 'cy');
-    const date = add(new Date(), { years: 1 });
-    const oneYearFromToday = {
-      day: String(date.getDate()),
-      month: String(date.getMonth() + 1),
-      year: String(date.getFullYear()),
-    };
-    expect(error.message).toEqual(translation.page.importDate.errorDateWithinYear(formatDate(oneYearFromToday, 'cy')));
   });
 
   test('It should return errorInvalidMonth', () => {
     const importDate = { day: '2', month: '28', year: '2021' };
-    const error = validateImportDate(importDate, translation, 'import');
+    const error = validateImportDate(importDate, translation);
     expect(error.message).toEqual(translation.page.importDate.errorInvalidMonth);
   });
 
   test('It should return errorInvalidDay', () => {
     const importDate = { day: '29', month: '02', year: '2022' };
-    const error = validateImportDate(importDate, translation, 'import');
+    const error = validateImportDate(importDate, translation);
     expect(error.message).toEqual(translation.page.importDate.errorInvalidDay);
   });
 
   test('It should return errorDayNotNumber', () => {
     const importDate = { day: '1,', month: '2,', year: '2022' };
-    const error = validateImportDate(importDate, translation, 'import');
+    const error = validateImportDate(importDate, translation);
     expect(error.message).toEqual(translation.page.importDate.errorDayNotNumber);
   });
 
   test('It should return errorDayNotNumber', () => {
     const importDate = { day: '1.', month: '2.', year: '2022' };
-    const error = validateImportDate(importDate, translation, 'import');
+    const error = validateImportDate(importDate, translation);
     expect(error.message).toEqual(translation.page.importDate.errorDayNotNumber);
   });
 
   test('It should return errorMonthNotNumber', () => {
     const importDate = { day: '1', month: 'xx', year: '2022' };
-    const error = validateImportDate(importDate, translation, 'import');
+    const error = validateImportDate(importDate, translation);
     expect(error.message).toEqual(translation.page.importDate.errorMonthNotNumber);
   });
 
   test('It should return errorYearNotNumber', () => {
     const importDate = { day: '1', month: '2', year: 'xx' };
-    const error = validateImportDate(importDate, translation, 'import');
+    const error = validateImportDate(importDate, translation);
     expect(error.message).toEqual(translation.page.importDate.errorYearNotNumber);
   });
 
@@ -172,50 +159,38 @@ describe('validateImportDate', () => {
 
   test('It should return errorInvalidDate on an invalid date', () => {
     const importDate = { day: '31', month: '11', year: '2022' };
-    const error = validateImportDate(importDate, translation, 'import');
+    const error = validateImportDate(importDate, translation);
     expect(error.message).toEqual(translation.page.importDate.errorInvalidDate);
   });
 
   test('It should return errorInvalidDate on an invalid day and month', () => {
     const importDate = { day: '40', month: '14', year: '2022' };
-    const error = validateImportDate(importDate, translation, 'import');
+    const error = validateImportDate(importDate, translation);
     expect(error.message).toEqual(translation.page.importDate.errorInvalidDate);
   });
 
   test('It should return errorInvalidDate on an invalid day', () => {
     const importDate = { day: '100', month: '2', year: '2022' };
-    const error = validateImportDate(importDate, translation, 'import');
+    const error = validateImportDate(importDate, translation);
     expect(error.message).toEqual(translation.page.importDate.errorInvalidDay);
   });
 
   test('It should return errorInvalidMonth on an invalid month', () => {
     const importDate = { day: '1', month: '100', year: '2022' };
-    const error = validateImportDate(importDate, translation, 'import');
+    const error = validateImportDate(importDate, translation);
     expect(error.message).toEqual(translation.page.importDate.errorInvalidMonth);
   });
 
   test('It should return errorInvalidDate on an invalid year', () => {
     const importDate = { day: '1', month: '2', year: '300' };
-    const error = validateImportDate(importDate, translation, 'import');
+    const error = validateImportDate(importDate, translation);
     expect(error.message).toEqual(translation.page.importDate.errorInvalidYear);
   });
 
   test('It should return undefined on an valid date', () => {
     const importDate = { day: getTodaysDate.day, month: getTodaysDate.month, year: getTodaysDate.year };
-    const error = validateImportDate(importDate, translation, 'import');
+    const error = validateImportDate(importDate, translation);
     expect(error.message).toEqual(undefined);
-  });
-
-  test('It should return errorInvalidDate on an invalid year', () => {
-    const importDate = { day: '1', month: '2', year: '0' };
-    const error = validateImportDate(importDate, translation, 'import');
-    expect(error.message).toEqual(translation.page.importDate.errorInvalidYear);
-  });
-
-  test('It should return errorInvalidDate on an invalid year', () => {
-    const importDate = { day: '1', month: '2', year: '20222' };
-    const error = validateImportDate(importDate, translation, 'import');
-    expect(error.message).toEqual(translation.page.importDate.errorInvalidYear);
   });
 });
 

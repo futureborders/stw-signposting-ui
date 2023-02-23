@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import Translation from '../translation/en';
 describe('display999lFragment', () => {
   test('It should convert the {999L} to display999lFragment as html when has999l', () => {
     expect(display999lFragment(true, 'some content {999l} somme other content', Translation)).toEqual(
-      `some content <h4 class="govuk-heading-s">${Translation.common.measures['999L'].header}</h4><p class="govuk-body">${Translation.common.measures['999L'].body}</p> somme other content`,
+      `some content <h4 class="govuk-heading-s">${Translation.page.manageThisTrade['999L'].header}</h4><p class="govuk-body">${Translation.page.manageThisTrade['999L'].body}</p> somme other content`,
     );
   });
 
@@ -41,10 +41,10 @@ describe('display999lFragment', () => {
 
 describe('display999lHeader', () => {
   test('It should append waiver applies when 999L', () => {
-    expect(display999lHeader('999L', Translation, false)).toEqual(Translation.common.measures.waiverAlsoApplies('999L'));
+    expect(display999lHeader('999L', Translation)).toEqual(`999L ${Translation.page.manageThisTrade.waiverApplies}`);
   });
   test('It should not append waiver', () => {
-    expect(display999lHeader('someCertificateCode', Translation, false)).toEqual('someCertificateCode');
+    expect(display999lHeader('someCertificateCode', Translation)).toEqual('someCertificateCode');
   });
 });
 

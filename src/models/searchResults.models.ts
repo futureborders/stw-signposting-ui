@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import { TypeOfTrade } from '../interfaces/enums.interface';
 
 import { findCode } from '../utils/findCode';
 import { removeParam } from '../utils/filters/removeParam';
-import { notTranslatedAttribute, notTranslated } from '../utils/filters/notTranslated';
 
 const escapeRegExp = (string: string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -49,15 +48,15 @@ export const replaceCommodityWithSearchTerm = (queryString: string, itemId: stri
 
 const hierarchy = (sub: any, description: string, searchTerm: string) => `${sub.map((item: any) => item).join('  &mdash; ')} &mdash; <strong>${highlight(description, searchTerm)}</strong>`;
 
-const chaptersLink = (declarable: boolean, itemId: string, description: string, searchTerm: string, queryParams: string, translation: any) => (!declarable
+const chaptersLink = (declarable: boolean, itemId: string, description: string, searchTerm: string, queryParams: string) => (!declarable
   ? `<div class="search-results-head">
-    <strong>${translation.page.searchResults.category}: ${itemId.substring(0, 4)}</strong>
+    <strong>Category: ${itemId.substring(0, 4)}</strong>
   </div>
   <div class="search-results-description">
     <a href="${Route.search}/${itemId}/0?${replaceCommodityWithSearchTerm(queryParams, itemId.substring(0, 4))}&searchParent=${searchTerm}">${highlight(description, searchTerm)}</a>
   </div>`
   : `<div class="search-results-head">
-    <a href="${Route.search}?${replaceCommodityWithSearchTerm(queryParams, String(itemId))}">${translation.page.searchResults.commodityCode}: <strong>${itemId}</strong></a>
+    <a href="${Route.search}?${replaceCommodityWithSearchTerm(queryParams, String(itemId))}">Commodity code: <strong>${itemId}</strong></a>
   </div>
   <div class="search-results-description">${highlight(description, searchTerm)}</div>
   `);
@@ -66,7 +65,6 @@ export const getResultsRowsChapters = async (
   data: any,
   searchTerm: string,
   queryParams: string,
-  translation: any,
 ): Promise<HeaderRows[]> => data.included.filter((item: any) => item.type === 'heading' && !(item.attributes.declarable && !findCode(item.attributes.goods_nomenclature_item_id))).map((item: any) => {
   const type = (declarable: boolean) => (!declarable ? 'heading' : 'commodity');
   return [{
@@ -76,7 +74,6 @@ export const getResultsRowsChapters = async (
       item.attributes.description,
       searchTerm,
       queryParams,
-      translation,
     ),
     sid: item.attributes.goods_nomenclature_sid,
     level: item.attributes.number_indents,
@@ -95,16 +92,14 @@ const headingsDescriptionHtml = (
   searchTerm: string,
   subheadingParentId: string,
   isSubheading: boolean,
-  translation: any,
-  language?: string,
 ): string => (indents >= 1 && !leaf
   ? `<div class="search-results-head">
-        <a href="${Route.search}/${encodeURIComponent(isSubheading ? subheadingParentId : itemId)}/${sid}?${setSearchDepth(queryParams, indents)}"${notTranslatedAttribute(language)}>${highlight(description, searchTerm)}</a>
+        <a href="${Route.search}/${encodeURIComponent(isSubheading ? subheadingParentId : itemId)}/${sid}?${setSearchDepth(queryParams, indents)}">${highlight(description, searchTerm)}</a>
       </div>`
   : `<div class="search-results-head">
-        <a href="${Route.search}?${replaceCommodityWithSearchTerm(removeParam(queryParams, ['isSubheading']), String(itemId))}">${translation.page.searchResults.commodityCode}: <strong>${itemId}</strong></a>
+        <a href="${Route.search}?${replaceCommodityWithSearchTerm(removeParam(queryParams, ['isSubheading']), String(itemId))}">Commodity code: <strong>${itemId}</strong></a>
        </div>
-       <div class="search-results-description"${notTranslatedAttribute(language)}>${highlight(description, searchTerm)}</div>
+       <div class="search-results-description">${highlight(description, searchTerm)}</div>
       `);
 
 export const getResultsRowsHeadings = async (
@@ -114,8 +109,6 @@ export const getResultsRowsHeadings = async (
   sid: string,
   suffix: string,
   itemId: string,
-  translation: any,
-  language?: string,
 ): Promise<HeaderRows[]> => {
   const params = new URLSearchParams(queryParams);
   const isSubheading = params.get('isSubheading') === 'true';
@@ -148,8 +141,6 @@ export const getResultsRowsHeadings = async (
       searchTerm,
       itemId,
       isSubheading,
-      translation,
-      language,
     ),
     type: type(item.attributes.number_indents, item.attributes.leaf),
     parent_sid: item.attributes.parent_sid,
@@ -163,21 +154,19 @@ export const getResultsRows = async (
   data: any,
   searchTerm: string,
   queryParams: string,
-  translation: any,
-  language: string,
 ): Promise<ResultsRows[]> => {
   const heading = await data.heading?.map((item: any) => [{
     html: findCode(item.goods_nomenclature_item_id) ? `
         <div class="search-results-head">
-          <a href="${Route.search}?${replaceCommodityWithSearchTerm(queryParams, item.goods_nomenclature_item_id)}">${translation.page.searchResults.commodityCode}: <strong>${item.goods_nomenclature_item_id}</strong></a>
+          <a href="${Route.search}?${replaceCommodityWithSearchTerm(queryParams, item.goods_nomenclature_item_id)}">Commodity code: <strong>${item.goods_nomenclature_item_id}</strong></a>
         </div>
-        <div class="search-results-description"${notTranslatedAttribute(language)}>
+        <div class="search-results-description">
           ${highlight(item.description, searchTerm)}
         </div>`
       : `<div class="search-results-head">
-          <a href="${Route.search}/${item.goods_nomenclature_item_id}/0?${queryParams}&searchParent=${searchTerm}"><strong>${translation.page.searchResults.category}: ${item.goods_nomenclature_item_id.substring(0, 4)}</strong></a>
+          <a href="${Route.search}/${item.goods_nomenclature_item_id}/0?${queryParams}&searchParent=${searchTerm}"><strong>Category: ${item.goods_nomenclature_item_id.substring(0, 4)}</strong></a>
         </div>
-        <div class="search-results-description"${notTranslatedAttribute(language)}>
+        <div class="search-results-description">
           ${highlight(item.description, searchTerm)}
         </div>
         `,
@@ -188,9 +177,9 @@ export const getResultsRows = async (
     {
       html: `
           <div class="search-results-head">
-            <a href="${Route.search}?${replaceCommodityWithSearchTerm(queryParams, item.goods_nomenclature_item_id)}">${translation.page.searchResults.commodityCode}: <strong>${item.goods_nomenclature_item_id}</strong></a>
+            <a href="${Route.search}?${replaceCommodityWithSearchTerm(queryParams, item.goods_nomenclature_item_id)}">Commodity code: <strong>${item.goods_nomenclature_item_id}</strong></a>
           </div>
-          <div class="search-results-description"${notTranslatedAttribute(language)}>
+          <div class="search-results-description">
             ${hierarchy(item.sub, item.description, searchTerm)}
           </div>
         `,
@@ -203,7 +192,7 @@ export const getResultsRows = async (
   }];
 };
 
-export const getBreadcrumbs = async (data: any, searchTerm: string, queryParams: string, sid: string, translation: any, subheadingParentId: string, language?: string) => {
+export const getBreadcrumbs = async (data: any, searchTerm: string, queryParams: string, sid: string, translation: any, subheadingParentId: string) => {
   const params = new URLSearchParams(queryParams);
   const depth = params.get('depth');
   const isHeading = params.get('isHeading') === 'true';
@@ -217,14 +206,14 @@ export const getBreadcrumbs = async (data: any, searchTerm: string, queryParams:
 
   let breadcrumbs: Breadcrumbs[] = [{
     sid: null,
-    text: translation.page.searchResults.search,
+    text: 'Search',
     href: `${isExportJourney ? Route.exportCommoditySearch : Route.importGoods}?${removeParam(queryParams, ['commodity', 'depth', 'isHeading', 'subheadingSuffix', 'isSubheading', 'searchParent'])}`,
   }];
 
   if ((sid && Number(sid) > 0) || (Number(sid) === 0 && !(isSubheading || isHeading))) {
     breadcrumbs.push({
       sid: null,
-      html: notTranslated(searchParent || searchTerm, String(language)),
+      text: searchParent || searchTerm,
       href: `${Route.search}?${searchParent ? removeParam(replaceCommodityWithSearchTerm(queryParams, searchParent), ['searchParent', 'depth']) : removeParam(queryParams, ['depth', 'subheadingSuffix'])}`,
     });
   }
@@ -252,7 +241,7 @@ export const getBreadcrumbs = async (data: any, searchTerm: string, queryParams:
 
         breadcrumbsTempArray.push({
           sid: Number(parent.attributes.parent_sid),
-          html: notTranslated(getParent(Number(parent.attributes.parent_sid)).attributes.formatted_description, String(language)),
+          text: getParent(Number(parent.attributes.parent_sid)).attributes.formatted_description,
           href: `${Route.search}/${encodeURIComponent(isSubheading ? subheadingParentId : getParent(Number(parent.attributes.parent_sid)).attributes.goods_nomenclature_item_id)}/${parent.attributes.parent_sid}?${setSearchDepth(queryParams, current.attributes.number_indents - i)}`,
         });
       }

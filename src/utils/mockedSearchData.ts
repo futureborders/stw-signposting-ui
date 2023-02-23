@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/* istanbul ignore file */
 
 export const mockedSearchDataChapter = {
   data: {
@@ -433,7 +431,7 @@ export const mockedSearchDataCheeseHtmlLevel1 = [
   [
     {
       html: '<div class="search-results-head">\n'
-        + '        <a href="/search?commodity=0406902110&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>0406902110</strong></a>\n'
+        + '        <a href="/search?commodity=0406902110&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>0406902110</strong></a>\n'
         + '       </div>\n'
         + '       <div class="search-results-description">Made from unpasteurized milk, of a minimum fat content of 50% by weight, in the dry matter, matured for at least nine months, of a free-at-frontier value per 100 kg net weight of 334,20 Euro or more in the case of standard whole sizes (cheeses of the conventional flat cylindrical shape of a net weight of not less than 33 kg but not more than 44 kg; cubic block shape or parallelepiped shape, of a net weight of 10 kg or more), 354,83 Euro or more in the case of cheeses of a net weight of 500 g or more and 368,58 Euro or more in the case of cheeses of a net weight of less than 500 g</div>\n'
         + '      ',
@@ -449,7 +447,7 @@ export const mockedSearchDataCheeseHtmlLevel2 = [
   [
     {
       html: '<div class="search-results-head">\n'
-        + '        <a href="/search?commodity=0406902120&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>0406902120</strong></a>\n'
+        + '        <a href="/search?commodity=0406902120&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>0406902120</strong></a>\n'
         + '       </div>\n'
         + '       <div class="search-results-description">Whole cheeses (of the conventional flat cylindrical shape of a net weight of not less than 33 kg but not more than 44 kg and cheeses in cubic blocks or in parallelepiped shape, of a net weight of 10 kg or more) of a minimum fat content of 50% by weight, in the dry matter, matured for at least three months</div>\n'
         + '      ',
@@ -510,7 +508,7 @@ export const mockedSearchDataFrogsHtml = [
       [
         {
           html: '<div class="search-results-head">\n'
-            + '          <a href="/search/7302000000/0?commodity=frogs&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&searchParent=frogs"><strong>Category: 7302</strong></a>\n'
+            + '          <a href="/search/7302000000/0?commodity=frogs&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&searchParent=frogs"><strong>Category: 7302</strong></a>\n'
             + '        </div>\n'
             + '        <div class="search-results-description">\n'
             + '          Railway or tramway track construction material of iron or steel, the following: rails, check-rails and rack rails, switch blades, crossing <mark>frogs</mark>, point rods and other crossing pieces, sleepers (cross-ties), fish-plates, chairs, chair wedges, sole plates (base plates), rail clips, bedplates, ties and other material specialised for jointing or fixing rails\n'
@@ -524,7 +522,7 @@ export const mockedSearchDataFrogsHtml = [
         {
           html: '\n'
             + '          <div class="search-results-head">\n'
-            + '            <a href="/search?commodity=7302300000&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>7302300000</strong></a>\n'
+            + '            <a href="/search?commodity=7302300000&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>7302300000</strong></a>\n'
             + '          </div>\n'
             + '          <div class="search-results-description">\n'
             + '            Railway or tramway track construction material of iron or steel, the following: rails, check-rails and rack rails, switch blades, crossing frogs, point rods and other crossing pieces, sleepers (cross-ties), fish-plates, chairs, chair wedges, sole plates (base plates), rail clips, bedplates, ties and other material specialised for jointing or fixing rails &mdash; <strong>Switch blades, crossing <mark>frogs</mark>, point rods and other crossing pieces</strong>\n'
@@ -536,7 +534,7 @@ export const mockedSearchDataFrogsHtml = [
         {
           html: '\n'
             + '          <div class="search-results-head">\n'
-            + '            <a href="/search?commodity=0208907000&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>0208907000</strong></a>\n'
+            + '            <a href="/search?commodity=0208907000&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>0208907000</strong></a>\n'
             + '          </div>\n'
             + '          <div class="search-results-description">\n'
             + "            Other meat and edible meat offal, fresh, chilled or frozen  &mdash; Other &mdash; <strong><mark>Frogs</mark>' legs</strong>\n"
@@ -573,7 +571,7 @@ export const mockedSearchDataRicottaHtml = [
         {
           html: '\n'
             + '          <div class="search-results-head">\n'
-            + '            <a href="/search?commodity=0406105090&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>0406105090</strong></a>\n'
+            + '            <a href="/search?commodity=0406105090&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>0406105090</strong></a>\n'
             + '          </div>\n'
             + '          <div class="search-results-description">\n'
             + '             &mdash; <strong>Other</strong>\n'
@@ -659,7 +657,7 @@ export const mockedSearchDataTinHtml = [
       [
         {
           html: '<div class="search-results-head">\n'
-            + '          <a href="/search/8001000000/0?commodity=tin&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&searchParent=tin"><strong>Category: 8001</strong></a>\n'
+            + '          <a href="/search/8001000000/0?commodity=tin&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&searchParent=tin"><strong>Category: 8001</strong></a>\n'
             + '        </div>\n'
             + '        <div class="search-results-description">\n'
             + '          Unwrought <mark>tin</mark>\n'
@@ -671,7 +669,7 @@ export const mockedSearchDataTinHtml = [
         {
           html: '\n'
             + '        <div class="search-results-head">\n'
-            + '          <a href="/search?commodity=8002000000&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>8002000000</strong></a>\n'
+            + '          <a href="/search?commodity=8002000000&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>8002000000</strong></a>\n'
             + '        </div>\n'
             + '        <div class="search-results-description">\n'
             + '          <mark>Tin</mark> waste and scrap\n'
@@ -682,7 +680,7 @@ export const mockedSearchDataTinHtml = [
         {
           html: '\n'
             + '        <div class="search-results-head">\n'
-            + '          <a href="/search?commodity=8003000000&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>8003000000</strong></a>\n'
+            + '          <a href="/search?commodity=8003000000&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>8003000000</strong></a>\n'
             + '        </div>\n'
             + '        <div class="search-results-description">\n'
             + '          <mark>Tin</mark> bars, rods, profiles and wire\n'
@@ -692,7 +690,7 @@ export const mockedSearchDataTinHtml = [
       [
         {
           html: '<div class="search-results-head">\n'
-            + '          <a href="/search/8007000000/0?commodity=tin&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&searchParent=tin"><strong>Category: 8007</strong></a>\n'
+            + '          <a href="/search/8007000000/0?commodity=tin&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&searchParent=tin"><strong>Category: 8007</strong></a>\n'
             + '        </div>\n'
             + '        <div class="search-results-description">\n'
             + '          Other articles of <mark>tin</mark>\n'
@@ -704,7 +702,7 @@ export const mockedSearchDataTinHtml = [
         {
           html: '\n'
             + '        <div class="search-results-head">\n'
-            + '          <a href="/search?commodity=2609000000&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>2609000000</strong></a>\n'
+            + '          <a href="/search?commodity=2609000000&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>2609000000</strong></a>\n'
             + '        </div>\n'
             + '        <div class="search-results-description">\n'
             + '          <mark>Tin</mark> ores and concentrates\n'
@@ -717,7 +715,7 @@ export const mockedSearchDataTinHtml = [
         {
           html: '\n'
             + '          <div class="search-results-head">\n'
-            + '            <a href="/search?commodity=2620994000&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>2620994000</strong></a>\n'
+            + '            <a href="/search?commodity=2620994000&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>2620994000</strong></a>\n'
             + '          </div>\n'
             + '          <div class="search-results-description">\n'
             + '            Slag, ash and residues (other than from the manufacture of iron or steel), containing metals, arsenic or their compounds  &mdash; Other  &mdash; Other &mdash; <strong>Containing mainly <mark>tin</mark></strong>\n'
@@ -831,7 +829,7 @@ export const mockedSearchData123Html = [
   [
     {
       html: '<div class="search-results-head">\n'
-        + '    <a href="/search?commodity=1203000000&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>1203000000</strong></a>\n'
+        + '    <a href="/search?commodity=1203000000&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>1203000000</strong></a>\n'
         + '  </div>\n'
         + '  <div class="search-results-description">Copra</div>\n'
         + '  ',
@@ -847,7 +845,7 @@ export const mockedSearchData123Html = [
         + '    <strong>Category: 1201</strong>\n'
         + '  </div>\n'
         + '  <div class="search-results-description">\n'
-        + '    <a href="/search/1201000000/0?commodity=1201&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&searchParent=123">Soya beans, whether or not broken</a>\n'
+        + '    <a href="/search/1201000000/0?commodity=1201&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&searchParent=123">Soya beans, whether or not broken</a>\n'
         + '  </div>',
       sid: 32110,
       level: undefined,
@@ -861,7 +859,7 @@ export const mockedSearchData123Html = [
         + '    <strong>Category: 1202</strong>\n'
         + '  </div>\n'
         + '  <div class="search-results-description">\n'
-        + '    <a href="/search/1202000000/0?commodity=1202&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&searchParent=123">Groundnuts, not roasted or otherwise cooked, whether or not shelled or broken</a>\n'
+        + '    <a href="/search/1202000000/0?commodity=1202&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&searchParent=123">Groundnuts, not roasted or otherwise cooked, whether or not shelled or broken</a>\n'
         + '  </div>',
       sid: 32113,
       level: undefined,
@@ -875,7 +873,7 @@ export const mockedSearchData123Html = [
         + '    <strong>Category: 1204</strong>\n'
         + '  </div>\n'
         + '  <div class="search-results-description">\n'
-        + '    <a href="/search/1204000000/0?commodity=1204&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&searchParent=123">Linseed, whether or not broken</a>\n'
+        + '    <a href="/search/1204000000/0?commodity=1204&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&searchParent=123">Linseed, whether or not broken</a>\n'
         + '  </div>',
       sid: 32119,
       level: undefined,
@@ -987,7 +985,7 @@ export const mockedSearchDataChaptersUnmatchedHtml = [
   [
     {
       html: '<div class="search-results-head">\n'
-        + '    <a href="/search?commodity=1203000000&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>1203000000</strong></a>\n'
+        + '    <a href="/search?commodity=1203000000&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>1203000000</strong></a>\n'
         + '  </div>\n'
         + '  <div class="search-results-description">Copra</div>\n'
         + '  ',
@@ -1003,7 +1001,7 @@ export const mockedSearchDataChaptersUnmatchedHtml = [
         + '    <strong>Category: 1202</strong>\n'
         + '  </div>\n'
         + '  <div class="search-results-description">\n'
-        + '    <a href="/search/1202000000/0?commodity=1202&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&searchParent=123">Groundnuts, not roasted or otherwise cooked, whether or not shelled or broken</a>\n'
+        + '    <a href="/search/1202000000/0?commodity=1202&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&searchParent=123">Groundnuts, not roasted or otherwise cooked, whether or not shelled or broken</a>\n'
         + '  </div>',
       sid: 32113,
       level: undefined,
@@ -1017,7 +1015,7 @@ export const mockedSearchDataChaptersUnmatchedHtml = [
         + '    <strong>Category: 1204</strong>\n'
         + '  </div>\n'
         + '  <div class="search-results-description">\n'
-        + '    <a href="/search/1204000000/0?commodity=1204&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&searchParent=123">Linseed, whether or not broken</a>\n'
+        + '    <a href="/search/1204000000/0?commodity=1204&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&searchParent=123">Linseed, whether or not broken</a>\n'
         + '  </div>',
       sid: 32119,
       level: undefined,
@@ -1352,7 +1350,7 @@ export const mockedSearchDataSubheadingHtmlLvl = [
   [
     {
       html: '<div class="search-results-head">\n'
-        + '        <a href="/search?commodity=4412420000&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&subheadingSuffix=10">Commodity code: <strong>4412420000</strong></a>\n'
+        + '        <a href="/search?commodity=4412420000&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&subheadingSuffix=10">Commodity code: <strong>4412420000</strong></a>\n'
         + '       </div>\n'
         + '       <div class="search-results-description">Other, with at least one outer ply of non-coniferous wood</div>\n'
         + '      ',
@@ -1365,7 +1363,7 @@ export const mockedSearchDataSubheadingHtmlLvl = [
   [
     {
       html: '<div class="search-results-head">\n'
-        + '        <a href="/search/4412410000/107457?commodity=lvl&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&subheadingSuffix=10&isSubheading=true&depth=2">With at least one outer ply of tropical wood</a>\n'
+        + '        <a href="/search/4412410000/107457?commodity=lvl&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&subheadingSuffix=10&isSubheading=true&depth=2">With at least one outer ply of tropical wood</a>\n'
         + '      </div>',
       type: 'heading',
       parent_sid: 107456,
@@ -1376,7 +1374,7 @@ export const mockedSearchDataSubheadingHtmlLvl = [
   [
     {
       html: '<div class="search-results-head">\n'
-        + '        <a href="/search/4412410000/107461?commodity=lvl&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&subheadingSuffix=10&isSubheading=true&depth=2">Other, with both outer plies of coniferous wood</a>\n'
+        + '        <a href="/search/4412410000/107461?commodity=lvl&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true&subheadingSuffix=10&isSubheading=true&depth=2">Other, with both outer plies of coniferous wood</a>\n'
         + '      </div>',
       type: 'heading',
       parent_sid: 107456,

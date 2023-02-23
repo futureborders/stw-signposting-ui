@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,6 +39,8 @@ const MockedStwTradeTariffApi = <jest.Mock<StwTradeTariffApi>>StwTradeTariffApi;
 const mockedStwTradeTariffApi = <jest.Mocked<StwTradeTariffApi>>(
    new MockedStwTradeTariffApi()
  );
+
+jest.mock('../../../middlewares/auth-middleware', () => jest.fn((req, res, next) => next()));
 
 const indexRoute = new IndexRoute(
   mockedTradeTariffApi,
@@ -196,7 +198,7 @@ describe(`[POST] ${Route.exportGoodsIntent}`, () => {
       .expect('Location', `${Route.exportGoodsIntent}?tradeType=export`);
   });
 
-  it(`It should respond with statusCode 302 and redirect to ${Route.checkYourAnswers} when isEdit`, async (done) => {
+  it(`It should respond with statusCode 302 and redirect to ${Route.exportCheckYourAnswers} when isEdit`, async (done) => {
     await request(app.getServer())
       .get(`${Route.exportGoodsIntent}`)
       .set('user-agent', 'node-superagent')
@@ -216,6 +218,6 @@ describe(`[POST] ${Route.exportGoodsIntent}`, () => {
       .set('Cookie', csrfResponse.cookies)
       .send(data)
       .expect(302, {})
-      .expect('Location', `${Route.checkYourAnswers}?tradeType=export&exportDeclarations=yes&originCountry=GB&destinationCountry=BR&checkWhatServicesYouNeedToRegister=true&exportGoodsIntent=goodsExportedToBeSoldForBusiness`);
+      .expect('Location', `${Route.exportCheckYourAnswers}?tradeType=export&exportDeclarations=yes&originCountry=GB&destinationCountry=BR&checkWhatServicesYouNeedToRegister=true&exportGoodsIntent=goodsExportedToBeSoldForBusiness`);
   });
 });

@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ const req: any = {
     commodity: '12345678910',
     originCountry: 'CN',
     goodsIntent: 'bringGoodsToSell',
-    userTypeTrader: 'yes',
+    userTypeTrader: 'true',
     tradeType: 'import',
     destinationCountry: 'GB',
     importDeclarations: 'yes',
@@ -52,11 +52,12 @@ const testParam = (
 describe('Testing handleMissingQueryParams', () => {
   Object.keys(req.query).forEach((key: any) => {
     testParam(`${Route.search}`, key, 'import');
-    testParam(`${Route.taskList}`, key, 'import');
+    testParam(`${Route.manageThisTrade}`, key, 'import');
     testParam(`${Route.additionalCode}`, key, 'import');
     testParam(`${Route.importAdditionalQuestions}`, key, 'import');
+
     testParam(`${Route.exportCheckLicencesAndRestrictions}`, key, 'export');
-    testParam(`${Route.taskList}`, key, 'export');
-    testParam(`${Route.checkYourAnswers}`, key, 'export');
+    testParam(`${Route.exportTaskList}`, key, 'export');
+    testParam(`${Route.exportCheckYourAnswers}`, key, 'export');
   });
 });

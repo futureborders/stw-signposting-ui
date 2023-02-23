@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,15 +48,6 @@ a[href^="http://"]:after,
 a[href^="https://"]:after {
   content: " (" attr(href) ")";
   font-size: 90%;
-}
-.print-hide-urls a[href]:after,
-a.print-hide-url[href]:after {
- display: none;
- visibility: hidden;
-}
-
-a[href]{
-  text-decoration: underline;
 }
 
 a[href^="javascript:"]:after,
@@ -117,12 +108,14 @@ body footer,
 #global-cookie-message,
 #skiplink-container,
 .printButton,
+.govuk-back-link,
+.govuk-phase-banner,
 .govuk-header__content,
 .app-related-items,
 .govuk-accordion__open-all,
 .govuk-accordion__section-button,
-.govuk-cookie-banner,
-.govuk-button {
+.truncated-block-toggle,
+.govuk-cookie-banner {
   display: none !important;
 }
 
@@ -165,6 +158,15 @@ p {
   break-inside: avoid
 }
 
+.truncated {
+  text-align: unset !important;
+}
+
 .govuk-main-wrapper {
   padding-bottom: 0px;
+}
+
+.js-enabled .truncated-block {
+  overflow: unset;
+  max-height: unset;
 }

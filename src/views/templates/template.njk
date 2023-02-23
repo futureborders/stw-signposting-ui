@@ -1,5 +1,5 @@
 {% from "../../../node_modules/govuk-frontend/govuk/components/skip-link/macro.njk" import govukSkipLink -%}
-{% from "../includes/macro-header.njk" import govukHeader -%}
+{% from "../../../node_modules/govuk-frontend/govuk/components/header/macro.njk" import govukHeader -%}
 {% from "../../../node_modules/govuk-frontend/govuk/components/footer/macro.njk" import govukFooter -%}
 
 {# specify absolute url for the static assets folder e.g. http://wwww.domain.com/assets #}
@@ -36,7 +36,7 @@
     {% block skipLink %}
       {{ govukSkipLink({
         href: '#main-content',
-        text: translation.common.accessibility.skipLink
+        text: 'Skip to main content'
       }) }}
     {% endblock %}
 
@@ -47,10 +47,11 @@
     {% block main %}
       <div class="govuk-width-container {{ containerClasses }}">
         {% block beforeContent %}{% endblock %}
-        <main id="main-content" class="govuk-main-wrapper {{ mainClasses }}" role="main"{% if mainLang %} lang="{{ mainLang }}"{% endif %}>
+        <main class="govuk-main-wrapper {{ mainClasses }}" role="main"{% if mainLang %} lang="{{ mainLang }}"{% endif %}>
+          {% include "../includes/phase-banner.html" %}
           {% block content %}{% endblock %}
           {% if title !== translation.common.header.serviceName %}
-            {% include "../includes/feedback-links.njk" %}
+            {% include "../includes/feedback-links.html" %}
           {%  endif %}
         </main>
       </div>

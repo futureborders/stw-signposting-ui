@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,59 +48,4 @@ window.GOVUKFrontend.initAll();
       }
     }
   }
-})();
-
-(function () {
-  // open closed details elements for printing
-  window.addEventListener('beforeprint',() =>
-  {
-      const getAllDetails = document.body.querySelectorAll('details');
-      const allDetails = Array.prototype.slice.call(getAllDetails);
-
-      for(let i=0; i<allDetails.length; i++)
-      {
-          if(allDetails[i].open)
-          {
-              allDetails[i].dataset.open = '1';
-          }
-          else
-          {
-              allDetails[i].setAttribute('open', '');
-          }
-      }
-  });
-  // after printing close details elements not opened before
-  window.addEventListener('afterprint',() =>
-  {
-      const getAllDetails = document.body.querySelectorAll('details');
-      const allDetails = Array.prototype.slice.call(getAllDetails);
-
-      for(let i=0; i<allDetails.length; i++)
-      {
-          if(allDetails[i].dataset.open)
-          {
-              allDetails[i].dataset.open = '';
-          }
-          else
-          {
-              allDetails[i].removeAttribute('open');
-          }
-      }
-  });
-
-  (function () {
-    // reloads page to refresh the task list status for external links
-    const refreshLink = document.getElementsByClassName('externalLinkRefresh');
-    for (var i = 0; i <   refreshLink.length; i++) {
-      if ( refreshLink[i]) {
-         refreshLink[i].onclick = function() {
-          if(this.parentNode.nextElementSibling.classList.contains('govuk-tag--grey')){
-            setTimeout(() => {
-              document.location.reload();
-            }, 1000);
-          }
-        }
-      }
-    }
-  })();
 })();

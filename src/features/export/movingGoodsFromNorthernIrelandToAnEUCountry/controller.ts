@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,16 +17,16 @@
 import { RequestHandler } from 'express';
 import { journey } from '../../../utils/previousNextRoutes';
 import { TaskStatus } from '../../../interfaces/enums.interface';
-import { Tasks } from '../../common/taskList/interface';
-import { calculateNewTaskStatuses } from '../../../utils/taskListStatus';
-import { setSessionStatus, getSessionStatus } from '../../../utils/sessionHelpers';
+import { ExportsTasks } from '../../../interfaces/exports.interface';
+import { calculateNewTaskStatuses } from '../../../utils/exportHelpers';
+import { setSessionExport, getSessionExport } from '../../../utils/sessionHelpers';
 
 class ExportMovingGoodsFromNorthernIrelandToAnEUCountryController {
   public movingGoodsFromNorthernIrelandToAnEUCountry: RequestHandler = (req, res, next) => {
     try {
-      setSessionStatus(req, calculateNewTaskStatuses(getSessionStatus(req), Tasks.checkServicestoRegister, TaskStatus.VIEWED));
+      setSessionExport(req, calculateNewTaskStatuses(getSessionExport(req), ExportsTasks.checkServicestoRegister, TaskStatus.VIEWED));
 
-      const previousPage = `${journey.export.movingGoodsFromNorthernIrelandToAnEUCountry.previousPage()}?${res.locals.queryParams}`;
+      const previousPage = journey.export.movingGoodsFromNorthernIrelandToAnEUCountry.previousPage();
 
       res.render('export/movingGoodsFromNorthernIrelandToAnEUCountry/view.njk', {
         previousPage,

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2022 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,128 +16,64 @@
 
 /* eslint-disable no-nested-ternary */
 import { Route } from '../interfaces/routes.interface';
-import { TypeOfTrade, ImportUserTypeTrader } from '../interfaces/enums.interface';
+import { ExportUserTypeTrader } from '../interfaces/enums.interface';
 
 export const journey = {
-  common: {
-    typeOfTrade: {
-      nextPage: (isEdit: boolean, typeOfTrade: TypeOfTrade, hasChanged: boolean): Route => (isEdit && !hasChanged ? Route.checkYourAnswers : (typeOfTrade === TypeOfTrade.import ? Route.goodsIntent : Route.exportGoodsIntent)),
-      previousPage: (isEdit: boolean, startPageEnabled: boolean, startPageUrl: string, queryParams: string): Route => (isEdit ? `${Route.checkYourAnswers}?${queryParams}` as Route : startPageEnabled ? Route.index : process.env.STARTPAGE_URL as Route),
-    },
-    checkYourAnswers: {
-      previousPage: (isExport: boolean): Route => (isExport ? Route.exportCommoditySearch : Route.importGoods),
-      nextPage: (): Route => Route.taskList,
-    },
-    northernIrelandAndEUTrading: {
-      previousPage: (): Route => Route.destinationCountry,
-    },
-    taskList: {
-      previousPage: (): Route => Route.checkYourAnswers,
-    },
-    additionalCode: {
-      previousPage: (isEdit: boolean, isExport: boolean): Route => (isEdit ? Route.checkYourAnswers : isExport ? Route.exportCommoditySearch : Route.importGoods),
-      nextPage: (): Route => Route.checkYourAnswers,
-    },
-  },
-  import: {
-    goodsIntent: {
-      previousPage: (isEdit: boolean): Route => (isEdit ? Route.checkYourAnswers : Route.typeOfTrade),
-      nextPage: (): Route => Route.importDate,
-    },
-    identifyUserType: {
-      previousPage: (isEdit: boolean): Route => (isEdit ? Route.checkYourAnswers : Route.destinationCountry),
-      nextPage: (userTypeTrader: string): Route => (userTypeTrader === ImportUserTypeTrader.no ? Route.importGoods : Route.importDeclarations),
-    },
-    importDeclarations: {
-      previousPage: (isEdit: boolean): Route => (isEdit ? Route.checkYourAnswers : Route.identifyUserType),
-      nextPage: (): Route => Route.importGoods,
-    },
-    importCountryOrigin: {
-      previousPage: (isEdit: boolean): Route => (isEdit ? Route.checkYourAnswers : Route.importDate),
-      nextPage: (): Route => Route.destinationCountry,
-    },
-    destinationCountry: {
-      previousPage: (isEdit: boolean): Route => (isEdit ? Route.checkYourAnswers : Route.importCountryOrigin),
-      nextPage: (): Route => Route.identifyUserType,
-    },
-    importDate: {
-      previousPage: (isEdit: boolean): Route => (isEdit ? Route.checkYourAnswers : Route.goodsIntent),
-      nextPage: (): Route => Route.importCountryOrigin,
-    },
-    importGoods: {
-      previousPage: (isEdit: boolean, userTypeTrader: string): Route => (isEdit ? Route.checkYourAnswers : (userTypeTrader === ImportUserTypeTrader.no ? Route.identifyUserType : Route.importDeclarations)),
-    },
-    importCheckDeclarations: {
-      previousPage: (): Route => Route.taskList,
-    },
-    importCheckLicencesAndRestrictions: {
-      previousPage: (): Route => Route.taskList,
-    },
-    importCheckInformationAndDocuments: {
-      previousPage: (): Route => Route.taskList,
-    },
-    importProhibitionsAndRestrictions: {
-      previousPage: (): Route => Route.importGoods,
-    },
-    importRegisterToBringGoods: {
-      previousPage: (): Route => Route.taskList,
-    },
-    importAdditionalQuestions: {
-      previousPage: (): Route => Route.taskList,
-    },
-    importCalculateCustomsDutyImportVat: {
-      previousPage: (): Route => Route.taskList,
-    },
-  },
   export: {
     exportGoodsArrivalDate: {
-      previousPage: (isEdit: boolean): Route => (isEdit ? Route.checkYourAnswers : Route.exportGoodsIntent),
-      nextPage: (): Route => Route.exportOriginCountry,
+      previousPage: (original: string): Route => (original !== 'undefined' ? Route.exportCheckYourAnswers : Route.exportGoodsIntent),
+      nextPage: (): Route => Route.exportUserTypeTrader,
     },
     exportDeclarations: {
-      previousPage: (isEdit: boolean): Route => (isEdit ? Route.checkYourAnswers : Route.exportUserTypeTrader),
-      nextPage: (isAgent: boolean): Route => (isAgent ? Route.exportCommoditySearch : Route.exportResponsibleForDeclaringGoods),
+      previousPage: (isEdit: boolean, isExportUserTypeTraderbackPath: boolean): Route => (isExportUserTypeTraderbackPath ? Route.exportUserTypeTrader : (isEdit ? Route.exportCheckYourAnswers : Route.exportUserTypeTrader)),
+      nextPage: (): Route => Route.exportOriginCountry,
     },
     exportOriginCountry: {
-      previousPage: (isEdit: boolean): Route => (isEdit ? Route.checkYourAnswers : Route.exportGoodsArrivalDate),
+      previousPage: (isEdit: boolean, userTypeTrader: ExportUserTypeTrader): Route => (isEdit ? Route.exportCheckYourAnswers : (userTypeTrader === ExportUserTypeTrader.actingOnBehalfOfSeller ? Route.exportUserTypeTrader : Route.exportDeclarations)),
       nextPage: (): Route => Route.exportCountryDestination,
     },
     exportCountryDestination: {
-      previousPage: (isEdit: boolean): Route => (isEdit ? Route.checkYourAnswers : Route.exportOriginCountry),
-      nextPage: (): Route => Route.exportUserTypeTrader,
+      previousPage: (isEdit: boolean): Route => (isEdit ? Route.exportCheckYourAnswers : Route.exportOriginCountry),
+      nextPage: (): Route => Route.exportCommoditySearch,
     },
     exportCommoditySearch: {
-      previousPage: (isEdit: boolean, isAgent: boolean): Route => (isEdit ? Route.checkYourAnswers : (isAgent ? Route.exportDeclarations : Route.exportResponsibleForDeclaringGoods)),
+      previousPage: (original: string): Route => (original ? Route.exportCheckYourAnswers : Route.exportCountryDestination),
+    },
+    exportTaskList: {
+      previousPage: (): Route => Route.exportCheckYourAnswers,
     },
     exportCheckLicencesAndRestrictions: {
-      previousPage: (): Route => Route.taskList,
+      previousPage: (): Route => Route.exportTaskList,
+    },
+    checkYourAnswers: {
+      previousPage: (): Route => Route.exportCommoditySearch,
+      nextPage: (): Route => Route.exportTaskList,
     },
     checkWhatServicesYouNeedToRegister: {
-      previousPage: (): Route => Route.taskList,
+      previousPage: (): Route => Route.exportTaskList,
     },
     movingGoodsFromNorthernIrelandToAnEUCountry: {
       previousPage: (): Route => Route.exportCountryDestination,
     },
+    exportAdditionalCode: {
+      previousPage: (isEdit: boolean): Route => (isEdit ? Route.exportCheckYourAnswers : Route.exportCommoditySearch),
+      nextPage: (): Route => Route.exportCheckYourAnswers,
+    },
     exportUserTypeTrader: {
-      previousPage: (isEdit: boolean): Route => (isEdit ? Route.checkYourAnswers : Route.exportCountryDestination),
-      nextPage: (): Route => Route.exportDeclarations,
+      previousPage: (isEdit: boolean): Route => (isEdit ? Route.exportCheckYourAnswers : Route.exportGoodsArrivalDate),
     },
     exportGoodsIntent: {
-      previousPage: (isEdit: boolean): Route => (isEdit ? Route.checkYourAnswers : Route.typeOfTrade),
+      previousPage: (isEdit: boolean): Route => (isEdit ? Route.exportCheckYourAnswers : Route.typeOfTrade),
       nextPage: (): Route => Route.exportGoodsArrivalDate,
     },
     exportProhibitionsAndRestrictions: {
-      previousPage: (): Route => Route.checkYourAnswers,
+      previousPage: (): Route => Route.exportCheckYourAnswers,
     },
     checkInformationAndDocuments: {
-      previousPage: (): Route => Route.taskList,
+      previousPage: (): Route => Route.exportTaskList,
     },
     exportCheckDeclarations: {
-      previousPage: (): Route => Route.taskList,
-    },
-    exportResponsibleForDeclaringGoods: {
-      previousPage: (isEdit: boolean): Route => (isEdit ? Route.checkYourAnswers : Route.exportDeclarations),
-      nextPage: (): Route => Route.exportCommoditySearch,
+      previousPage: (): Route => Route.exportTaskList,
     },
   },
 };

@@ -1,6 +1,6 @@
-{% extends "layout.njk" %}
+{% extends "layout.html" %}
 
-{% set title = translation.common.measures.subsidary['register-to-bring-goods-across-the-border'] %}
+{% set title = translation.page.manageThisTrade.subsidary['register-to-bring-goods-across-the-border'] %}
 
 {% block pageTitle %}
 {{title}} - {{serviceName}} - {{titleSuffix}}
@@ -8,38 +8,48 @@
 
 {% block content %}
 
-{% set tradeDetails %}
-  {% include "../../common/tradeDetails/trade-details-import.partial.njk" %}
+{% set commoditySummaryDetails %}
+  {% include "../../../views/includes/commodity-summary.html" %}
 {% endset %}
 
-<div class="govuk-grid-row">
+{{ govukBackLink({
+  text: translation.common.buttons.back,
+  href:  "/manage-this-trade?" + queryParams,
+  classes: "govuk-!-margin-bottom-9",
+  attributes: {
+    id: "back-link",
+    rel: "noreferrer noopener"
+  }
+}) }}
+
+<div class="govuk-grid-row" id="main-content">
   <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-xl">{{ translation.page.manageThisTrade.beforeBuying }}</span>
     <h1 class="govuk-heading-xl">
-      <span class="govuk-caption-xl">{{ translation.page.taskList.beforeTheGoodsAreSoldHeading }}</span>
       {{ title }}
     </h1>
 
     {{ govukDetails({
-       summaryText: translation.common.tradeDetails.summaryLinkText[tradeType] | capitalize,
-       html: tradeDetails
-     }) }}
+      summaryText: translation.page.manageThisTrade.commoditySummaryDetailsLink,
+      html: commoditySummaryDetails
+    }) }}
 
   </div>
 </div>
 <div class="govuk-grid-row govuk-main-wrapper">
   <div class="govuk-grid-column-two-thirds">
 
-    {{ translation.common.measures.registerToBringGoodsAcrossTheBorder[userType] | renderMarkdown(translation) | safe }}
-
-    {{ govukButton({
-      text: translation.common.buttons.backToResults,
-      href: previousPage,
-      classes: "govuk-!-margin-top-6"
-    }) }}
-
-    {% include "../../../views/includes/print-button.njk" %}
+    {{ translation.page.manageThisTrade.registerToBringGoodsAcrossTheBorder[userType] | renderMarkdown | safe }}
+    
+    <a href="#" role="button" class="govuk-link gem-c-print-link__link govuk-link--no-visited-state govuk-!-margin-top-4 hideNoJs printButton" data-module="govuk-button" id="printButton">
+      {{ translation.page.manageThisTrade.print }}
+    </a>
 
   </div>
 </div>
 
+{% endblock %}
+
+{% block pageScripts %}
+  {% include "../../../views/includes/truncate-scripts.html" %}
 {% endblock %}

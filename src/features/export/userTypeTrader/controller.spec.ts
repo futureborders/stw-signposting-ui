@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
  */
 
 import * as request from 'supertest';
-import e from 'express';
 import App from '../../../app';
 import 'dotenv/config';
 
@@ -26,12 +25,10 @@ import StwTradeTariffApi from '../../../services/StwTradeTariffApi.service';
 import TradeTariffApi from '../../../services/TradeTariffApi.service';
 import { Route } from '../../../interfaces/routes.interface';
 import IndexRoute from '../../../routes/index.route';
-import { Params } from '../../../interfaces/params.interface';
+import { ExportsParams } from '../../../interfaces/exports.interface';
 import { ExportUserTypeTrader, ExportGoodsIntent } from '../../../interfaces/enums.interface';
-import { getParams } from '../../../utils/queryHelper';
+import { getParams, updateQueryParams } from '../../../utils/queryHelper';
 import getTodaysDate from '../../../utils/tests/getTodaysDate';
-import translation from '../../../translation/en';
-import ExportUserTypeTraderController from './controller';
 
 jest.mock('../../../services/TradeTariffApi.service');
 jest.mock('../../../services/StwTradeTariffApi.service');
@@ -46,6 +43,8 @@ const mockedStwTradeTariffApi = <jest.Mocked<StwTradeTariffApi>>(
   new MockedStwTradeTariffApi()
 );
 
+jest.mock('../../../middlewares/auth-middleware', () => jest.fn((req, res, next) => next()));
+
 const indexRoute = new IndexRoute(
   mockedTradeTariffApi,
   mockedStwTradeTariffApi,
@@ -54,7 +53,7 @@ const app = new App([indexRoute]);
 
 let csrfResponse: CsrfToken;
 
-let params:Params = {};
+let params:ExportsParams = {};
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -81,50 +80,6 @@ describe(`[GET] ${Route.exportUserTypeTrader}`, () => {
     .get(`${Route.exportUserTypeTrader}`)
     .set('user-agent', 'node-superagent')
     .expect(200));
-
-  it('It should respond with statusCode 200 and show correct error', () => request(app.getServer())
-    .get(`${Route.exportUserTypeTrader}${getParams(params)}&error=someError`)
-    .set('user-agent', 'node-superagent')
-    .expect(200)
-    .then((res) => {
-      expect(res.text).toEqual(expect.stringContaining('Error: What are you responsible for?'));
-    }));
-
-  it('It should throw an error and call next', async () => {
-    const createMockRequest = () => (
-        {
-          query: {},
-          body: {
-            isEdit: 'true',
-          },
-          route: {
-            path: Route.exportUserTypeTrader,
-          },
-          csrfToken: () => 'csrftoken',
-        } as unknown as e.Request
-    );
-
-    const creatMockResponse = () => (
-        {
-          render: jest.fn(),
-          locals: {
-            language: 'en',
-            queryParams: getParams(params).substring(1),
-            translation: {
-              ...translation,
-            },
-          },
-        } as unknown as e.Response
-    );
-    const mockRequest = createMockRequest();
-    const mockResponse = creatMockResponse();
-    const mockNext = jest.fn();
-    const mockError = Error();
-    mockResponse.render = () => { throw mockError; };
-    const controller = new ExportUserTypeTraderController();
-    await controller.exportUserTypeTrader(mockRequest, mockResponse, mockNext);
-    expect(mockNext).toHaveBeenCalledWith(mockError);
-  });
 });
 
 describe(`[POST] ${Route.exportUserTypeTrader}`, () => {
@@ -156,7 +111,7 @@ describe(`[POST] ${Route.exportUserTypeTrader}`, () => {
       );
   });
 
-  it(`It should respond with statusCode 302 and redirect to ${Route.checkYourAnswers} when isEdit`, async (done) => {
+  it(`It should respond with statusCode 302 and redirect to ${Route.exportCheckYourAnswers} when isEdit and exportUserTypeTrader is not actingOnBehalfOfSeller and exportDeclarations has a value`, async (done) => {
     await request(app.getServer())
       .get(`${Route.exportUserTypeTrader}${getParams(params)}`)
       .set('user-agent', 'node-superagent')
@@ -180,7 +135,96 @@ describe(`[POST] ${Route.exportUserTypeTrader}`, () => {
       .expect(302, {})
       .expect(
         'Location',
-        `${Route.checkYourAnswers}${getParams(params)}`,
+        `${Route.exportCheckYourAnswers}${getParams(params)}`,
+      );
+  });
+
+  it(`It should respond with statusCode 302 and redirect to ${Route.exportDeclarations} when isEdit and exportUserTypeTrader is not actingOnBehalfOfSeller and exportDeclarations has no value`, async (done) => {
+    params.exportDeclarations = '';
+
+    await request(app.getServer())
+      .get(`${Route.exportUserTypeTrader}${getParams(params)}`)
+      .set('user-agent', 'node-superagent')
+      .then((res) => {
+        csrfResponse = getCsrfToken(res);
+        done();
+      });
+    const data = {
+      exportUserTypeTrader: ExportUserTypeTrader.neitherApply,
+      isEdit: true,
+      _csrf: csrfResponse.token,
+    };
+
+    await request(app.getServer())
+      .post(
+        `${Route.exportUserTypeTrader}${getParams(params)}`,
+      )
+      .set('user-agent', 'node-superagent')
+      .set('Cookie', csrfResponse.cookies)
+      .send(data)
+      .expect(302, {})
+      .expect(
+        'Location',
+        `${Route.exportDeclarations}${getParams(params)}&isEdit=true`,
+      );
+  });
+
+  it(`It should respond with statusCode 302 and redirect to ${Route.exportCheckYourAnswers} when isEdit and exportUserTypeTrader is actingOnBehalfOfSeller`, async (done) => {
+    params.exportUserTypeTrader = ExportUserTypeTrader.actingOnBehalfOfSeller;
+
+    await request(app.getServer())
+      .get(`${Route.exportUserTypeTrader}${getParams(params)}`)
+      .set('user-agent', 'node-superagent')
+      .then((res) => {
+        csrfResponse = getCsrfToken(res);
+        done();
+      });
+    const data = {
+      exportUserTypeTrader: ExportUserTypeTrader.actingOnBehalfOfSeller,
+      isEdit: true,
+      _csrf: csrfResponse.token,
+    };
+
+    await request(app.getServer())
+      .post(
+        `${Route.exportUserTypeTrader}${getParams(params)}`,
+      )
+      .set('user-agent', 'node-superagent')
+      .set('Cookie', csrfResponse.cookies)
+      .send(data)
+      .expect(302, {})
+      .expect(
+        'Location',
+        `${Route.exportCheckYourAnswers}?${updateQueryParams(getParams(params), { exportDeclarations: '' })}`,
+      );
+  });
+
+  it(`It should respond with statusCode 302 and redirect to ${Route.exportOriginCountry} when isEdit=false and exportUserTypeTrader is actingOnBehalfOfSeller`, async (done) => {
+    params.exportUserTypeTrader = ExportUserTypeTrader.actingOnBehalfOfSeller;
+
+    await request(app.getServer())
+      .get(`${Route.exportUserTypeTrader}${getParams(params)}&isEdit=false`)
+      .set('user-agent', 'node-superagent')
+      .then((res) => {
+        csrfResponse = getCsrfToken(res);
+        done();
+      });
+    const data = {
+      exportUserTypeTrader: ExportUserTypeTrader.actingOnBehalfOfSeller,
+      _csrf: csrfResponse.token,
+    };
+
+    await request(app.getServer())
+      .post(
+        `${Route.exportUserTypeTrader}${getParams(params)}`,
+      )
+      .set('user-agent', 'node-superagent')
+      .set('Cookie', csrfResponse.cookies)
+      .send(data)
+      .expect(302, {})
+      .expect(
+        'Location',
+        `${Route.exportOriginCountry}?${updateQueryParams(getParams(params), { exportDeclarations: '' })}`,
       );
   });
 
@@ -209,44 +253,5 @@ describe(`[POST] ${Route.exportUserTypeTrader}`, () => {
         'Location',
         `${Route.exportDeclarations}${getParams(params)}`,
       );
-  });
-
-  it('It should throw an error and call next', async () => {
-    const createMockRequest = () => (
-      {
-        query: {},
-        body: {
-          isEdit: 'true',
-        },
-        route: {
-          path: Route.exportUserTypeTrader,
-        },
-        cookies: {
-          stw_signposting: 'some value',
-        },
-        csrfToken: () => 'csrftoken',
-      } as unknown as e.Request
-    );
-
-    const creatMockResponse = () => (
-      {
-        redirect: jest.fn(),
-        locals: {
-          language: 'en',
-          queryParams: getParams(params).substring(1),
-          translation: {
-            ...translation,
-          },
-        },
-      } as unknown as e.Response
-    );
-    const mockRequest = createMockRequest();
-    const mockResponse = creatMockResponse();
-    const mockNext = jest.fn();
-    const mockError = Error();
-    mockResponse.redirect = () => { throw mockError; };
-    const controller = new ExportUserTypeTraderController();
-    await controller.exportUserTypeTraderSubmit(mockRequest, mockResponse, mockNext);
-    expect(mockNext).toHaveBeenCalledWith(mockError);
   });
 });

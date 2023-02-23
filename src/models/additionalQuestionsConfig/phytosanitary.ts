@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -142,6 +142,87 @@ export const phytosanitary = {
       return null;
     }
 
+    const resultY257 = [DocumentCode.N851, DocumentCode.Y257].every((code: string) => conditions.some((condition: any) => condition.documentCode === code || condition.certificateCode === code));
+    if (resultY257) {
+      return {
+        type: 'measure_type',
+        questionType: 'boolean',
+        questionId: MeasureType.PHYTOSANITARY,
+        question: translation.page.additionalQuestions[MeasureType.PHYTOSANITARY].Y257.question,
+        errorMessageId: 'Y257',
+        options: [
+          {
+            label: labelYes,
+            value: valueYes,
+            result: [DocumentCode.N851],
+          },
+          {
+            label: labelNo,
+            value: valueNo,
+            result: [DocumentCode.Y257],
+          },
+          {
+            label: labelNotSure,
+            value: valueNotSure,
+            result: [DocumentCode.N851, DocumentCode.Y257, DocumentCode['999L']],
+          },
+        ],
+      };
+    }
+    const resultY258 = [DocumentCode.N851, DocumentCode.Y258].every((code: string) => conditions.some((condition: any) => condition.documentCode === code || condition.certificateCode === code));
+    if (resultY258) {
+      return {
+        type: 'measure_type',
+        questionType: 'boolean',
+        questionId: MeasureType.PHYTOSANITARY,
+        question: translation.page.additionalQuestions[MeasureType.PHYTOSANITARY].Y258.question,
+        errorMessageId: 'Y258',
+        options: [
+          {
+            label: labelYes,
+            value: valueYes,
+            result: [DocumentCode.N851],
+          },
+          {
+            label: labelNo,
+            value: valueNo,
+            result: [DocumentCode.Y258],
+          },
+          {
+            label: labelNotSure,
+            value: valueNotSure,
+            result: [DocumentCode.N851, DocumentCode.Y258, DocumentCode['999L']],
+          },
+        ],
+      };
+    }
+    const resultY259 = [DocumentCode.N851, DocumentCode.Y259].every((code: string) => conditions.some((condition: any) => condition.documentCode === code || condition.certificateCode === code));
+    if (resultY259) {
+      return {
+        type: 'measure_type',
+        questionType: 'boolean',
+        questionId: MeasureType.PHYTOSANITARY,
+        question: translation.page.additionalQuestions[MeasureType.PHYTOSANITARY].Y259.question,
+        errorMessageId: 'Y259',
+        options: [
+          {
+            label: labelYes,
+            value: valueYes,
+            result: [DocumentCode.N851],
+          },
+          {
+            label: labelNo,
+            value: valueNo,
+            result: [DocumentCode.Y259],
+          },
+          {
+            label: labelNotSure,
+            value: valueNotSure,
+            result: [DocumentCode.N851, DocumentCode.Y259, DocumentCode['999L']],
+          },
+        ],
+      };
+    }
     const resultY067 = [DocumentCode.N851, DocumentCode.Y067].every((code: string) => conditions.some((condition: any) => condition.documentCode === code || condition.certificateCode === code));
     if (resultY067) {
       return {

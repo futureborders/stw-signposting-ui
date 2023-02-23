@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 import { RequestHandler, Request, Response } from 'express';
 import StwTradeTariffApi from '../../../services/StwTradeTariffApi.service';
-import { OriginCountry, DestinationCountry } from '../../../interfaces/enums.interface';
+import { OriginCountry, DestinationCountry, ExportUserTypeTrader } from '../../../interfaces/enums.interface';
 import { ImportDate } from '../../../interfaces/importDate.interface';
 import { Route } from '../../../interfaces/routes.interface';
 import {
@@ -51,16 +51,13 @@ class ExportOriginCountryController {
 
     try {
       const {
-        originCountry, tradeDetails,
+        originCountry, exportUserTypeTrader, tradeDetails,
       } = req.query;
-      const { translation } = res.locals;
       const isEdit = req.query.isEdit === 'true';
       const original = originCountry;
-      const previousPage = `${journey.export.exportOriginCountry.previousPage(isEdit)}?${res.locals.queryParams}`;
-      const jsBackButton = !!tradeDetails;
+      const previousPage = journey.export.exportOriginCountry.previousPage(isEdit, exportUserTypeTrader as ExportUserTypeTrader);
 
       res.render('export/originCountry/view.njk', {
-        jsBackButton,
         previousPage,
         isEdit,
         original,
@@ -68,7 +65,7 @@ class ExportOriginCountryController {
         originCountry,
         Route,
         tradeDetails,
-        errors: showErrorMessage ? { text: showErrorMessage, visuallyHiddenText: translation.common.errors.error } : null,
+        errors: showErrorMessage ? { text: showErrorMessage } : null,
         csrfToken: req.csrfToken(),
       });
     } catch (e) {
@@ -92,7 +89,7 @@ class ExportOriginCountryController {
       } else if (isEdit && originCountryHasChanged) {
         this.checkAdditionalCodes(req, res, updatedQueryParams);
       } else if (isEdit && !originCountryHasChanged) {
-        redirectRoute(Route.checkYourAnswers, updatedQueryParams, res);
+        redirectRoute(Route.exportCheckYourAnswers, updatedQueryParams, res);
       } else {
         redirectRoute(journey.export.exportOriginCountry.nextPage(), updatedQueryParams, res);
       }
@@ -116,9 +113,9 @@ class ExportOriginCountryController {
     );
 
     if (hasAddionalCode && Object.values(hasAddionalCode.data.data).length) {
-      redirectRoute(Route.additionalCode, updatedQueryParams, res);
+      redirectRoute(Route.exportAdditionalCode, updatedQueryParams, res);
     } else {
-      redirectRoute(Route.checkYourAnswers, removeParam(updatedQueryParams, ['additionalCode']), res);
+      redirectRoute(Route.exportCheckYourAnswers, removeParam(updatedQueryParams, ['additionalCode']), res);
     }
   }
 }

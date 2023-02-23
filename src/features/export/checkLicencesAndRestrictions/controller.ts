@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,22 +21,23 @@ import { ImportDate } from '../../../interfaces/importDate.interface';
 import { AdditionalCodeEntity } from '../../../interfaces/additionalCode.interface';
 
 import {
-  DestinationCountry, TaskStatus, TypeOfTrade, UserType, ImportUserTypeTrader,
+  DestinationCountry, TaskStatus, TypeOfTrade, UserType,
 } from '../../../interfaces/enums.interface';
 
-import { getUserType, getMeasuresAsHtml, has999l } from '../../../models/measures.models';
+import { getUserType, getMeasuresAsHtml, has999l } from '../../../models/manageThisTrade.models';
 
 import { redirectRoute } from '../../../utils/redirectRoute';
 
 import { journey } from '../../../utils/previousNextRoutes';
-import { getSessionStatus, setSessionStatus } from '../../../utils/sessionHelpers';
-import { calculateNewTaskStatuses } from '../../../utils/taskListStatus';
-import { Tasks } from '../../common/taskList/interface';
+import { getSessionExport, setSessionExport } from '../../../utils/sessionHelpers';
+import { calculateNewTaskStatuses } from '../../../utils/exportHelpers';
+import { ExportsTasks } from '../../../interfaces/exports.interface';
 import { handleMissingQueryParams } from '../../../utils/handleMissingQueryParams';
 import { getImportDateFromQuery } from '../../../utils/queryHelper';
 import { isInvalidAdditionalCode } from '../../../utils/validateAdditionalCode';
 import { handleExceptions } from '../../../exceptions/handleExceptions';
-import { hierarchy } from '../../common/checkYourAnswers/model';
+import { getCountryNameByCode } from '../../../utils/filters/getCountryNameByCode';
+import { hierarchy } from '../checkYourAnswers/model';
 import { findCode } from '../../../utils/findCode';
 
 class ExportCheckLicencesAndRestrictionsController {
@@ -47,16 +48,21 @@ class ExportCheckLicencesAndRestrictionsController {
   }
 
   public exportCheckLicencesAndRestrictions: RequestHandler = async (req, res, next) => {
-    const { translation, queryParams } = res.locals;
-    const tradeType = String(req.query.tradeType);
-    const destinationCountry = String(req.query.destinationCountry);
-    const originCountry = String(req.query.originCountry);
-    const additionalCode = String(req.query.additionalCode);
-    const commodity = String(req.query.commodity);
-    const exportDeclarations = String(req.query.exportDeclarations);
+    const { translation } = res.locals;
+    const { queryParams } = res.locals;
+    const {
+      commodity,
+      tradeType,
+      destinationCountry,
+      originCountry,
+      additionalCode,
+    } = req.query;
+
+    const exportDeclarations = `${req.query.exportDeclarations}`;
+    const commodityCode = `${commodity}`;
     const tradeDate = getImportDateFromQuery(req);
-    const previousPage = `${journey.export.exportCheckLicencesAndRestrictions.previousPage()}?${queryParams}`;
-    const userType = getUserType(ImportUserTypeTrader.yes, exportDeclarations); // hardcoded userTypeTrader to true for exports
+    const previousPage = journey.export.exportCheckLicencesAndRestrictions.previousPage();
+    const userType = getUserType('true', exportDeclarations); // hardcoded userTypeTrader to true for exports
 
     try {
       if (handleMissingQueryParams(req)) {
@@ -64,18 +70,18 @@ class ExportCheckLicencesAndRestrictionsController {
         return null;
       }
 
-      setSessionStatus(req, calculateNewTaskStatuses(getSessionStatus(req), Tasks.checkLicensesAndCertificates, TaskStatus.VIEWED));
+      setSessionExport(req, calculateNewTaskStatuses(getSessionExport(req), ExportsTasks.checkLicensesAndCertificates, TaskStatus.VIEWED));
 
       const [restrictiveMeasuresResponse, additionalCodeResponse] = await Promise.all([
         this.stwTradeTariffApi.getRestrictiveMeasures(
-          `${commodity}`,
+          `${commodityCode}`,
           `${tradeType}`,
           `${originCountry}`,
           destinationCountry as DestinationCountry,
           tradeDate as ImportDate,
         ),
         this.stwTradeTariffApi.getAdditionalCode(
-          `${commodity}`,
+          `${commodityCode}`,
           `${tradeType}`,
           `${originCountry}`,
           destinationCountry as DestinationCountry,
@@ -93,13 +99,14 @@ class ExportCheckLicencesAndRestrictionsController {
 
       const complexMeasuresAsHtml = getMeasuresAsHtml(restrictiveMeasuresData, translation, userType, req, tradeType as TypeOfTrade);
 
-      const commodityClassification = hierarchy(findCode(commodity));
+      const destinationCountryName = getCountryNameByCode(`${destinationCountry}`, res.locals.language);
 
-      const cdsContent = `#### ${translation.common.measures['999L'].header}\n\n${translation.common.measures['999L'].body}`;
-      const showCdsContent = has999l(restrictiveMeasuresData.measures) ? cdsContent : '';
+      const commodityClassification = hierarchy(findCode(commodityCode));
+
+      const showCdsContent = has999l(restrictiveMeasuresData.measures) ? translation.page.exportCheckLicencesAndRestrictions.rulesThatApplyToYourGoods.cdsContent : '';
 
       if (invalidAdditionalCode) {
-        redirectRoute(Route.additionalCode, queryParams, res, req, translation.common.additionalCode.error);
+        redirectRoute(Route.exportAdditionalCode, queryParams, res, req, translation.page.exportAdditionalCode.error);
       } else {
         res.render('export/checkLicencesAndRestrictions/view.njk', {
           complexMeasuresAsHtml,
@@ -107,12 +114,11 @@ class ExportCheckLicencesAndRestrictionsController {
           userType,
           UserType,
           tradeDate,
-          commodity,
+          commodityCode,
           additionalCode,
-          destinationCountry,
+          destinationCountryName,
           originCountry,
           commodityClassification,
-          tradeType,
           Route,
           showCdsContent,
           csrfToken: req.csrfToken(),

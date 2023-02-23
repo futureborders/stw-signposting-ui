@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,12 +20,9 @@ import {
   TariffAndTaxesData, TariffAndTaxesRows, TariffAndTaxesHeaders,
 } from './interface';
 
-import { notTranslatedOject } from '../../../utils/filters/notTranslated';
-
 export const getTariffAndTaxesData = (data: any, translation: any): TariffAndTaxesData => {
   const rowsTariffs: TariffAndTaxesRows[] = [];
   const rowsTaxes: TariffAndTaxesRows[] = [];
-  const setLangAttribute = notTranslatedOject(translation);
 
   const hasEmptyColumn = (table: string, column: string) => !Object.values(data.data[table]).some((x: any) => x?.[column] !== null && x?.[column] !== undefined);
 
@@ -82,7 +79,7 @@ export const getTariffAndTaxesData = (data: any, translation: any): TariffAndTax
         if (!hasEmptyColumn(table, 'quota')) {
           yield {
             html: item?.quota?.number ? item.quota.number : '-',
-            attributes: { 'data-id': `${table}-quota-${index}`, ...setLangAttribute },
+            attributes: { 'data-id': `${table}-quota-${index}` },
           };
         }
       },
@@ -93,17 +90,17 @@ export const getTariffAndTaxesData = (data: any, translation: any): TariffAndTax
         if (!hasEmptyColumn(table, 'additionalCode')) {
           yield {
             html: item.additionalCode?.code ? `<strong>${item.additionalCode?.code}</strong><br />${item.additionalCode?.description}` : '-',
-            attributes: { 'data-id': `${table}-additional-code-${index}`, ...setLangAttribute },
+            attributes: { 'data-id': `${table}-additional-code-${index}` },
           };
         }
       },
     };
 
     return [
-      { html: measureType, attributes: { 'data-id': `${table}-measure-type-${index}`, ...setLangAttribute } },
+      { html: measureType, attributes: { 'data-id': `${table}-measure-type-${index}` } },
       ...quotaRow,
       ...additionalCodeRow,
-      { html: value, format: 'numeric', attributes: { 'data-id': `${table}-value-${index}`, ...setLangAttribute } },
+      { html: value, format: 'numeric', attributes: { 'data-id': `${table}-value-${index}` } },
     ];
   };
 

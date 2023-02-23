@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -139,13 +139,4 @@ iframe {
 
 a:focus.govuk-skip-link {
  text-decoration: underline;
-}
-
-.banner-container {
-  background-color: white;
-  padding-top: 10px;
-}
-
-.hmrc-language-select__list-item [aria-current] {
-  color: $govuk-text-colour;
 }

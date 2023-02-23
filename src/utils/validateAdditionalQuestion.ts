@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ import { Request, Response } from 'express';
 
 interface Error {
   text: string;
-  visuallyHiddenText: string;
 }
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const validateAdditionalQuestion = (queryParams: string, translation: any, req: Request, res: Response, errorMessageId: string): Error | null => {
@@ -29,7 +28,6 @@ const validateAdditionalQuestion = (queryParams: string, translation: any, req: 
       const { errorText } = translation.page.additionalQuestions[questionId];
       errors = {
         text: errorText || translation.page.additionalQuestions[questionId][errorMessageId]?.errorText,
-        visuallyHiddenText: translation.common.errors.error,
       };
     } else {
       errors = null;

@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 import e from 'express';
 import { AxiosResponse } from 'axios';
-import { handleExceptions } from './handleExceptions';
+import { handleExceptions, handleImportExceptions } from './handleExceptions';
 import getTodaysDate from '../utils/tests/getTodaysDate';
 import {
   mockedCommodityCodeError,
@@ -38,7 +38,7 @@ import CommodityNotFoundException from './commodityNotFoundException';
 import { getParams } from '../utils/queryHelper';
 import { Route } from '../interfaces/routes.interface';
 
-describe('handleExceptions() exports', () => {
+describe('handleExceptions()', () => {
   const createMockRequest = () => (
      {
        query: {
@@ -164,11 +164,11 @@ describe('handleExceptions() exports', () => {
   });
 });
 
-describe('handleExceptions() imports', () => {
+describe('handleImportExceptions()', () => {
   const createMockRequest = () => (
      {
        query: {
-         tradeType: 'import',
+         tradeType: 'export',
          tradeDateDay: getTodaysDate.day,
          tradeDateMonth: getTodaysDate.month,
          tradeDateYear: getTodaysDate.year,
@@ -190,11 +190,6 @@ describe('handleExceptions() imports', () => {
        locals: {
          queryParams: getParams(createMockRequest().query).substring(1),
          translation: {
-           common: {
-             additionalCode: {
-               error: 'additionalCode error',
-             },
-           },
            page: {
              importGoods: {
                errors: {
@@ -209,6 +204,9 @@ describe('handleExceptions() imports', () => {
              },
              importCountryOrigin: {
                error: 'importCountryOrigin error',
+             },
+             additionalCode: {
+               error: 'additionalCode error',
              },
            },
          },
@@ -230,7 +228,7 @@ describe('handleExceptions() imports', () => {
     const mockResponse = creatMockResponse();
     const mockError = new InvalidDestinationCountryError(axiosRestrictiveMeasuresResponse);
     const mockNext = jest.fn();
-    handleExceptions(mockResponse, mockRequest, mockError, mockNext);
+    handleImportExceptions(mockResponse, mockRequest, mockError, mockNext, Route.typeOfTrade);
     expect(mockResponse.redirect).toHaveBeenCalledWith(`${Route.destinationCountry}${getParams(createMockRequest().query)}`);
   });
 
@@ -251,7 +249,7 @@ describe('handleExceptions() imports', () => {
     const mockResponse = creatMockResponse();
     const mockError = new InvalidDestinationCountryError(axiosRestrictiveMeasuresResponse);
     const mockNext = jest.fn();
-    handleExceptions(mockResponse, mockRequest, mockError, mockNext);
+    handleImportExceptions(mockResponse, mockRequest, mockError, mockNext, Route.typeOfTrade);
     expect(mockResponse.redirect).toHaveBeenCalledWith(`${Route.destinationCountry}${getParams(createMockRequest().query)}`);
   });
 
@@ -267,7 +265,7 @@ describe('handleExceptions() imports', () => {
     const mockResponse = creatMockResponse();
     const mockError = new InvalidOriginCountryError(axiosRestrictiveMeasuresResponse);
     const mockNext = jest.fn();
-    handleExceptions(mockResponse, mockRequest, mockError, mockNext);
+    handleImportExceptions(mockResponse, mockRequest, mockError, mockNext, Route.typeOfTrade);
     expect(mockResponse.redirect).toHaveBeenCalledWith(`${Route.importCountryOrigin}${getParams(createMockRequest().query)}`);
   });
 
@@ -276,40 +274,40 @@ describe('handleExceptions() imports', () => {
     const mockResponse = creatMockResponse();
     const mockError = new CommodityNotFoundException('');
     const mockNext = jest.fn();
-    handleExceptions(mockResponse, mockRequest, mockError, mockNext);
+    handleImportExceptions(mockResponse, mockRequest, mockError, mockNext, Route.manageThisTrade);
+    expect(mockResponse.redirect).toHaveBeenCalledWith(`${Route.manageThisTrade}${getParams(createMockRequest().query)}`);
+  });
+
+  it('It should call redirect with the correct parameters with InvalidAdditionalCode', () => {
+    const axiosRestrictiveMeasuresResponse: AxiosResponse = {
+      ...mockedAdditionalCodeError,
+      status: 400,
+      statusText: 'Bad Request',
+      config: {},
+      headers: {},
+    };
+    const mockRequest = createMockRequest();
+    const mockResponse = creatMockResponse();
+    const mockError = new InvalidAdditionalCodeError(axiosRestrictiveMeasuresResponse);
+    const mockNext = jest.fn();
+    handleImportExceptions(mockResponse, mockRequest, mockError, mockNext, Route.additionalCode);
+    expect(mockResponse.redirect).toHaveBeenCalledWith(`${Route.additionalCode}${getParams(createMockRequest().query)}`);
+  });
+
+  it('It should call redirect with the correct parameters with InvalidAdditionalCode', () => {
+    const axiosRestrictiveMeasuresResponse: AxiosResponse = {
+      ...mockedAdditionalCodeError,
+      status: 400,
+      statusText: 'Bad Request',
+      config: {},
+      headers: {},
+    };
+    const mockRequest = createMockRequest();
+    const mockResponse = creatMockResponse();
+    const mockError = new InvalidAdditionalCodeError(axiosRestrictiveMeasuresResponse);
+    const mockNext = jest.fn();
+    handleImportExceptions(mockResponse, mockRequest, mockError, mockNext, Route.manageThisTrade);
     expect(mockResponse.redirect).toHaveBeenCalledWith(`${Route.importGoods}${getParams(createMockRequest().query)}`);
-  });
-
-  it('It should call redirect with the correct parameters with InvalidAdditionalCode', () => {
-    const axiosRestrictiveMeasuresResponse: AxiosResponse = {
-      ...mockedAdditionalCodeError,
-      status: 400,
-      statusText: 'Bad Request',
-      config: {},
-      headers: {},
-    };
-    const mockRequest = createMockRequest();
-    const mockResponse = creatMockResponse();
-    const mockError = new InvalidAdditionalCodeError(axiosRestrictiveMeasuresResponse);
-    const mockNext = jest.fn();
-    handleExceptions(mockResponse, mockRequest, mockError, mockNext);
-    expect(mockResponse.redirect).toHaveBeenCalledWith(`${Route.additionalCode}${getParams(createMockRequest().query)}`);
-  });
-
-  it('It should call redirect with the correct parameters with InvalidAdditionalCode', () => {
-    const axiosRestrictiveMeasuresResponse: AxiosResponse = {
-      ...mockedAdditionalCodeError,
-      status: 400,
-      statusText: 'Bad Request',
-      config: {},
-      headers: {},
-    };
-    const mockRequest = createMockRequest();
-    const mockResponse = creatMockResponse();
-    const mockError = new InvalidAdditionalCodeError(axiosRestrictiveMeasuresResponse);
-    const mockNext = jest.fn();
-    handleExceptions(mockResponse, mockRequest, mockError, mockNext);
-    expect(mockResponse.redirect).toHaveBeenCalledWith(`${Route.additionalCode}${getParams(createMockRequest().query)}`);
   });
 
   it('It should call redirect with the correct parameters with InvalidTradeType', () => {
@@ -324,7 +322,7 @@ describe('handleExceptions() imports', () => {
     const mockResponse = creatMockResponse();
     const mockError = new InvalidTradeTypeError(axiosRestrictiveMeasuresResponse);
     const mockNext = jest.fn();
-    handleExceptions(mockResponse, mockRequest, mockError, mockNext);
+    handleImportExceptions(mockResponse, mockRequest, mockError, mockNext, Route.typeOfTrade);
     expect(mockResponse.redirect).toHaveBeenCalledWith(`${Route.typeOfTrade}${getParams(createMockRequest().query)}`);
   });
 
@@ -336,7 +334,7 @@ describe('handleExceptions() imports', () => {
     const mockError = Error();
     mockResponse.render = () => { throw mockError; };
 
-    handleExceptions(mockResponse, mockRequest, mockError, mockNext);
+    handleImportExceptions(mockResponse, mockRequest, mockError, mockNext, Route.typeOfTrade);
 
     expect(mockNext).toHaveBeenCalledWith(mockError);
   });

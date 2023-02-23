@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,37 +17,44 @@
 import { RequestHandler } from 'express';
 import { journey } from '../../../utils/previousNextRoutes';
 import { TaskStatus } from '../../../interfaces/enums.interface';
-import { Tasks } from '../../common/taskList/interface';
+import { ExportsTasks } from '../../../interfaces/exports.interface';
 import { Route } from '../../../interfaces/routes.interface';
-import { calculateNewTaskStatuses } from '../../../utils/taskListStatus';
-import { setSessionStatus, getSessionStatus } from '../../../utils/sessionHelpers';
-import { hierarchy } from '../../common/checkYourAnswers/model';
+import { calculateNewTaskStatuses } from '../../../utils/exportHelpers';
+import { setSessionExport, getSessionExport } from '../../../utils/sessionHelpers';
+import { getCountryNameByCode } from '../../../utils/filters/getCountryNameByCode';
+import { hierarchy } from '../checkYourAnswers/model';
 import { findCode } from '../../../utils/findCode';
 import { getImportDateFromQuery } from '../../../utils/queryHelper';
 
 class ExportCheckWhatServicesYouNeedToRegisterController {
   public checkWhatServicesYouNeedToRegister: RequestHandler = (req, res, next) => {
-    setSessionStatus(req, calculateNewTaskStatuses(getSessionStatus(req), Tasks.checkServicestoRegister, TaskStatus.VIEWED));
+    const {
+      commodity,
+      destinationCountry,
+      originCountry,
+      additionalCode,
+    } = req.query;
 
-    const commodity = String(req.query.commodity);
-    const destinationCountry = String(req.query.destinationCountry);
-    const originCountry = String(req.query.originCountry);
-    const additionalCode = String(req.query.additionalCode);
-    const tradeType = String(req.query.tradeType);
+    const commodityCode = `${commodity}`;
     const tradeDate = getImportDateFromQuery(req);
-    const previousPage = `${journey.export.checkWhatServicesYouNeedToRegister.previousPage()}?${res.locals.queryParams}`;
-    const commodityClassification = hierarchy(findCode(commodity));
 
     try {
+      setSessionExport(req, calculateNewTaskStatuses(getSessionExport(req), ExportsTasks.checkServicestoRegister, TaskStatus.VIEWED));
+
+      const previousPage = journey.export.checkWhatServicesYouNeedToRegister.previousPage();
+
+      const destinationCountryName = getCountryNameByCode(`${destinationCountry}`, res.locals.language);
+
+      const commodityClassification = hierarchy(findCode(commodityCode));
+
       res.render('export/checkWhatServicesYouNeedToRegister/view.njk', {
         previousPage,
         tradeDate,
-        commodity,
+        commodityCode,
         additionalCode,
-        destinationCountry,
+        destinationCountryName,
         originCountry,
         commodityClassification,
-        tradeType,
         Route,
         csrfToken: req.csrfToken(),
       });

@@ -1,4 +1,4 @@
-{% extends "layout.njk" %}
+{% extends "layout.html" %}
 
 {% set title = translation.page.exportOriginCountry.question %}
 
@@ -6,8 +6,25 @@
 {% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
 {% endblock %}
 
+{% if tradeDetails %}
+{% set jsBackButton = " js-back-button" %}
+{% else %}
+{% set jsBackButton = "" %}
+{% endif %}
+
 {% block content %}
- <div class="govuk-grid-row">
+
+{{ govukBackLink({
+  text: translation.common.buttons.back,
+  href: previousPage + "?" + queryParams,
+  classes: "govuk-!-margin-bottom-9" + jsBackButton,
+  attributes: {
+    id: "back-link",
+    rel: "noreferrer noopener"
+  }
+}) }}
+
+ <div class="govuk-grid-row" id="main-content">
   <div class="govuk-grid-column-two-thirds">
 
     {% if errors %}
@@ -22,14 +39,7 @@
       }) }}
     {% endif %}
 
-      <h1 class="govuk-label--xl govuk-!-margin-top-0">{{ title }}</h1>
-
-      {{ govukWarningText({
-        html: translation.page.exportOriginCountry.warning,
-        iconFallbackText: translation.common.accessibility.warning
-      }) }}
-
-      <form action="{{Route.exportOriginCountry}}?{{queryParams}}" method="POST" novalidate>
+    <form action="{{Route.exportOriginCountry}}?{{queryParams}}" method="POST" novalidate>
 
       {{ govukRadios({
           idPrefix: 'exportOriginCountry',
@@ -38,18 +48,22 @@
           fieldset: {
             legend: {
               text: title,
-              classes: 'govuk-label--s govuk-visually-hidden'
+              isPageHeading: true,
+              classes: 'govuk-fieldset__legend--xl'
             }
+          },
+          hint: {
+            html: translation.page.exportOriginCountry.hint
           },
           items: [
             {
               value: OriginCountry.GB,
-              text: translation.common.countries.GB,
+              text: translation.page.exportOriginCountry.GB,
               checked: (originCountry == OriginCountry.GB)
             },
             {
               value: OriginCountry.XI,
-              text: translation.common.countries.XI + " - " + translation.page.exportOriginCountry.rules,
+              text: translation.page.exportOriginCountry.XI,
               checked: (originCountry == OriginCountry.XI)
             }
           ]

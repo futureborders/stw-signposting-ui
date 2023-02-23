@@ -1,4 +1,4 @@
-{% extends "layout.njk" %}
+{% extends "layout.html" %}
 
 {% set title = translation.page.exportDeclarations.question %}
 
@@ -7,7 +7,18 @@
 {% endblock %}
 
 {% block content %}
- <div class="govuk-grid-row">
+
+{{ govukBackLink({
+  text: translation.common.buttons.back,
+  href: previousPage + "?" + queryParams + "&isEdit=" + isEdit,
+  classes: "govuk-!-margin-bottom-9",
+  attributes: {
+    id: "back-link",
+    rel: "noreferrer noopener"
+  }
+}) }}
+
+ <div class="govuk-grid-row" id="main-content">
   <div class="govuk-grid-column-two-thirds">
 
     {% if errors %}
@@ -40,19 +51,19 @@
           },
           items: [
             {
-              value: ExportDeclarations.yes,
+              value: 'yes',
               text: translation.page.exportDeclarations.yes,
-              checked: (exportDeclarations == ExportDeclarations.yes)
+              checked: (exportDeclarations == 'yes')
             },
             {
-              value: ExportDeclarations.no,
+              value: 'no',
               text: translation.page.exportDeclarations.no,
-              checked: (exportDeclarations == ExportDeclarations.no)
+              checked: (exportDeclarations == 'no')
             },
             {
-              value: ExportDeclarations.notSure,
+              value: 'notSure',
               text: translation.page.exportDeclarations.notSure,
-              checked: (exportDeclarations == ExportDeclarations.notSure)
+              checked: (exportDeclarations == 'notSure')
             }
           ]
         }) }}

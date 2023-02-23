@@ -1,23 +1,29 @@
+{% if destinationCountry == 'XI' and originCountry == 'GB' %}
+{% set displayCountry = translation.page.destinationCountry.gb %}
+{% else %}
+{% set displayCountry = country %}
+{% endif %}
+
 {% if destinationCountry == 'GB' %}
 {% set destinationCountryPrefill = 'UK'  %}
 {% else %}
 {% set destinationCountryPrefill = 'XI'  %}
 {% endif  %}
 
-{% set commodity_code = commodity | urlencode %}
+{% set commodity_code = commodityCode | urlencode %}
 {% set country_of_origin = originCountry | urlencode  %}
-{% set import_date = tradeDate.year | urlencode + "-" + tradeDate.month | urlencode + "-" + tradeDate.day | urlencode  %}
+{% set import_date = importDate.year | urlencode + "-" + importDate.month | urlencode + "-" + importDate.day | urlencode  %}
 {% set import_destination = destinationCountryPrefill | urlencode  %}
 
 {% set taxAndDutyCalculatorLink = "https://www.trade-tariff.service.gov.uk/duty-calculator/prefill?commodity_code=" + commodity_code + "&country_of_origin=" + country_of_origin + "&import_date=" + import_date + "&import_destination=" + import_destination + "" %}
 
 <p><a href="{{ taxAndDutyCalculatorLink }}" target="_blank" rel="noopener noreferrer" role="button" class="govuk-button">
-  {{ translation.common.measures.calculateNow + " " + translation.common.accessibility.opensNewTab }}
+  {{ translation.page.manageThisTrade.calculateNow + " " + translation.common.accessibility.opensNewTab }}
 </a></p>
 
 <h2 class="govuk-heading-m govuk-!-margin-bottom-6">
   {{ translation.page.calculateCustomsDutyImportVat.customsDutyImportVat }}
-  <span class="govuk-hint">{{ translation.common.countries[originCountry] }} {{ translation.page.calculateCustomsDutyImportVat.to }} {{ translation.common.countries[destinationCountry] }}</span>
+  <span class="govuk-hint">{{ displayCountry }} to {{ translation.page.destinationCountry[destinationCountry | lower] }}</span>
 </h2>
 
 {% if destinationCountry === DestinationCountry.XI %}
@@ -56,12 +62,12 @@
   {% endif %}
 {% endif %}
 
-  <p class="govuk-body govuk-!-display-none-print">{{ translation.page.calculateCustomsDutyImportVat.findOutMore }}</p>
+  <p class="govuk-body">{{ translation.page.calculateCustomsDutyImportVat.findOutMore }}</p>
 
-  <p class="govuk-body govuk-!-display-none-print">{{ translation.common.accessibility.followingLinksOpensInNewTab }}</p>
+  <p class="govuk-body">{{ translation.common.accessibility.followingLinksOpensInNewTab }}</p>
 
-  <ul  class="govuk-list govuk-list--bullet govuk-!-display-none-print govuk-!-margin-bottom-8">
+  <ul  class="govuk-list govuk-list--bullet">
     {% for link in translation.page.calculateCustomsDutyImportVat.guidanceLinks %}
-    <li><a href="{{link.url}}" target="_blank" rel="noopener noreferrer">{{ link.text }}<span class="govuk-visually-hidden"> {{ translation.common.accessibility.opensNewTab }}</span></a></li>
+    <li><a href="{{link.url}}" target="_blank" rel="noopener noreferrer">{{ link.text }}<span class="govuk-visually-hidden"> {{ translation.common.accessibility.opensNewTab }}</span></li>
     {% endfor %}
   </ul>

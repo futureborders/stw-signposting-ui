@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,21 +15,16 @@
  */
 
 import * as request from 'supertest';
-import e from 'express';
 import App from '../../../app';
 import 'dotenv/config';
 
 import getCsrfToken from '../../../utils/getCsrfToken';
 import { CsrfToken } from '../../../interfaces/helpers.interface';
-import { Params } from '../../../interfaces/params.interface';
+
 import StwTradeTariffApi from '../../../services/StwTradeTariffApi.service';
 import TradeTariffApi from '../../../services/TradeTariffApi.service';
 import { Route } from '../../../interfaces/routes.interface';
 import IndexRoute from '../../../routes/index.route';
-import translation from '../../../translation/en';
-import ExportDeclarationsController from './controller';
-import { getParams } from '../../../utils/queryHelper';
-import getTodaysDate from '../../../utils/tests/getTodaysDate';
 
 jest.mock('../../../services/TradeTariffApi.service');
 jest.mock('../../../services/StwTradeTariffApi.service');
@@ -44,6 +39,8 @@ const mockedStwTradeTariffApi = <jest.Mocked<StwTradeTariffApi>>(
   new MockedStwTradeTariffApi()
 );
 
+jest.mock('../../../middlewares/auth-middleware', () => jest.fn((req, res, next) => next()));
+
 const indexRoute = new IndexRoute(
   mockedTradeTariffApi,
   mockedStwTradeTariffApi,
@@ -52,20 +49,8 @@ const app = new App([indexRoute]);
 
 let csrfResponse: CsrfToken;
 
-let params:Params = {};
-
 beforeEach(() => {
   jest.clearAllMocks();
-  params = {
-    tradeType: 'export',
-    exportGoodsIntent: 'goodsExportedToBeSoldForBusiness',
-    tradeDateDay: getTodaysDate.day,
-    tradeDateMonth: getTodaysDate.month,
-    tradeDateYear: getTodaysDate.year,
-    originCountry: 'GB',
-    destinationCountry: 'CN',
-    exportUserTypeTrader: 'goodsExportedToBeSold',
-  };
 });
 
 afterAll(async () => {
@@ -74,59 +59,15 @@ afterAll(async () => {
 
 describe(`[GET] ${Route.exportDeclarations}`, () => {
   it('It should respond with statusCode 200', () => request(app.getServer())
-    .get(`${Route.exportDeclarations}${getParams(params)}`)
+    .get(`${Route.exportDeclarations}`)
     .set('user-agent', 'node-superagent')
     .expect(200));
-
-  it('It should respond with statusCode 200 and show correct error', () => request(app.getServer())
-    .get(`${Route.exportDeclarations}${getParams(params)}&error=someError`)
-    .set('user-agent', 'node-superagent')
-    .expect(200)
-    .then((res) => {
-      expect(res.text).toEqual(expect.stringContaining('Error: Who will submit the export declarations?'));
-    }));
-
-  it('It should throw an error and call next', async () => {
-    const createMockRequest = () => (
-          {
-            query: {},
-            body: {
-              isEdit: 'true',
-            },
-            route: {
-              path: Route.exportDeclarations,
-            },
-            csrfToken: () => 'csrftoken',
-          } as unknown as e.Request
-    );
-
-    const creatMockResponse = () => (
-          {
-            render: jest.fn(),
-            locals: {
-              language: 'en',
-              queryParams: getParams(params).substring(1),
-              translation: {
-                ...translation,
-              },
-            },
-          } as unknown as e.Response
-    );
-    const mockRequest = createMockRequest();
-    const mockResponse = creatMockResponse();
-    const mockNext = jest.fn();
-    const mockError = Error();
-    mockResponse.render = () => { throw mockError; };
-    const controller = new ExportDeclarationsController();
-    await controller.exportDeclarations(mockRequest, mockResponse, mockNext);
-    expect(mockNext).toHaveBeenCalledWith(mockError);
-  });
 });
 
 describe(`[POST] ${Route.exportDeclarations}`, () => {
   it('It should respond with statusCode 302 when posted', async (done) => {
     await request(app.getServer())
-      .get(`${Route.exportDeclarations}${getParams(params)}`)
+      .get(`${Route.exportDeclarations}`)
       .set('user-agent', 'node-superagent')
       .then((res) => {
         csrfResponse = getCsrfToken(res);
@@ -134,21 +75,22 @@ describe(`[POST] ${Route.exportDeclarations}`, () => {
       });
     const data = {
       exportDeclarations: 'yes',
+      tradeType: 'export',
       _csrf: csrfResponse.token,
     };
 
     await request(app.getServer())
-      .post(`${Route.exportDeclarations}${getParams(params)}`)
+      .post(`${Route.exportDeclarations}?tradeType=export`)
       .set('user-agent', 'node-superagent')
       .set('Cookie', csrfResponse.cookies)
       .send(data)
       .expect(302, {})
-      .expect('Location', `${Route.exportResponsibleForDeclaringGoods}${getParams(params)}&exportDeclarations=yes`);
+      .expect('Location', `${Route.exportOriginCountry}?tradeType=export&exportDeclarations=yes`);
   });
 
   it('It should respond with statusCode 302 and redirect back when empty post', async (done) => {
     await request(app.getServer())
-      .get(`${Route.exportDeclarations}${getParams(params)}`)
+      .get(`${Route.exportDeclarations}`)
       .set('user-agent', 'node-superagent')
       .then((res) => {
         csrfResponse = getCsrfToken(res);
@@ -156,22 +98,23 @@ describe(`[POST] ${Route.exportDeclarations}`, () => {
       });
     const data = {
       exportDeclarations: '',
+      tradeType: 'export',
       isEdit: 'false',
       _csrf: csrfResponse.token,
     };
 
     await request(app.getServer())
-      .post(`${Route.exportDeclarations}${getParams(params)}`)
+      .post(`${Route.exportDeclarations}?tradeType=export`)
       .set('user-agent', 'node-superagent')
       .set('Cookie', csrfResponse.cookies)
       .send(data)
       .expect(302, {})
-      .expect('Location', `${Route.exportDeclarations}${getParams(params)}&isEdit=false`);
+      .expect('Location', `${Route.exportDeclarations}?tradeType=export&isEdit=false`);
   });
 
-  it(`It should respond with statusCode 302 and redirect ${Route.exportResponsibleForDeclaringGoods} when isEdit and exportDeclarations=yes`, async (done) => {
+  it(`It should respond with statusCode 302 and redirect to ${Route.exportCheckYourAnswers} when isEdit`, async (done) => {
     await request(app.getServer())
-      .get(`${Route.exportDeclarations}${getParams(params)}`)
+      .get(`${Route.exportDeclarations}`)
       .set('user-agent', 'node-superagent')
       .then((res) => {
         csrfResponse = getCsrfToken(res);
@@ -179,99 +122,17 @@ describe(`[POST] ${Route.exportDeclarations}`, () => {
       });
     const data = {
       exportDeclarations: 'yes',
+      tradeType: 'export',
       isEdit: 'true',
       _csrf: csrfResponse.token,
     };
 
     await request(app.getServer())
-      .post(`${Route.exportDeclarations}${getParams(params)}`)
+      .post(`${Route.exportDeclarations}?tradeType=export`)
       .set('user-agent', 'node-superagent')
       .set('Cookie', csrfResponse.cookies)
       .send(data)
       .expect(302, {})
-      .expect('Location', `${Route.exportResponsibleForDeclaringGoods}${getParams(params)}&exportDeclarations=yes&isEdit=true`);
-  });
-
-  it(`It should respond with statusCode 302 and redirect to ${Route.checkYourAnswers} when isEdit and exportDeclarations=no`, async (done) => {
-    await request(app.getServer())
-      .get(`${Route.exportDeclarations}${getParams(params)}`)
-      .set('user-agent', 'node-superagent')
-      .then((res) => {
-        csrfResponse = getCsrfToken(res);
-        done();
-      });
-    const data = {
-      exportDeclarations: 'no',
-      isEdit: 'true',
-      _csrf: csrfResponse.token,
-    };
-    await request(app.getServer())
-      .post(`${Route.exportDeclarations}${getParams(params)}`)
-      .set('user-agent', 'node-superagent')
-      .set('Cookie', csrfResponse.cookies)
-      .send(data)
-      .expect(302, {})
-      .expect('Location', `${Route.checkYourAnswers}${getParams(params)}&exportDeclarations=no&exportResponsibleForDeclaringGoods=`);
-  });
-
-  it(`It should respond with statusCode 302 and redirect to ${Route.checkYourAnswers} when isEdit and exportDeclarations=yes and exportResponsibleForDeclaringGoods=yes`, async (done) => {
-    await request(app.getServer())
-      .get(`${Route.exportDeclarations}${getParams(params)}`)
-      .set('user-agent', 'node-superagent')
-      .then((res) => {
-        csrfResponse = getCsrfToken(res);
-        done();
-      });
-    const data = {
-      exportDeclarations: 'yes',
-      isEdit: 'true',
-      _csrf: csrfResponse.token,
-    };
-    await request(app.getServer())
-      .post(`${Route.exportDeclarations}${getParams(params)}&exportResponsibleForDeclaringGoods=yes`)
-      .set('user-agent', 'node-superagent')
-      .set('Cookie', csrfResponse.cookies)
-      .send(data)
-      .expect(302, {})
-      .expect('Location', `${Route.checkYourAnswers}${getParams(params)}&exportResponsibleForDeclaringGoods=yes&exportDeclarations=yes`);
-  });
-
-  it('It should throw an error and call next', async () => {
-    const createMockRequest = () => (
-      {
-        query: {},
-        body: {
-          isEdit: 'true',
-        },
-        route: {
-          path: Route.exportDeclarations,
-        },
-        cookies: {
-          stw_signposting: 'some value',
-        },
-        csrfToken: () => 'csrftoken',
-      } as unknown as e.Request
-    );
-
-    const creatMockResponse = () => (
-      {
-        redirect: jest.fn(),
-        locals: {
-          language: 'en',
-          queryParams: getParams(params).substring(1),
-          translation: {
-            ...translation,
-          },
-        },
-      } as unknown as e.Response
-    );
-    const mockRequest = createMockRequest();
-    const mockResponse = creatMockResponse();
-    const mockNext = jest.fn();
-    const mockError = Error();
-    mockResponse.redirect = () => { throw mockError; };
-    const controller = new ExportDeclarationsController();
-    await controller.exportDeclarationsSubmit(mockRequest, mockResponse, mockNext);
-    expect(mockNext).toHaveBeenCalledWith(mockError);
+      .expect('Location', `${Route.exportCheckYourAnswers}?tradeType=export&exportDeclarations=yes`);
   });
 });

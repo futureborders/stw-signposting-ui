@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+
+{% set title = translation.page.additionalCode.question %}
+
+{% block pageTitle %}
+{% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+
+{{ govukBackLink({
+  text: translation.common.buttons.back,
+  href: previousPage + "?" + queryParams,
+  classes: "govuk-!-margin-bottom-9 js-back-button",
+  attributes: {
+    id: "back-link",
+    rel: "noreferrer noopener"
+  }
+}) }}
+
+ <div class="govuk-grid-row" id="main-content">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if errors %}
+      {{ govukErrorSummary({
+        titleText: translation.common.errors.problem,
+        errorList: [
+          {
+            text: errors.text,
+            href: "#additionalCode"
+          }
+        ]
+      }) }}
+    {% endif %}
+
+    <form action="/manage-this-trade" method="get" novalidate>
+
+      {{ govukRadios({
+          idPrefix: "additionalCode",
+          name: "additionalCode",
+          errorMessage: errors,
+          hint: {
+            text: translation.page.additionalCode.hint
+          },
+          fieldset: {
+            legend: {
+              text: title,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--xl"
+            }
+          },
+          items: additionalCodeRadios
+        }) }}
+
+      {{ govukButton({
+          text: translation.common.buttons.continue
+        }) }}
+
+        <input type="hidden" name="originCountry" value="{{originCountry}}">
+        <input type="hidden" name="commodity" value="{{commodityCode}}">
+        <input type="hidden" name="goodsIntent" value="{{goodsIntent}}">
+        <input type="hidden" name="userTypeTrader" value="{{userTypeTrader}}">
+        <input type="hidden" name="tradeType" value="{{tradeType}}">
+        <input type="hidden" name="destinationCountry" value="{{destinationCountry}}">
+        <input type="hidden" name="importDeclarations" value="{{importDeclarations}}">
+        {% include "includes/import-date-fields.html" %}
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,62 +15,14 @@
  */
 
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-continue */
-/* eslint-disable no-param-reassign */
-/* eslint-disable guard-for-in */
-/* eslint-disable no-eval */
-/* eslint-disable no-useless-concat */
-
 import {
   Request, Response, NextFunction,
 } from 'express';
 
-import { cloneDeep } from 'lodash';
-import { LANGUAGE } from '../interfaces/enums.interface';
-import en from '../translation/en';
-import cy from '../translation/cy';
-
-const messages: any = {};
-
-messages[LANGUAGE.en] = en;
-messages[LANGUAGE.cy] = cloneDeep(en);
-
-const copyMessages = (targetLanguageMessages: any, overrideLanguageMessages: any) => {
-  if (typeof targetLanguageMessages !== 'object') {
-    return;
-  }
-
-  for (const key in targetLanguageMessages) {
-    if (overrideLanguageMessages[key] === undefined && typeof targetLanguageMessages[key] === 'string' && !targetLanguageMessages[key].startsWith('http', 0)) {
-      overrideLanguageMessages[key] = `<span lang='en'>${targetLanguageMessages[key]}</span>`;
-    }
-
-    if (overrideLanguageMessages[key] === undefined && typeof targetLanguageMessages[key] === 'function') {
-      overrideLanguageMessages[key] = eval(targetLanguageMessages[key].toString().replace(/`/, '`<span lang="en">').replace(/`([^`]*)$/, '</span>`' + '$1'));
-    }
-
-    if (overrideLanguageMessages[key] === undefined && typeof targetLanguageMessages[key] === 'object') {
-      overrideLanguageMessages[key] = JSON.parse(JSON.stringify(targetLanguageMessages[key]).replace(/:"/g, ':"<span lang=\'en\'>').replace(/",/g, '</span>",').replace(/"}/g, '</span>"}'));
-    }
-
-    if (!Object.hasOwnProperty.call(targetLanguageMessages, key)
-      || !Object.hasOwnProperty.call(overrideLanguageMessages, key)) {
-      continue;
-    }
-
-    if (typeof targetLanguageMessages[key] === 'object') {
-      copyMessages(targetLanguageMessages[key], overrideLanguageMessages[key]);
-    } else if (overrideLanguageMessages[key] !== undefined) {
-      targetLanguageMessages[key] = overrideLanguageMessages[key];
-    }
-  }
-};
-
-// Replace any missing keys in Welsh with the messages from English
-copyMessages(messages[LANGUAGE.cy], cy);
-
-const defaultLanguage = LANGUAGE.en;
+const enum LANGUAGE {
+  en = 'en',
+  cy = 'cy',
+}
 
 const toggleLanguage = (lang: string) => (lang === LANGUAGE.en ? LANGUAGE.cy : LANGUAGE.en);
 
@@ -94,14 +46,14 @@ const validateLanguage = (language: string) => (typeof language === 'string' && 
 const languageMiddleware = async (
   req: Request, res: Response, next: NextFunction,
 ): Promise<any> => {
-  let lang = defaultLanguage;
+  let lang = LANGUAGE.en;
 
   const SHOW_LANGUAGE_TOGGLE = process.env.SHOW_LANGUAGE_TOGGLE === 'true';
   const languageQuery = req.query.lang;
   const languageCookie = req.cookies.stw_language;
 
   if (SHOW_LANGUAGE_TOGGLE) {
-    lang = validateLanguage((languageQuery || languageCookie || defaultLanguage) as string);
+    lang = validateLanguage((languageQuery || languageCookie || LANGUAGE.en) as string);
   }
 
   if (lang !== languageCookie) {
@@ -116,7 +68,11 @@ const languageMiddleware = async (
 
   res.locals.language = lang;
   res.locals.toggledLanguagePath = languagePath(req, lang);
-  res.locals.translation = messages[lang];
+
+  const importPath = `../translation/${lang}`;
+
+  const { default: Translation } = await import(importPath);
+  res.locals.translation = Translation;
 
   if (SHOW_LANGUAGE_TOGGLE) {
     res.locals.showLanguageToggle = true;

@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,5 @@ $govuk-images-path: '/static/images/';
 @import '_misc';
 @import '_commodity-search-results';
 @import '_print-link';
+@import '_truncate';
 @import '_search';
-
-/* HMRC styles */
-@import './components/hmrc/_language-select';

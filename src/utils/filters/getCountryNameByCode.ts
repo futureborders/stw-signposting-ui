@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,20 @@
  * limitations under the License.
  */
 
+import { Countries } from '../../interfaces/countries.interface';
 import logger from '../logger';
 
-import languageEN from '../../translation/en';
-import languageCY from '../../translation/cy';
+const countries = require('../../countries.json');
+const WelshCountryTranslation = require('../../translation/countries.cy').default;
 
 export const getCountryNameByCode = (countryCode: string, language: string): any => {
-  let country = languageEN.common.countries[countryCode.toUpperCase() as keyof typeof languageEN.common.countries];
-
-  if (!country) {
-    logger.error(`No English translation for country ${countryCode}`);
-    return undefined;
-  }
-
+  let country = countries.data.filter((countryItem: Countries) => countryItem.id === countryCode)[0]?.attributes.description;
+  const key = `${country?.replace(/ /g, '.').toLowerCase()}`;
   if (language === 'cy') {
-    const countryCY = languageCY.common.countries[countryCode.toUpperCase() as keyof typeof languageCY.common.countries];
-
-    if (countryCY) {
-      country = countryCY;
+    if (WelshCountryTranslation.countries[key]) {
+      country = WelshCountryTranslation.countries[key];
     } else {
-      logger.warn(`No Welsh translation for country ${countryCode}`);
+      logger.error(`No Welsh translation for ${country}`);
     }
   }
   return country;

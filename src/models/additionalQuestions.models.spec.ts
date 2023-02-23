@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,12 @@ describe('getAdditionalQuestions', () => {
     expect(result.questions.find((item: any) => item.questionId === '712').question).toEqual('question IAS');
   });
 
+  test('It should return the correct questions object with Y257', () => {
+    data.measures[0].measureOptions[0].options[2].certificateCode = 'Y257';
+    const result = getAdditionalQuestions(data as any, translation as any);
+    expect(result.questions.find((item: any) => item.questionId === '360').question).toEqual('question_Y257');
+  });
+
   test('It should return the correct questions object with Y252', () => {
     data.measures[0].measureOptions[0].options[2].certificateCode = 'Y252';
     const result = getAdditionalQuestions(data as any, translation as any);
@@ -48,6 +54,18 @@ describe('getAdditionalQuestions', () => {
     data.measures[0].measureOptions[0].options[2].certificateCode = 'Y256';
     const result = getAdditionalQuestions(data as any, translation as any);
     expect(result.questions.find((item: any) => item.questionId === '360').question).toEqual('question_Y256');
+  });
+
+  test('It should return the correct questions object with Y258', () => {
+    data.measures[0].measureOptions[0].options[2].certificateCode = 'Y258';
+    const result = getAdditionalQuestions(data as any, translation as any);
+    expect(result.questions.find((item: any) => item.questionId === '360').question).toEqual('question_Y258');
+  });
+
+  test('It should return the correct questions object with Y259', () => {
+    data.measures[0].measureOptions[0].options[2].certificateCode = 'Y259';
+    const result = getAdditionalQuestions(data as any, translation as any);
+    expect(result.questions.find((item: any) => item.questionId === '360').question).toEqual('question_Y259');
   });
 
   test('It should return the correct questions object with Y067', () => {

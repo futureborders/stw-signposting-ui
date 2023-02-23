@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ export const clearAdditionalQuestions = (queryParams: string, questions: any[]):
   const filteredParams = new URLSearchParams();
   params.forEach((value: string, key: string) => {
     if (!questions.includes(key)) filteredParams.append(key, value);
-    if (key === 'additional-question') filteredParams.delete(key);
   });
   return filteredParams;
 };

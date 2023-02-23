@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,6 @@ export type SearchResultsRows = (SearchResultsRowsEntity)[] | null;
 export interface Breadcrumbs {
   sid?: number | null;
   text?: string | null;
-  html?: string | null;
   href?: string | null;
 }
 

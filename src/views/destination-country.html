@@ -1,0 +1,159 @@
+{% extends "layout.html" %}
+
+{% set title = translation.page.destinationCountry.question %}
+
+
+{% if originCountry == DestinationCountry.GB %}
+  {% set importingInto = translation.page.destinationCountry.xi %}
+  {% set ukCountryName = translation.page.destinationCountry.gb  %}
+{% else %}
+  {% set importingInto = translation.page.destinationCountry.gb %}
+  {% set ukCountryName = translation.page.destinationCountry.xi %}
+{% endif %}
+
+{% if isEdit %}
+  {% set getIsEdit = "&isEdit=true" %}
+{% else %}
+  {% set getIsEdit = "" %}
+{% endif %}
+
+{% block pageTitle %}
+{% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+
+{{ govukBackLink({
+  text: translation.common.buttons.back,
+  href: previousPage + "?" + (originalQueryParams or queryParams) + getIsEdit,
+  classes: "govuk-!-margin-bottom-9",
+  attributes: {
+    id: "back-link",
+    rel: "noreferrer noopener"
+  }
+}) }}
+
+ <div class="govuk-grid-row" id="main-content">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if errors %}
+      {{ govukErrorSummary({
+        titleText: translation.common.errors.problem,
+        errorList: [
+          {
+            text: errors.text,
+            href: "#destinationCountry"
+          }
+        ]
+      }) }}
+    {% endif %}
+
+    <form action="/import-date" method="get" novalidate>
+
+      {% if originCountry == DestinationCountry.GB or originCountry == DestinationCountry.XI %}
+
+      {{ govukRadios({
+          idPrefix: "destinationCountry",
+          name: "destinationCountry",
+          errorMessage: errors,
+          attributes:  {
+            "aria-hidden": true
+          },
+          classes: "govuk-visually-hidden",
+          hint: {
+            html: "<p class='govuk-hint'>" + translation.page.destinationCountry.importingIntoUK(ukCountryName) + "</p>" +
+            govukWarningText({
+              html: "<span class='govuk-!-font-weight-regular'>" + translation.page.destinationCountry.assumedText(ukCountryName, importingInto) + "</span>",
+              iconFallbackText: translation.common.accessibility.warning
+            })
+          },
+          fieldset: {
+            legend: {
+              html: "<span class='govuk-caption-xl'>" + translation.page.destinationCountry.origin + ukCountryName + "</span>" + translation.page.destinationCountry.question,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--xl"
+            }
+          },
+          items: [
+            {
+              value: DestinationCountry.GB,
+              text: translation.page.destinationCountry.gb,
+              checked: (originCountry == OriginCountry.XI)
+            },
+            {
+              value: DestinationCountry.XI,
+              text: translation.page.destinationCountry.xi,
+              checked: (originCountry == OriginCountry.GB)
+            }
+          ],
+          formGroup: {
+            classes: "govuk-!-margin-bottom-0"
+          }
+        }) }}
+
+      {{ govukButton({
+          text: translation.common.buttons.continue
+        }) }}
+
+      <p><a href="import-country-origin?{{queryParams}}{{getIsEdit}}" class="govuk-link" id="changeOriginCountryLink">{{ translation.page.destinationCountry.changeOriginCountryLink }}</a></p>
+
+    {% else %}
+
+      {{ govukRadios({
+          idPrefix: "destinationCountry",
+          name: "destinationCountry",
+          errorMessage: errors,
+          hint: {
+            html: translation.page.destinationCountry.hint
+          },
+          fieldset: {
+            legend: {
+              text: translation.page.destinationCountry.question,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--xl"
+            }
+          },
+          items: [
+            {
+              value: DestinationCountry.GB,
+              text: translation.page.destinationCountry.gb,
+              checked: (destinationCountry == DestinationCountry.GB)
+            },
+            {
+              value: DestinationCountry.XI,
+              text: translation.page.destinationCountry.xi,
+              checked: (destinationCountry == DestinationCountry.XI)
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: translation.common.buttons.continue
+        }) }}
+
+      {% endif %}
+
+      {% include "includes/cancel-change-button.html" %}
+
+      <input type="hidden" name="tradeType" value="{{tradeType}}">
+      <input type="hidden" name="goodsIntent" value="{{goodsIntent}}">
+      <input type="hidden" name="userTypeTrader" value="{{userTypeTrader}}">
+      <input type="hidden" name="importDeclarations" value="{{importDeclarations}}">
+      <input type="hidden" name="originCountry" value="{{originCountry}}">
+
+      {% if isEdit %}
+        <input type="hidden" name="isEdit" value="{{isEdit}}">
+        <input type="hidden" name="commodity" value="{{commodity}}">
+      {% if additionalCode %}
+        <input type="hidden" name="additionalCode" value="{{additionalCode}}">
+      {% endif %}
+        <input type="hidden" name="original" value="{{original}}">
+        {% include "includes/import-date-fields.html" %}
+      {% endif %}
+
+
+    </form>
+  </div>
+</div>
+
+{% endblock %}

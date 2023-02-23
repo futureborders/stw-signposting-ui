@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,10 @@ const validateEnv = (): any => cleanEnv(process.env, {
   COOKIE_MAX_AGE: num(),
   COOKIE_SETTINGS_MAX_AGE: num(),
   AUTH_ENABLED: bool(),
+  REDIRECT_DOMAIN: str(),
+  OAUTH_DOMAIN: str(),
+  OAUTH_CLIENT_ID: str(),
+  OAUTH_CLIENT_SECRET: str(),
   GATAG: str(),
   CSP_WHITE_LIST: str(),
   SHOW_LANGUAGE_TOGGLE: bool(),
@@ -38,6 +42,7 @@ const validateEnv = (): any => cleanEnv(process.env, {
   CACHE_PERIOD: num(),
   STARTPAGE_ENABLED: bool(),
   STARTPAGE_URL: str(),
+  EXPORTS_ENABLED: bool(),
   CHEG_SERVICE_BASE_URL: url(),
 });
 

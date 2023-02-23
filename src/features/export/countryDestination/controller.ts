@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,12 +56,8 @@ class ExportCountryDestinationController {
     try {
       const title = translation.page.exportCountryDestination.questionExporting;
       const { destinationCountry, tradeDetails } = req.query;
-
       const isEdit = req.query.isEdit === 'true';
-
-      const previousPage = `${journey.export.exportCountryDestination.previousPage(isEdit)}?${res.locals.queryParams}`;
-
-      const jsBackButton = !!tradeDetails;
+      const previousPage = journey.export.exportCountryDestination.previousPage(isEdit);
 
       const importDate = getImportDateFromQuery(req);
 
@@ -70,12 +66,10 @@ class ExportCountryDestinationController {
         destinationCountry,
         title,
         importDate,
-        jsBackButton,
         previousPage,
         isEdit,
         tradeDetails,
-        Route,
-        errors: showErrorMessage ? { text: showErrorMessage, visuallyHiddenText: translation.common.errors.error } : null,
+        errors: showErrorMessage ? { text: showErrorMessage } : null,
         csrfToken: req.csrfToken(),
       });
     } catch (e) {
@@ -85,7 +79,8 @@ class ExportCountryDestinationController {
 
   public exportCountryDestinationSubmit: RequestHandler = (req, res, next) => {
     const { destinationCountry, isEdit } = req.body;
-    const { queryParams, translation } = res.locals;
+    const { queryParams } = res.locals;
+    const { translation } = res.locals;
     const { originCountry } = req.query;
 
     const updatedQueryParams = updateQueryParams(queryParams, { destinationCountry });
@@ -103,7 +98,7 @@ class ExportCountryDestinationController {
         );
       } else if (isEdit) {
         redirectRoute(
-          Route.checkYourAnswers,
+          Route.exportCheckYourAnswers,
           updatedQueryParams,
           res,
         );

@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,30 +19,16 @@ import {
 
 import logger from '../utils/logger';
 
-const url = require('url');
-const path = require('path');
-
-const checkFileHash = (req: Request, res: Response) => {
-  const period = process.env.CACHE_PERIOD || 15770000;
-  const parsed = url.parse(String(req.originalUrl));
-
-  if (req.query.ref && res.locals.fileHash[path.basename(parsed.pathname)].includes(req.query.ref)) {
-    res.setHeader('Cache-control', `public, max-age=${period}`);
-    logger.debug('Cache-control set for GET request assets');
-  } else {
-    res.setHeader('Cache-control', 'no-store');
-    res.status(302);
-    logger.debug('Cache-control set to no-store');
-  }
-};
-
 const setCache = (
   req: Request,
   res: Response,
   next: NextFunction,
 ):void => {
+  const period = process.env.CACHE_PERIOD || 15770000;
+
   if (req.method === 'GET' && req.url.includes('/static/')) {
-    checkFileHash(req, res);
+    res.setHeader('Cache-control', `public, max-age=${period}`);
+    logger.debug('Cache-control set for GET request assets');
   } else {
     res.setHeader('Cache-control', 'no-store');
   }

@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,10 @@
  */
 
 import {
-  isLeapYear, isAfter, add, isPast, parse, isValid,
+  isLeapYear, isAfter, add, isPast, format, parse, isValid,
 } from 'date-fns';
 
 import { ImportDateError, DateErrors } from '../interfaces/importDate.interface';
-import { formatDate } from './filters/formatDate';
 
 const regExp = /^\d+$/;
 
@@ -59,24 +58,19 @@ const isInThePast = (dateToCompare: Date): boolean => isPast(add(dateToCompare, 
 const isWithinYear = (dateToCompare: Date): boolean => isAfter(dateToCompare, add(new Date(), { years: 1 }));
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const validateImportDate = (importDate: any, translation: any, tradeType: string, language?: string): any => {
+const validateImportDate = (importDate: any, translation: any, tradeType?: string): any => {
   const isExportJourney = tradeType === 'export';
   const { day, month, year } = importDate;
   const dateToValidate = parseDate(day, month, year);
   const isDay = day <= 31;
   const isValidMonth = month <= 12;
-  const isValidYear = year.length !== 3 && year > 0 && year <= 9999;
+  const isValidYear = year.length !== 3;
   const isValidDay = checkDayValidity(day, month, year);
   const isValidDate = isValid(dateToValidate);
   const dayNotNumber = !day.match(regExp);
   const monthNotNumber = !month.match(regExp);
   const yearNotNumber = !year.match(regExp);
-  const date = add(new Date(), { years: 1 });
-  const oneYearFromToday = {
-    day: String(date.getDate()),
-    month: String(date.getMonth() + 1),
-    year: String(date.getFullYear()),
-  };
+
   const importsTranslation = translation.page.importDate;
   const exportsTranslation = translation.page.exportGoodsArrivalDate;
 
@@ -125,7 +119,7 @@ const validateImportDate = (importDate: any, translation: any, tradeType: string
     invalidMonth: { id: 'invalidMonth', message: errorInvalidMonth },
     invalidYear: { id: 'invalidYear', message: errorInvalidYear },
     dateInThePast: { id: 'dateInThePast', message: translation.page.importDate.errorDateInThePast },
-    dateWithinYear: { id: 'dateWithinYear', message: translation.page.importDate.errorDateWithinYear(formatDate(oneYearFromToday, language)) },
+    dateWithinYear: { id: 'dateWithinYear', message: translation.page.importDate.errorDateWithinYear(`${format(add(new Date(), { years: 1 }), 'd LLLL yyyy')}`) },
     dayNotNumber: { id: 'invalidDay', message: errorDayNotNumber },
     monthNotNumber: { id: 'invalidMonth', message: errorMonthNotNumber },
     yearNotNumber: { id: 'invalidYear', message: errorYearNotNumber },

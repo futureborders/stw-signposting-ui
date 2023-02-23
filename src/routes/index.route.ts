@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,48 +15,48 @@
  */
 
 import { Router } from 'express';
-import IndexController from '../features/common/index/controller';
-import TypeOfTradeController from '../features/common/typeOfTrade/controller';
-import GoodsIntentController from '../features/import/goodsIntent/controller';
-import IdentifyUserTypeController from '../features/import/identifyUserType/controller';
-import ImportDateController from '../features/import/importDate/controller';
-import ImportDeclarationsController from '../features/import/importDeclarations/controller';
-import ImportGoodsController from '../features/import/importGoods/controller';
-import DestinationCountryController from '../features/import/destinationCountry/controller';
-import ImportCountryOriginController from '../features/import/importCountryOrigin/controller';
+import IndexController from '../controllers/index.controller';
+import TypeOfTradeController from '../controllers/typeOfTrade.controller';
+import GoodsIntentController from '../controllers/goodsIntent.controller';
+import IdentifyUserTypeController from '../controllers/identifyUserType.controller';
+import ImportDateController from '../controllers/importDate.controller';
+import ImportDeclarationsController from '../controllers/importDeclarations.controller';
+import ImportGoodsController from '../controllers/importGoods.controller';
+import DestinationCountryController from '../controllers/destinationCountry.controller';
+import ImportCountryOriginController from '../controllers/importCountryOrigin.controller';
+import ManageThisTradeController from '../controllers/manageThisTrade.controller';
 import ImportCheckLicencesAndRestrictionsController from '../features/import/checkLicencesAndRestrictions/controller';
 import ImportProhibitionsAndRestrictionsController from '../features/import/prohibitionsAndRestrictions/controller';
 import ImportAdditionalQuestionsController from '../features/import/additionalQuestions/controller';
 import ImportCalculateCustomsDutyImportVatController from '../features/import/calculateCustomsDutyImportVat/controller';
 import ImportRegisterToBringGoodsController from '../features/import/registerToBringGoods/controller';
 import ImportCheckInformationAndDocumentsController from '../features/import/checkInformationAndDocuments/controller';
-import ImportCheckDeclarationsController from '../features/import/checkDeclarations/controller';
-import NorthernIrelandAndEUTradingController from '../features/common/northernIrelandAndEUTrading/controller';
+import NorthernIrelandAndEUTradingController from '../controllers/northernIrelandAndEUTrading.controller';
 import AccessibilityController from '../features/common/accessibility/controller';
-import ManageCookiesController from '../features/common/cookies/controller';
-import PrivacyNoticeController from '../features/common/privacyNotice/controller';
-import AdditionalCodeController from '../features/common/additionalCode/controller';
-import SearchController from '../features/common/search/controller';
-import SearchHeadingsController from '../features/common/search/searchHeadings';
+import ManageCookiesController from '../controllers/manageCookies.controller';
+import PrivacyNoticeController from '../controllers/privacyNotice.controller';
+import AdditionalCodeController from '../controllers/additionalCode.controller';
+import SearchController from '../controllers/search.controller';
+import SearchHeadingsController from '../controllers/searchHeadings.controller';
 import Routes, { Route } from '../interfaces/routes.interface';
 import StwTradeTariffApi from '../services/StwTradeTariffApi.service';
 import TradeTariffApi from '../services/TradeTariffApi.service';
 import ExportDeclarationsController from '../features/export/declarations/controller';
-import TaskListController from '../features/common/taskList/controller';
+import ExportTaskListController from '../features/export/taskList/controller';
 import ExportCommoditySearchController from '../features/export/commoditySearch/controller';
 import ExportCheckLicencesAndRestrictionsController from '../features/export/checkLicencesAndRestrictions/controller';
 import ExportCountryDestinationController from '../features/export/countryDestination/controller';
-import CheckYourAnswersController from '../features/common/checkYourAnswers/controller';
+import ExportCheckYourAnswersController from '../features/export/checkYourAnswers/controller';
 import ExportOriginCountryController from '../features/export/originCountry/controller';
 import ExportCheckWhatServicesYouNeedToRegisterController from '../features/export/checkWhatServicesYouNeedToRegister/controller';
 import ExportGoodsArrivalDateController from '../features/export/goodsArrivalDate/controller';
 import ExportMovingGoodsFromNorthernIrelandToAnEUCountryController from '../features/export/movingGoodsFromNorthernIrelandToAnEUCountry/controller';
+import ExportAdditionalCodeController from '../features/export/additionalCode/controller';
 import ExportUserTypeTraderController from '../features/export/userTypeTrader/controller';
 import ExportGoodsIntentController from '../features/export/goodsIntent/controller';
 import ExportProhibitionsAndRestrictionsController from '../features/export/prohibitionsAndRestrictions/controller';
 import ExportCheckInformationAndDocumentsController from '../features/export/checkInformationAndDocuments/controller';
 import ExportCheckDeclarationsController from '../features/export/checkDeclarations/controller';
-import ExportResponsibleForDeclaringGoodsController from '../features/export/responsibleForDeclaringGoods/controller';
 
 class IndexRoute implements Routes {
   public router = Router();
@@ -87,7 +87,9 @@ class IndexRoute implements Routes {
 
   private additionalCodeController : AdditionalCodeController;
 
-  private importCountryOriginController : ImportCountryOriginController;
+  public importCountryOriginController = new ImportCountryOriginController();
+
+  private manageThisTradeController : ManageThisTradeController;
 
   private importCheckLicencesAndRestrictionsController : ImportCheckLicencesAndRestrictionsController;
 
@@ -101,15 +103,13 @@ class IndexRoute implements Routes {
 
   public importCheckInformationAndDocumentsController = new ImportCheckInformationAndDocumentsController();
 
-  private importCheckDeclarationsController = new ImportCheckDeclarationsController();
-
   private searchController : SearchController;
 
   private searchHeadingsController : SearchHeadingsController;
 
   public exportDeclarationsController = new ExportDeclarationsController();
 
-  private taskListController : TaskListController;
+  private exportTaskListController : ExportTaskListController;
 
   public exportCommoditySearchController = new ExportCommoditySearchController();
 
@@ -117,7 +117,7 @@ class IndexRoute implements Routes {
 
   private exportCountryDestinationController : ExportCountryDestinationController;
 
-  public checkYourAnswersController = new CheckYourAnswersController();
+  public exportCheckYourAnswersController = new ExportCheckYourAnswersController();
 
   private exportOriginCountryController : ExportOriginCountryController;
 
@@ -127,6 +127,8 @@ class IndexRoute implements Routes {
 
   public exportMovingGoodsFromNorthernIrelandToAnEUCountryController = new ExportMovingGoodsFromNorthernIrelandToAnEUCountryController();
 
+  private exportAdditionalCodeController : ExportAdditionalCodeController;
+
   public exportUserTypeTraderController = new ExportUserTypeTraderController();
 
   public exportGoodsIntentController = new ExportGoodsIntentController();
@@ -135,23 +137,22 @@ class IndexRoute implements Routes {
 
   public exportCheckInformationAndDocumentsController = new ExportCheckInformationAndDocumentsController();
 
-  public exportCheckDeclarationsController = new ExportCheckDeclarationsController();
-
-  public exportResponsibleForDeclaringGoodsController = new ExportResponsibleForDeclaringGoodsController();
+  private exportCheckDeclarationsController = new ExportCheckDeclarationsController();
 
   constructor(tradeTariffApi: TradeTariffApi, stwtradeTariffApi: StwTradeTariffApi) {
+    this.manageThisTradeController = new ManageThisTradeController(stwtradeTariffApi);
     this.importCheckLicencesAndRestrictionsController = new ImportCheckLicencesAndRestrictionsController(stwtradeTariffApi);
     this.importProhibitionsAndRestrictionsController = new ImportProhibitionsAndRestrictionsController(stwtradeTariffApi);
     this.importAdditionalQuestionsController = new ImportAdditionalQuestionsController(stwtradeTariffApi);
     this.importCalculateCustomsDutyImportVatController = new ImportCalculateCustomsDutyImportVatController(stwtradeTariffApi);
-    this.importCountryOriginController = new ImportCountryOriginController(stwtradeTariffApi);
     this.additionalCodeController = new AdditionalCodeController(stwtradeTariffApi);
     this.searchController = new SearchController(tradeTariffApi, stwtradeTariffApi);
     this.searchHeadingsController = new SearchHeadingsController(tradeTariffApi, stwtradeTariffApi);
     this.exportCheckLicencesAndRestrictionsController = new ExportCheckLicencesAndRestrictionsController(stwtradeTariffApi);
     this.exportCountryDestinationController = new ExportCountryDestinationController(tradeTariffApi);
+    this.exportAdditionalCodeController = new ExportAdditionalCodeController(stwtradeTariffApi);
     this.exportOriginCountryController = new ExportOriginCountryController(stwtradeTariffApi);
-    this.taskListController = new TaskListController(stwtradeTariffApi);
+    this.exportTaskListController = new ExportTaskListController(stwtradeTariffApi);
     this.exportProhibitionsAndRestrictionsController = new ExportProhibitionsAndRestrictionsController(stwtradeTariffApi);
     this.initializeRoutes();
   }
@@ -159,64 +160,38 @@ class IndexRoute implements Routes {
   private initializeRoutes() {
     this.router.get(Route.index, this.indexController.index);
     this.router.get(Route.typeOfTrade, this.typeOfTradeController.typeOfTrade);
-    this.router.post(Route.typeOfTrade, this.typeOfTradeController.typeOfTradeSubmit);
     this.router.get(Route.goodsIntent, this.goodsIntentController.goodsIntent);
-    this.router.post(Route.goodsIntent, this.goodsIntentController.goodsIntentSubmit);
     this.router.get(
       Route.identifyUserType,
       this.identifyUserTypeController.identifyUserType,
-    );
-    this.router.post(
-      Route.identifyUserType,
-      this.identifyUserTypeController.identifyUserTypeSubmit,
     );
     this.router.get(
       Route.importDeclarations,
       this.importDeclarationsController.importDeclarations,
     );
-    this.router.post(
-      Route.importDeclarations,
-      this.importDeclarationsController.importDeclarationsSubmit,
-    );
     this.router.get(
       Route.importDate,
       this.importDateController.importDate,
-    );
-    this.router.post(
-      Route.importDate,
-      this.importDateController.importDateSubmit,
     );
     this.router.get(
       Route.importGoods,
       this.importGoodsController.importGoods,
     );
-    this.router.post(
-      Route.importGoods,
-      this.importGoodsController.importGoodsSubmit,
-    );
     this.router.get(
       Route.destinationCountry,
       this.destinationCountryController.destinationCountry,
-    );
-    this.router.post(
-      Route.destinationCountry,
-      this.destinationCountryController.destinationCountrySubmit,
     );
     this.router.get(
       Route.importCountryOrigin,
       this.importCountryOriginController.importCountryOrigin,
     );
-    this.router.post(
-      Route.importCountryOrigin,
-      this.importCountryOriginController.importCountryOriginSubmit,
-    );
     this.router.get(
       Route.additionalCode,
       this.additionalCodeController.additionalCode,
     );
-    this.router.post(
-      Route.additionalCode,
-      this.additionalCodeController.additionalCodeSubmit,
+    this.router.get(
+      Route.manageThisTrade,
+      this.manageThisTradeController.manageThisTrade,
     );
     this.router.get(
       Route.importCheckLicencesAndRestrictions,
@@ -241,10 +216,6 @@ class IndexRoute implements Routes {
     this.router.get(
       Route.importCheckInformationAndDocuments,
       this.importCheckInformationAndDocumentsController.importCheckInformationAndDocuments,
-    );
-    this.router.get(
-      Route.importCheckDeclarations,
-      this.importCheckDeclarationsController.importCheckDeclarations,
     );
     this.router.get(
       Route.northernIrelandAndEUTrading,
@@ -286,13 +257,9 @@ class IndexRoute implements Routes {
       Route.exportCommoditySearch,
       this.exportCommoditySearchController.exportCommoditySearch,
     );
-    this.router.post(
-      Route.exportCommoditySearch,
-      this.exportCommoditySearchController.exportCommoditySearchSubmit,
-    );
     this.router.get(
-      Route.taskList,
-      this.taskListController.taskList,
+      Route.exportTaskList,
+      this.exportTaskListController.exportTaskList,
     );
     this.router.get(
       Route.exportCheckLicencesAndRestrictions,
@@ -307,8 +274,8 @@ class IndexRoute implements Routes {
       this.exportCountryDestinationController.exportCountryDestinationSubmit,
     );
     this.router.get(
-      Route.checkYourAnswers,
-      this.checkYourAnswersController.checkYourAnswers,
+      Route.exportCheckYourAnswers,
+      this.exportCheckYourAnswersController.checkYourAnswers,
     );
     this.router.get(
       Route.exportOriginCountry,
@@ -333,6 +300,14 @@ class IndexRoute implements Routes {
     this.router.get(
       Route.exportMovingGoodsFromNorthernIrelandToAnEUCountry,
       this.exportMovingGoodsFromNorthernIrelandToAnEUCountryController.movingGoodsFromNorthernIrelandToAnEUCountry,
+    );
+    this.router.get(
+      Route.exportAdditionalCode,
+      this.exportAdditionalCodeController.exportAdditionalCode,
+    );
+    this.router.post(
+      Route.exportAdditionalCode,
+      this.exportAdditionalCodeController.exportAdditionalCodeSubmit,
     );
     this.router.get(
       Route.exportUserTypeTrader,
@@ -361,14 +336,6 @@ class IndexRoute implements Routes {
     this.router.get(
       Route.exportCheckDeclarations,
       this.exportCheckDeclarationsController.exportCheckDeclarations,
-    );
-    this.router.get(
-      Route.exportResponsibleForDeclaringGoods,
-      this.exportResponsibleForDeclaringGoodsController.exportResponsibleForDeclaringGoods,
-    );
-    this.router.post(
-      Route.exportResponsibleForDeclaringGoods,
-      this.exportResponsibleForDeclaringGoodsController.exportResponsibleForDeclaringGoodsSubmit,
     );
   }
 }

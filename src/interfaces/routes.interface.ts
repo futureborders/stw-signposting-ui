@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,35 +34,35 @@ export enum Route {
   search = '/search',
   searchHeadings = '/search/:itemId/:sid',
   additionalCode = '/additional-code',
-  importCheckLicencesAndRestrictions = '/import/check-licences-certificates-and-other-restrictions',
-  importProhibitionsAndRestrictions = '/import/prohibitions-and-restrictions',
-  importAdditionalQuestions = '/import/additional-question',
-  importCalculateCustomsDutyImportVat = '/import/calculate-the-customs-duty-and-import-vat',
-  importRegisterToBringGoods = '/import/check-which-services-you-need-to-register-with',
-  importCheckInformationAndDocuments = '/import/check-what-information-and-documents-you-may-need',
-  importCheckDeclarations = '/import/check-which-declarations-you-need-to-submit',
+  manageThisTrade = '/manage-this-trade',
+  importCheckLicencesAndRestrictions = '/manage-this-trade/check-licences-certificates-and-other-restrictions',
+  importProhibitionsAndRestrictions = '/manage-this-trade/prohibitions-and-restrictions',
+  importAdditionalQuestions = '/manage-this-trade/additional-question',
+  importCalculateCustomsDutyImportVat = '/manage-this-trade/calculate-the-customs-duty-and-import-vat',
+  importRegisterToBringGoods = '/manage-this-trade/register-to-bring-goods-across-the-border',
+  importCheckInformationAndDocuments = '/manage-this-trade/check-what-information-and-documents-you-may-need',
   northernIrelandAndEUTrading = '/northern-ireland-and-eu-trading',
   accessibility = '/accessibility-statement',
   manageCookies = '/cookies',
   saveCookieSettings = '/save-cookie-settings',
   privacyNotice = '/privacy-notice',
   tariffAndTaxes = '/tariff-and-taxes',
-  taskList = '/task-list',
   exportDeclarations = '/export/export-declarations',
   exportCommoditySearch = '/export/export-commodity-search',
   exportCountryDestination = '/export/country-destination',
+  exportTaskList = '/export/task-list',
   exportCheckLicencesAndRestrictions = '/export/export-check-licences-and-restrictions',
-  checkYourAnswers = '/check-your-answers',
+  exportCheckYourAnswers = '/check-your-answers',
   exportOriginCountry = '/export/export-origin-country',
   exportCheckWhatServicesYouNeedToRegister = '/export/check-which-services-you-need-to-register',
   exportGoodsArrivalDate = '/export/export-goods-arrival-date',
   exportMovingGoodsFromNorthernIrelandToAnEUCountry = '/export/moving-goods-from-northern-ireland-to-an-eu-country',
+  exportAdditionalCode = '/export/export-additional-code',
   exportUserTypeTrader = '/export/what-are-you-responsible-for',
   exportGoodsIntent = '/export/goods-intent',
   exportProhibitionsAndRestrictions = '/export/prohibitions-and-restrictions',
   exportCheckInformationAndDocuments = '/export/check-information-and-documents',
   exportCheckDeclarations = '/export/export-check-declarations',
-  exportResponsibleForDeclaringGoods = '/export/responsible-for-declaring-goods',
 }
 
 export default Routes;

@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 /* istanbul ignore file */
 
 import { MeasureType } from '../interfaces/enums.interface';
@@ -46,46 +47,50 @@ const Translation = {
     },
     typeOfTrade: {
       question: 'Are the goods going to be imported or exported?',
-      label: 'Select import or export',
       import: 'Import (bring goods into the UK)',
       export: 'Export (send goods from the UK)',
+      hint: 'You will be taken to a different government service for steps to take to export goods',
       error: 'Select if you want to import or export goods',
-      followDifferentRules: 'There is specific guidance if you are <a href="https://www.gov.uk/guidance/trading-and-moving-goods-in-and-out-of-northern-ireland" target="_blank" rel="noopener noreferrer" class="govuk-link">moving goods in and out of Northern Ireland (opens in new tab)</a>.',
-      availableInWelsh: 'This service is partially available in Welsh.',
+      followDifferentRules: 'Different rules apply if you are <a href="https://www.gov.uk/guidance/trading-and-moving-goods-in-and-out-of-northern-ireland" target="_blank" rel="noopener noreferrer" class="govuk-link">moving goods between the EU and Northern Ireland (opens in new tab)</a>.',
     },
     goodsIntent: {
-      question: 'Why are the goods being brought into the UK?',
-      error: 'Select why are the goods being brought into the UK',
+      question: 'What are you doing with the goods?',
+      error: 'Select what you are doing with the goods',
       hint: 'Select only one',
-      bringGoodsToSellForBusiness: 'The goods are being brought in to be sold, processed or used in a business',
-      bringGoodsInLuggageForBusiness: 'The goods are being sold by a business, and either carried in accompanied luggage or a small vehicle carrying up to 9 people and weighing 3.5 tonnes or less',
-      bringGoodsTemporarilyForBusiness: 'The goods are being brought into the UK temporarily for business use, for example, to be repaired or forwarded on to another country',
-      bringGoodsThroughPostForPersonal: 'The goods are being brought in through the post for personal use',
-      bringGoodsInLuggageForPersonal: 'The goods are being brought in by luggage for personal use',
-      movingToUkWithBelongingsForPersonal: 'The goods are personal belongings and being moved to the UK',
+      bringGoodsToSellForBusiness: 'I\'m transporting or bringing goods in to sell, process or use in my business',
+      bringGoodsInLuggageForBusiness: 'I\'m bringing goods in by luggage, car or van to use in my business or sell',
+      bringGoodsTemporarilyForBusiness: 'I\'m bringing goods into the UK temporarily for business use, for example to repair or forward to another country',
+      bringGoodsThroughPostForPersonal: 'I\'m getting goods through the post for personal use',
+      bringGoodsInLuggageForPersonal: 'I\'m bringing goods in luggage for personal use',
+      movingToUkWithBelongingsForPersonal: 'I\'m moving to the UK with my personal belongings',
       dividerHeadingBusiness: '<h2 class=\'govuk-heading-s govuk-!-margin-top-8\'>For business use</h2>',
       dividerHeadingPersonal: '<h2 class=\'govuk-heading-s govuk-!-margin-top-8\'>For personal use</h2>',
     },
     identifyUserType: {
-      question: 'What are you responsible for?',
-      yes: 'I’m buying or importing the goods',
-      no: 'I’m acting on behalf of the buyer or importer (for example, a customs agent or freight forwarder)',
-      neither: 'Neither of the above apply',
-      error: 'Select what are you responsible for',
+      question: 'Are you the importer or person buying the goods?',
+      yes: 'Yes',
+      no: 'No, I am the importer’s representative (for example, an agent or freight forwarder)',
+      error: 'Select if you are the importer or their representative',
     },
     importDeclarations: {
-      question: 'Who will submit the import declaration?',
-      error: 'Select who will submit the declaration',
-      hint: '<p class="govuk-hint">Declarations are needed for goods to cross the border. Inaccurate declarations can result in penalties, goods being delayed or seized.</p>'
-        + '<p class="govuk-hint">You may need to pay for specialist software to complete declarations or you can get someone like a freight forwarder to submit them for you.</p>',
-      yes: 'I will complete all or some of the declaration',
-      no: 'Someone acting on my behalf will do this for me (for example, a customs agent or freight forwarder)',
-      notSure: 'I’m not sure',
+      question: 'Will you submit your own import declaration?',
+      error: 'Select if you will submit your own import declaration',
+      hint: '<p class="govuk-hint">You need to pay for specialist software to complete your own import declarations. <a href="https://www.gov.uk/government/collections/customs-declaration-service#making-a-declaration" target="_blank" rel="noopener noreferrer" class="govuk-link">Find out how make a customs declaration (opens in new tab)</a>.</p>'
+        + '<p class="govuk-hint">You can also pay someone to submit declarations on your behalf, for example an agent or freight forwarder. <a href="https://www.gov.uk/guidance/appoint-someone-to-deal-with-customs-on-your-behalf?step-by-step-nav=849f71d1-f290-4a8e-9458-add936efefc5" target="_blank" rel="noopener noreferrer" class="govuk-link">Find out how to hire an agent (opens in new tab)</a>.</p>',
+      yes: 'Yes, I will complete the full or supplementary declaration',
+      no: 'No, someone acting on my behalf will do this for me',
+      notSure: 'I’m not sure yet',
     },
     importDate: {
-      question: 'When will the goods arrive at the UK border?',
-      p1: 'Enter a date that is within the next 12 months. If you enter an approximate date you must return to this service and enter the exact date because regulations which affect the goods can change.',
-      hint: 'For example, 12 9 2022',
+      question: 'When will the goods be imported?',
+      p1: 'Enter the date you’re moving goods into the UK to make sure you get accurate results. If you’re not sure, enter the date you think you will import.',
+      regulatoryControls: 'Regulatory controls',
+      regulatoryControlsDetails: '<p>Regulatory controls can change at any time, so you should check for updates near the expected date of your import. To do this, you can either:</p>'
+      + '<ul class="govuk-list govuk-list--bullet">'
+        + '<li>check the latest updates on tariffs using the <a href="https://www.gov.uk/government/collections/tariff-stop-press-notices" class="govuk-link" target="_blank" rel="noopener noreferrer">tariff stop press notices (opens in new tab)</a></li>'
+        + '<li>enter your details again using this service and follow the process</li>'
+      + '</ul>',
+      hint: 'Use this date format, for example: 27 3 2022',
       errorInvalidDate:
         'Date must be a real date',
       errorDateInThePast: 'Date must be today or in the future',
@@ -105,17 +110,11 @@ const Translation = {
       errorMissingMonthYear: 'The date that the goods will be imported must include a month and year',
     },
     importGoods: {
-      question: 'What is the name or the commodity code of the goods?',
-      summaryDetails: '<p>Commodity codes for imports are 10-digit numbers that classify the goods.</p>'
-        + '<p>You must use the correct commodity code to:</p>'
-        + '<ul class="govuk-list govuk-list--bullet">'
-        + '<li>complete the import declaration</li>'
-        + '<li>check licences, certificates and any restrictions that apply</li>'
-        + '<li>pay the correct Customs Duties and import VAT, if applicable</li>'
-        + '</ul>'
-        + '<p>If you cannot find the right commodity code, you can <a href="https://www.gov.uk/guidance/ask-hmrc-for-advice-on-classifying-your-goods" target="_blank" rel="noopener noreferrer">ask HMRC for help (opens in new tab)</a>.</p>',
-      warning: 'It is your responsibility to ensure the commodity codes entered at the border are correct. Declaring an inaccurate commodity code at the border may result in penalties.',
-      label: 'Search for the goods by name or enter the import commodity code:',
+      question: 'What is the name or commodity code for your goods?',
+      p1: 'Commodity codes are 10-digit numbers that classify goods so you can fill in declarations and other paperwork.',
+      p2: 'You must use the right commodity code. You need it to check licences, restrictions, duty and VAT payments.',
+      p3: '<a href="https://www.gov.uk/guidance/ask-hmrc-for-advice-on-classifying-your-goods" target="_blank" rel="noopener noreferrer">Contact HMRC if you need help finding the right commodity code for your goods (opens in new tab)</a>',
+      label: 'Enter the name of the goods or 10-digit commodity code:',
       errors: {
         required: 'Enter the name of the goods or a commodity code',
         mustBeNumber: 'Commodity code must be a number, like 0304410010',
@@ -123,7 +122,6 @@ const Translation = {
         commodityNotFound:
           'This code is not valid. Enter a valid commodity code',
       },
-      summaryText: 'What is a commodity code for imports?',
     },
     searchResults: {
       title: 'Search results',
@@ -134,8 +132,6 @@ const Translation = {
       category: 'Category',
       description: 'Product description',
       searchAgain: 'Search again',
-      search: 'Search',
-      commodityCode: 'Commodity code',
       contents: 'Contents',
       termAppears: (term: string, length: number, group: string): string => `The term '<strong>${term}</strong>' appears in <strong>${length}</strong> ${group}.`,
       noResultsMatchingH2: 'There are no results matching your query. Please search again and consider:',
@@ -148,7 +144,6 @@ const Translation = {
         matching: 'Categories matching',
         group: 'categories',
         groupSingular: 'category',
-        ofGroup: 'categories',
       },
       chapter: {
         heading: 'Category',
@@ -157,30 +152,180 @@ const Translation = {
         matching: 'Commodities matching',
         group: 'commodities',
         groupSingular: 'commodity',
-        ofGroup: 'commodities',
       },
     },
     destinationCountry: {
-      question: 'Where are the goods arriving?',
-      hint: 'Different rules and regulations currently apply to goods that arrive into Northern Ireland from the EU.',
-      error: 'Select where the goods are arriving',
+      question: 'Which part of the UK are you importing into?',
+      hint: 'You may need to follow different import rules depending on where in the UK your goods are going.',
+      gb: 'England, Scotland or Wales',
+      xi: 'Northern Ireland',
+      error: 'Select if you are importing into England, Scotland, Wales or Northern Ireland',
       origin: 'Country of origin: ',
       importingIntoUK: (originCountry: string): string => `You may need to follow different import rules if you are importing goods into ${originCountry}.`,
       assumedText: (originCountry: string, importToCountry: string): string => `Because you selected <strong>${originCountry}</strong> as the country of origin of the goods, it is assumed that the country you are importing to is <strong>${importToCountry}</strong>.`,
       changeOriginCountryLink: 'Change country of origin',
     },
     importCountryOrigin: {
-      question: 'What is the country of origin of the goods?',
-      hint: 'Country of origin refers to the country where the goods were mostly or wholly manufactured, grown or modified. It is used for labelling purposes and affects duty rates.',
-      error: 'Enter the country of origin of the goods',
-      label: 'Enter the country of origin',
-      warning: '<p class="govuk-!-font-weight-bold">This service only provides guidance on country of origin. You must enter both country of departure and country of origin in the import declaration.</p><p class="govuk-!-font-weight-bold">If the country of origin is different to the country of departure when the goods are declared at the border, the regulations, tax and duties may differ from the guidance on this service. <a href="https://www.gov.uk/guidance/check-your-goods-meet-the-rules-of-origin" target="_blank">Check if the goods meet the rules of origin (opens in new tab)</a>.</p>',
+      questionImporting: 'Which country or territory are you importing from?',
+      hint: 'A territory is an area that sits outside the borders of the country that owns it, for example Gibraltar or Hong Kong.',
+      error: 'Enter which country or territory you\'re importing the goods from',
+      insetHtml: '<p>The country you are importing from may not be the country where your goods are grown, produced or manufactured.</p>'
+              + '<p>Check if your import controls are affected. You must meet the UK import controls of the country where your goods are grown, produced or manufactured.</p>'
+              + '<ul class="govuk-list">'
+              + '<li class="govuk-!-margin-bottom-4"><a href="https://www.gov.uk/guidance/check-your-goods-meet-the-rules-of-origin" class="govuk-link" target="_blank" rel="noopener noreferrer">Check if your goods meet the rules of origin (opens in new tab)</a></li>'
+              + '<li><a href="https://www.gov.uk/government/collections/guidance-for-preferential-rates-of-duty-and-rules-of-origin" class="govuk-link" target="_blank" rel="noopener noreferrer">Check if you may be able to reduce the duties on your goods (opens in new tab)</a></li>'
+              + '</ul>',
     },
     northernIrelandAndEUTrading: {
       title: 'Moving goods from EU countries to Northern Ireland',
       body: 'Make sure you know the trading rules on doing business in Northern Ireland.',
       learnMore:
         '<a href="https://www.gov.uk/guidance/trading-and-moving-goods-in-and-out-of-northern-ireland" target="_blank" rel="noopener noreferrer">Learn more about moving goods in and out of Northern Ireland (opens in new tab)</a>',
+    },
+    additionalCode: {
+      question: 'Describe the goods you are importing in more detail',
+      hint: 'The commodity you have selected can be further classified by adding 4-digits to the end. Select one option.',
+      error: 'Select a further classification for the commodity',
+    },
+    manageThisTrade: {
+      printDisclaimer:
+        'Information is likely subject to change over time. Return to this service for the latest information.',
+      summaryImport: 'Import goods into the UK: what you need to do next',
+      print: 'Print this page',
+      and: 'and',
+      enterBox44: (measureOptionCertificateCode: string): string => `Enter <strong>${measureOptionCertificateCode}</strong> in Box 44 of your import declaration.`,
+      commoditySummary: {
+        commodityCode: 'Commodity code',
+        importingFrom: 'Country of origin',
+        importingInto: 'Goods coming into',
+        classification: 'Classification',
+        importDate: 'Import date',
+        edit: 'Change',
+      },
+      rules: 'Rules that apply to your goods',
+      exceptions: 'When rules are different or do not apply',
+      followRules: 'Follow the rules that apply to import your goods.',
+      followRulesExport: 'Follow the rules that apply to export your goods.',
+      multiCertificatePrefix: 'Provide both of these documents:',
+      showLabel: 'Show full classification',
+      hideLabel: 'Hide full classification',
+      noMeasuresOrRestrictions: (country: string): string => `<p class="govuk-heading-s">There are no measures or restrictions for importing this commodity into the UK from ${country}.</p><p class="govuk-body">Please check back later, as the rules may change.</p>`,
+      condition: 'You must meet this condition',
+      multipleConditions: (amount: string): string => `You must meet one of these ${amount} conditions`,
+      code: 'Code',
+      calculateTaxAndDuties: 'Calculate tax and duties',
+      waiverApplies: 'waiver also applies',
+      calculateNow: 'Calculate now',
+      commoditySummaryDetailsLink: 'Import details',
+      importDeclarationsNotRequired: 'No import declaration is needed for these goods',
+      calculateImportVat: 'Calculate the Import VAT',
+      noCustomsDutyToPay: 'There is no Customs Duty to pay',
+      noImportVatToPay: 'There is no Import VAT to pay',
+      '999L': {
+        header: 'Customs Declaration Service (CDS) universal waiver',
+        body: 'Requirement for a licence is waived by entering the 999L document code and the document identifier CDS WAIVER in the additional documentation field for this commodity item. 999L can be used for CDS in a similar way to LIC99 on the CHIEF system, when a waiver may be applied.',
+      },
+      documentCodesDetailsHeader: 'Document codes',
+      documentCodesDetailsSummary: 'The codes next to the rules or exemptions are the document codes that apply to your goods. You will need these document codes to complete the import declaration.',
+      beforeBuying: 'Before buying the goods',
+      readyToImport: 'When the goods are ready to import',
+      checkWhatInformation: 'Check what information and documents you may need',
+      entrySummaryDeclaration: 'Find out how to make an entry summary declaration (ENS)',
+      makeAnimportDeclaration: 'Find out how to make an import declaration',
+      subsidary: {
+        'check-licences-certificates-and-other-restrictions': 'Check licences, certificates and other restrictions',
+        'calculate-the-customs-duty-and-import-vat': 'Calculate the Customs Duty and Import VAT',
+        'register-to-bring-goods-across-the-border': 'Register to bring goods across the border',
+        'check-what-information-and-documents-you-may-need': 'Check what information and documents you may need',
+      },
+      checkLicensesAndCertificates: {
+        non_declaring_trader: (): string => '## Rules that apply to your goods\n\n'
+          + 'Follow the rules to find out:\n\n'
+          + '- licences that you need to move the goods\n'
+          + '- certificates that you must provide\n'
+          + '- controls or restrictions on goods entering the country\n'
+          + '- sanctions that make it illegal to trade with other countries\n\n'
+          + ':::+\n'
+          + 'If you do not have the right documents or licences, you will not be able to import your goods.\n\n'
+          + 'Make sure you [use the right commodity code and classify your goods correctly](https://www.gov.uk/guidance/finding-commodity-codes-for-imports-or-exports).\n'
+          + ':::\n\n'
+          + '### Exemptions: when rules are different or do not apply\n\n'
+          + 'Sometimes the rules are different or do not apply to specific goods or circumstances. The exemptions that appear after the rules tell you:\n\n'
+          + '- when the rules do not apply to your goods\n'
+          + '- any conditions you need to meet or evidence you need to show to prove the goods are exempt',
+        declaring_trader: (showSdsContent?: string): string => `${'## Rules that apply to your goods\n\n'
+          + 'Follow the rules to find out:\n\n'
+          + '- licences that you need to move the goods\n'
+          + '- certificates that you must provide\n'
+          + '- controls or restrictions on goods entering the country\n'
+          + '- sanctions that make it illegal to trade with other countries\n\n'
+          + ':::+\n'
+          + 'If you do not have the right documents or licences, you will not be able to import your goods.\n\n'
+          + 'Make sure you [use the right commodity code and classify your goods correctly](https://www.gov.uk/guidance/finding-commodity-codes-for-imports-or-exports).\n'
+          + ':::\n\n'
+          + '### Exemptions: when rules are different or do not apply\n\n'
+          + 'Sometimes the rules are different or do not apply to specific goods or circumstances. The exemptions that appear after the rules tell you:\n\n'
+          + '- when the rules do not apply to your goods\n'
+          + '- any conditions you need to meet or evidence you need to show to prove the goods are exempt\n\n'
+          + '+++ Document codes\n'
+          + 'The codes next to the rules or exemptions are the document codes that apply to your goods. You will need these document codes to complete the import declaration.\n'}${
+          showSdsContent
+        }\n+++`,
+        intermediary: (showSdsContent?: string): string => `${'## Rules that apply to the goods\n\n'
+          + 'Follow the rules to find out:\n\n'
+          + '- licences that your importer needs to move the goods\n'
+          + '- certificates that the seller must provide\n'
+          + '- controls or restrictions on goods entering the country\n'
+          + '- sanctions that make it illegal to trade with other countries\n\n'
+          + ':::+\n'
+          + 'If you do not have the right documents or licences, you will not be able to import the goods.\n\n'
+          + 'Make sure you [use the right commodity code and classify the goods correctly](https://www.gov.uk/guidance/finding-commodity-codes-for-imports-or-exports).\n'
+          + ':::\n\n'
+          + '### Exemptions: when rules are different or do not apply\n\n'
+          + 'Sometimes the rules are different or do not apply to specific goods or circumstances. The exemptions that appear after the rules tell you:\n\n'
+          + '- when the rules do not apply to your goods\n'
+          + '- any conditions you need to meet or evidence you need to show to prove the goods are exempt\n\n'
+          + '+++ Document codes\n'
+          + 'The codes next to the rules or exemptions are the document codes that apply to your goods. You will need these document codes to complete the import declaration.\n'}${
+          showSdsContent
+        }\n+++`,
+      },
+      whichDocumentsAreNeeded: {
+        non_declaring_trader: 'Make sure you know what information you need to supply and the accompanying documents required to bring your goods into the country.\n\n'
+          + 'Missing or inaccurate documents can increase risks, lead to delays and extra costs, or prevent your goods from crossing the border.\n\n'
+          + '[Find out which documents are needed for goods to travel](https://www.gov.uk/guidance/international-trade-paperwork-the-basics)\n\n'
+          + '[Read about trade contracts and incoterms](https://www.great.gov.uk/advice/prepare-for-export-procedures-and-logistics/international-trade-contracts-and-incoterms/)',
+        declaring_trader: 'Make sure you know what information you need to supply and the accompanying documents required to bring your goods into the country.\n\n'
+          + 'Missing or inaccurate documents can increase risks, lead to delays and extra costs, or prevent your goods from crossing the border.\n\n'
+          + '[Find out which documents are needed for goods to travel](https://www.gov.uk/guidance/international-trade-paperwork-the-basics)\n\n'
+          + '[Read about trade contracts and incoterms](https://www.great.gov.uk/advice/prepare-for-export-procedures-and-logistics/international-trade-contracts-and-incoterms/)',
+        intermediary: 'Make sure you know what information you and your importer need to supply and the accompanying documents required to bring the goods into the country.\n\n'
+          + 'Missing or inaccurate documents can increase risks, lead to delays and extra costs, or prevent goods from crossing the border.\n\n'
+          + '[Find out which documents are needed for goods to travel](https://www.gov.uk/guidance/international-trade-paperwork-the-basics)\n\n'
+          + '[Read about trade contracts and incoterms](https://www.great.gov.uk/advice/prepare-for-export-procedures-and-logistics/international-trade-contracts-and-incoterms/)',
+      },
+      calculateCustomsDutyImportVat: {
+        non_declaring_trader: '### Work out the duty, VAT and excise you need to pay\n'
+          + 'How much VAT and Customs Duty you pay depends on the [value of the goods you’re importing](https://www.gov.uk/guidance/how-to-value-your-imports-for-customs-duty-and-trade-statistics?step-by-step-nav=849f71d1-f290-4a8e-9458-add936efefc5)\n\n'
+          + 'Calculate how much import duty, VAT and excise you need to pay.',
+        declaring_trader: '### Work out the duty, VAT and excise you need to pay\n'
+          + 'How much VAT and Customs Duty you pay depends on the [value of the goods you’re importing](https://www.gov.uk/guidance/how-to-value-your-imports-for-customs-duty-and-trade-statistics?step-by-step-nav=849f71d1-f290-4a8e-9458-add936efefc5)\n\n'
+          + 'Calculate how much import duty, VAT and excise you need to pay.',
+        intermediary: '### Work out the duty, VAT and excise you need to pay\n'
+          + 'How much VAT and Customs Duty your importer pays depends on the [value of the goods you’re importing](https://www.gov.uk/guidance/how-to-value-your-imports-for-customs-duty-and-trade-statistics?step-by-step-nav=849f71d1-f290-4a8e-9458-add936efefc5)\n\n'
+          + 'Calculate how much import duty, VAT and excise your importer needs to pay.',
+      },
+      registerToBringGoodsAcrossTheBorder: {
+        non_declaring_trader: 'To bring goods into the UK, you need to:\n\n'
+          + '- [get an EORI number](http://www.gov.uk/eori)\n'
+          + '- [check if you should register for VAT](https://www.gov.uk/vat-registration/when-to-register?step-by-step-nav=849f71d1-f290-4a8e-9458-add936efefc5)',
+        declaring_trader: 'To bring goods into the UK, you need to:\n\n'
+          + '- [get an EORI number](http://www.gov.uk/eori)\n'
+          + '- [check if you should register for VAT](https://www.gov.uk/vat-registration/when-to-register?step-by-step-nav=849f71d1-f290-4a8e-9458-add936efefc5)',
+        intermediary: 'To bring goods into the UK, your importer needs to:\n\n'
+          + '- [get an EORI number](http://www.gov.uk/eori)\n'
+          + '- [check if they should register for VAT](https://www.gov.uk/vat-registration/when-to-register?step-by-step-nav=849f71d1-f290-4a8e-9458-add936efefc5)',
+      },
     },
     calculateCustomsDutyImportVat: {
       customsDutyImportVat: 'Customs Duty and Import VAT',
@@ -195,7 +340,6 @@ const Translation = {
       measureType: 'Measure type',
       value: 'Value',
       findOutMore: 'Find out more about:',
-      to: 'to',
       guidanceLinks: [
         {
           text: 'VAT rates on goods and services',
@@ -241,8 +385,11 @@ const Translation = {
       },
       howAccessible: {
         header: 'How accessible this service is',
-        p1: 'This service is fully compliant with the <a class="govuk-link" href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines version 2.1 AA standard</a>.',
-        p2: 'There are no known accessibility issues within this service.',
+        p1: 'This service is partially compliant with the <a class="govuk-link" href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines version 2.1 AA standard</a>.',
+        p2: 'Some people may find parts of this service difficult to use:',
+        list: [
+          'All the filter search result pages have the same title which makes it difficult to distinguish between them',
+        ],
       },
       reportingProblems: {
         header: 'Reporting accessibility problems with this service',
@@ -255,13 +402,21 @@ const Translation = {
       technicalInformation: {
         header: 'Technical information about this service’s accessibility',
         p1: 'HMRC is committed to making this service accessible, in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.',
-        p2: 'This service is fully compliant with the  <a class="govuk-link" href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines version 2.1 AA standard</a>.',
+        p2: 'This service is partially compliant with the  <a class="govuk-link" href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines version 2.1 AA standard</a>, due to the non-compliances listed below.',
+        nonAccessibleContent: {
+          header: 'Non‐accessible content',
+          p1: 'The content listed below is non-accessible for the following reasons.',
+          listHeading: 'Non‐compliance with the accessibility regulations',
+          list: [
+            'All the filter search result page titles are identical. This fails WCAG 2.1 success criterion 2.4.2 Page titled. This has been fixed and is awaiting retest.',
+          ],
+        },
       },
       howWeTested: {
         header: 'How we tested this service',
-        p1: 'The service was last tested on 31 January 2023 and was checked for compliance with WCAG 2.1 AA.',
+        p1: 'The service was last tested on 8 July 2022 and was checked for compliance with WCAG 2.1 AA.',
         p2: 'The service was built using parts that were tested by the <a class="govuk-link" href="https://www.digitalaccessibilitycentre.org/">Digital Accessibility Centre</a>. The full service was tested by HMRC and included disabled users.',
-        p3: 'This page was prepared on 14 July 2021. It was last updated on 10 February 2023.',
+        p3: 'This page was prepared on 14 July 2021. It was last updated on 14 July 2022.',
       },
     },
     cookies: {
@@ -324,7 +479,7 @@ const Translation = {
         'Privacy notice for ‘Check how to import or export goods’ service',
       thePurpose: 'The purpose of this document',
       summary:
-        'This privacy notice sets out the personal data that is collected by the ‘Check how to import or export goods’ service, how we use personal data and for what purposes. You should read the <a href="https://www.gov.uk/government/publications/data-protection-act-dpa-information-hm-revenue-and-customs-hold-about-you" class="govuk-link">HMRC Privacy Notice</a> alongside this privacy notice.',
+        'This privacy notice sets out the personal data which that is collected by the ‘Check how to import or export goods’ service, how we use personal data and for what purposes. You should read the <a href="https://www.gov.uk/government/publications/data-protection-act-dpa-information-hm-revenue-and-customs-hold-about-you" class="govuk-link">HMRC Privacy Notice</a> alongside this privacy notice.',
       yourData: {
         headeData: 'The personal data we hold about you',
         p1: 'For the purposes of collecting feedback to help improve the ‘Check How to Import or Export Goods’ service, we will (optionally) process the following personal data:',
@@ -377,7 +532,7 @@ const Translation = {
       retention: {
         header: 'Data retention',
         subheading: 'How long we’ll use your information',
-        p1: 'We will only retain your personal information for only as long as it is necessary for us to do so for the purposes for which we are using it and in line with our published <a href="https://www.gov.uk/government/publications/hmrc-records-management-and-retention-and-disposal-policy" class="govuk-link">records management and retention and disposal policy</a>.',
+        p1: 'We will only retain your personal information for only as long as it is necessary for us to do so for the purposes for which we are using it and in line with our published records <a href="https://www.gov.uk/government/publications/hmrc-records-management-and-retention-and-disposal-policy" class="govuk-link">management and retention and disposal policy</a>.',
         p2: 'If you supply personal information in order to request a response to feedback or queries submitted about the service, then your personal information will be stored only as long as is required to respond successfully to the query, after which time it will be deleted.',
         p3: 'In some circumstances we’ll anonymise your personal information so that it can no longer be associated with you, in which case we will use such information without further notice to you.',
       },
@@ -413,6 +568,21 @@ const Translation = {
         Y256: {
           question: 'Are you importing mangosteens?',
           errorText: 'Select if you are importing mangosteens',
+        },
+        Y257: {
+          question: 'Are you importing botanic goods containing seeds (except barley, maize, millets, oats and sorghum) not for sowing from these countries?',
+          errorText: 'Select if you are importing botanic goods containing seeds (except barley, maize, millets, oats and sorghum) not for sowing from these countries',
+          hintText: 'Argentina, Australia, Bolivia, Brazil, Chile, New Zealand, Uruguay.',
+        },
+        Y258: {
+          question: 'Are you importing botanic goods containing meslin, rye, triticale or wheat seeds for sowing from these countries?',
+          errorText: 'Select if you are importing botanic goods containing meslin, rye, triticale or wheat seeds for sowing from these countries',
+          hintText: 'Afghanistan,  Argentina, Australia, Bolivia, Brazil, Chile, India, Iran, Iraq, Mexico, Nepal, New Zealand, Pakistan, South Africa, Uruguay, USA.',
+        },
+        Y259: {
+          question: 'Are you importing botanic goods containing rye, triticale or wheat seeds for sowing from these countries?',
+          errorText: 'Select if you are importing botanic goods containing rye, triticale or wheat seeds for sowing from these countries',
+          hintText: 'Afghanistan, India, Iran, Iraq, Mexico, Nepal, Pakistan, South Africa, USA.',
         },
         Y067: {
           question: 'Are you importing machinery that could be contaminated with plant material?',
@@ -485,53 +655,41 @@ const Translation = {
       question: 'What is the name or the commodity code of the goods?',
       error: 'Enter the name of the goods or a commodity code',
       label: 'Search for the goods by name or enter the export commodity code:',
-      warning: 'It is your responsibility to ensure the commodity codes entered at the border are correct. Declaring an inaccurate commodity code at the border may result in penalties.',
-      summaryText: 'What is a commodity code for exports?',
+      summaryText: 'What is a UK export commodity code?',
       summaryDetails: '<p>Commodity codes are numbers that classify the goods.</p>'
-          + '<p>You must use the right commodity code to:'
+          + '<p>You must use the correct commodity code to:'
           + '<ul class="govuk-list govuk-list--bullet">'
           + '<li>complete export declarations</li>'
-          + '<li>check licences, certificates and any other restrictions that apply</li>'
+          + '<li>check licences</li>'
+          + '<li>check if any restrictions apply</li>'
           + '</ul>'
-          + '<p>If you cannot find the right commodity code, you can <a href="https://www.gov.uk/guidance/finding-commodity-codes-for-imports-or-exports"  target="_blank" rel="noopener noreferrer" class="govuk-link">ask HMRC for advice (opens in new tab)</a>.',
+          + '<p>If you cannot find the right commodity code, you can <a href="https://www.gov.uk/guidance/finding-commodity-codes-for-imports-or-exports"  target="_blank" rel="noopener noreferrer" class="govuk-link">ask HMRC for advice (opens in new tab)</a>. It can take several months for HMRC to classify goods.',
     },
     exportDeclarations: {
-      question: 'Who will submit the export declarations?',
-      error: 'Select who will submit the declaration',
+      question: 'Who will submit the declarations?',
+      error: 'Select who will submit the customs declarations',
       hint: '<p class="govuk-hint">Declarations are needed for goods to cross the border. Inaccurate declarations can result in penalties or goods being delayed or destroyed.</p>'
         + '<p class="govuk-hint">You may need to pay for specialist software to complete declarations or you can get someone like a freight forwarder to submit them for you.</p>',
       yes: 'I will submit all or some of the declarations',
       no: 'Someone acting on my behalf will do this for me',
       notSure: 'I’m not sure',
     },
-    taskList: {
-      viewAllAnswers: 'View all your answers',
-      import: {
-        noMeasures: 'There are no import measures for this commodity on this date.',
-      },
-      export: {
-        title: (destinationCountryName: string): string => `Exporting goods to ${destinationCountryName}: what you need to do`,
-        noMeasures: 'There are no export measures for this commodity on this date.',
-      },
-      calculateTaxAandDutyHeading: 'Calculate tax and duty',
-      checkHowMuchVatImportDutyAndExciseToPay: 'Check how much VAT, Import duty and Excise duty to pay',
-      checkHowMuchVatTopay: 'Check how much VAT to pay',
-      checkHowMuchImportDutyToPay: 'Check how much Import duty to pay',
-      checkHowMuchExciseDutyToPay: 'Check how much Excise duty to pay',
-      checkHowMuchVatAndImportDutyToPay: 'Check how much VAT and Import duty to pay',
-      checkHowMuchVatAndExciseDutyToPay: 'Check how much VAT and Excise duty to pay',
-      checkHowMuchImportDutyAndExciseDutyToPay: 'Check how much Import duty and Excise duty to pay',
+    exportTaskList: {
+      title: (destinationCountryName: string): string => `Exporting goods to ${destinationCountryName}: what you need to do`,
       beforeTheGoodsAreSoldHeading: 'Before the goods are sold',
+      checkYourExportDetailsSubheading: 'Check your answers',
+      checkEligibilityLink: 'Review your export details',
       checkWhatRestrictionsApplyToTheGoodsSubheading: 'Check what restrictions apply to the goods',
       checkWhatLicencesCertificatesAndOtherRestrictionsApplyToTheGoodsLink: 'Check what licences, certificates and other restrictions apply to the goods',
       signUpToServicesSubheading: 'Sign up to services',
       checkWhatServicesYouNeedToRegisterWithLink: 'Check which services you need to register with',
-      preparingToClearOriginBorderHeading: 'Before the goods arrive at the UK border',
+      preparingToClearOriginBorderHeading: 'Before the goods arrive at the UK customs border',
       prepareCustomsDeclarationsOriginSubheading: 'Prepare documents and declarations for the UK',
       checkWhatInformationAndDocumentsYouMayNeedLink: 'Check what information and documents you need',
-      gettingTheGoodsThroughCustomsBorderHeading: (destinationCountryName: string): string => `Getting the goods through ${destinationCountryName}’s customs border`,
-      prepareCustomsDeclarationsSubHeading: (destinationCountryName: string): string => `Prepare documents and declarations for ${destinationCountryName}`,
-      checkHowToImportGoodsInto: (destinationCountryName: string): string => `Check how to import goods into ${destinationCountryName}`,
+      checkWhatCustomsDeclarationsYouMayNeedToSubmitLink: 'Check which declarations you need to submit',
+      preparingToClearDestinationBorderHeading: (destinationCountryName: string): string => `Find out about getting the goods through ${destinationCountryName}’s customs border`,
+      preparingToClearDestinationBorderParagraph: 'You will be taken to another government service where the commodity code for the goods may be different.',
+      checkHowToClearGoodsIntoDestinationLink: (destinationCountryName: string): string => `Check how to get goods into ${destinationCountryName} (opens in new tab)`,
       statusTags: {
         viewed: 'Viewed',
         toView: 'To view',
@@ -544,34 +702,40 @@ const Translation = {
       error: 'Enter which country or territory you\'re exporting the goods to',
     },
     exportCheckLicencesAndRestrictions: {
+      title: 'Check what licences, certificates and other restrictions apply to the goods',
+      caption: 'Before the goods are sold',
       rulesThatApplyToYourGoods: {
+        rulesThatApplyH2: 'Rules that apply to your goods',
         followTheRules: 'Follow the rules to find out:',
         followTheRulesList1: 'licences that you need to move the goods',
         followTheRulesList2: 'certificates that you must provide',
         followTheRulesList3: 'sanctions that make it illegal to trade with other countries',
         insetText: '<p>If you do not have the right documents or licences, you will not be able to export your goods.</p>'
-        + '<p class="govuk-!-display-none-print">Make sure you <a href="https://www.gov.uk/guidance/finding-commodity-codes-for-imports-or-exports" target="_blank" rel="noopener noreferrer" class="govuk-link">use the right commodity code and classify your goods correctly (opens in new tab)</a>.</p>',
+        + '<p>Make sure you <a href="https://www.gov.uk/guidance/finding-commodity-codes-for-imports-or-exports" target="_blank" rel="noopener noreferrer" class="govuk-link">use the right commodity code and classify your goods correctly (opens in new tab)</a>.</p>',
         exemptionsH3: 'Exemptions: when rules are different or do not apply',
         exemptionsP1: 'Sometimes the rules are different or do not apply to specific goods or circumstances. The exemptions that appear after the rules tell you:',
         exemptionsList1: 'when the rules do not apply to your goods',
         exemptionsList2: 'any conditions you need to meet or evidence you need to show to prove the goods are exempt',
         detailsHeading: 'Document codes',
         detailsContent: '<p>The codes next to the rules or exemptions are the document codes that apply to your goods. You will need these document codes to complete the declaration.</p>',
+        cdsContent: '<h4 class="govuk-heading-s">Customs Declaration Service (CDS) universal waiver</h4>'
+        + '<p>Requirement for a licence is waived by entering the 999L document code and the document identifier CDS WAIVER in the additional documentation field for this commodity item. 999L can be used for CDS in a similar way to LIC99 on the CHIEF system, when a waiver may be applied.</p>',
+        noMeasures: 'There are no export measures for this commodity on this date.',
       },
     },
     checkYourAnswers: {
       title: 'Check your answers',
-      warning: 'The guidance you will be shown is based solely on the answers you provide. It is your responsibility to ensure all information is accurate. Providing inaccurate information may lead to delays and penalties at the customs border.',
     },
     exportOriginCountry: {
       question: 'Where are the goods departing from?',
+      hint: 'Different rules and regulations currently apply to goods that are sent from Northern Ireland to the EU.',
+      GB: 'Great Britain (England, Scotland and Wales)',
+      XI: 'Northern Ireland',
       error: 'Select where the goods are departing from',
-      warning: '<p class="govuk-!-font-weight-bold">You will need to state both the country of departure and the country of origin (where the goods are wholly or mostly manufactured, grown or modified) in the customs declaration.</p>'
-        + '<p class="govuk-!-font-weight-bold">If the country of origin is different to the country of departure when you declare the goods at the customs border, the regulations may differ from the guidance on this service.'
-        + ' <a href="https://www.gov.uk/guidance/sending-goods-to-an-overseas-customer-using-rules-of-origin" target="_blank" rel="noopener noreferrer" class="govuk-link">Check if the goods meet the rules of origin (opens in new tab)</a>.</p>',
-      rules: 'different rules apply to goods sent to the EU from Northern Ireland',
     },
     checkWhatServicesYouNeedToRegister: {
+      title: 'Check which services you need to register with',
+      caption: 'Sign up to services',
       hint: 'To export goods out of the UK, you need to:',
       guidanceLinks: [
         {
@@ -584,26 +748,27 @@ const Translation = {
       ],
     },
     exportGoodsArrivalDate: {
-      question: 'When will the goods arrive at the UK border?',
-      p1: 'Enter a date that is within the next 12 months. If you enter an approximate date you must return to this service and enter the exact date because regulations which affect the goods can change.',
+      question: 'When will the goods arrive at the UK customs border?',
+      p1: 'Enter a date within the next 12 months.',
+      p2: 'Enter the exact date to find out which regulations apply to the goods. You can enter an approximate date and continue, but you must enter the exact date when you know it to get the most accurate results.',
       hint: 'For example, 27 3 2023',
       errorInvalidDate:
         'Date must be a real date',
       errorDateInThePast: 'Date must be today or in the future',
       errorDateWithinYear: (datePlusOneYear: string): string => `Date must be before ${datePlusOneYear}`,
-      errorMissingDate: 'Enter the date that the goods arrive at the UK border',
-      errorMissingYear: 'The date that the goods arrive at the UK border must include a year',
-      errorMissingMonth: 'The date that the goods arrive at the UK border must include a month',
-      errorMissingDay: 'The date that the goods arrive at the UK border must include a day',
-      errorInvalidDay: 'The date that the goods arrive at the UK border must be a real day',
-      errorInvalidMonth: 'The date that the goods arrive at the UK border must be a real month',
-      errorInvalidYear: 'The date that the goods arrive at the UK border must be a real year',
+      errorMissingDate: 'Enter the date that the goods arrive at the UK customs border',
+      errorMissingYear: 'The date that the goods arrive at the UK customs border must include a year',
+      errorMissingMonth: 'The date that the goods arrive at the UK customs border must include a month',
+      errorMissingDay: 'The date that the goods arrive at the UK customs border must include a day',
+      errorInvalidDay: 'The date that the goods arrive at the UK customs border must be a real day',
+      errorInvalidMonth: 'The date that the goods arrive at the UK customs border must be a real month',
+      errorInvalidYear: 'The date that the goods arrive at the UK customs border must be a real year',
       errorDayNotNumber: 'Enter a day using numbers only',
       errorMonthNotNumber: 'Enter a month using numbers only',
       errorYearNotNumber: 'Enter a year using numbers only',
-      errorMissingDayMonth: 'The date that the goods arrive at the UK border must include a day and month',
-      errorMissingDayYear: 'The date that the goods arrive at the UK border must include a day and year',
-      errorMissingMonthYear: 'The date that the goods arrive at the UK border must include a month and year',
+      errorMissingDayMonth: 'The date that the goods arrive at the UK customs border must include a day and month',
+      errorMissingDayYear: 'The date that the goods arrive at the UK customs border must include a day and year',
+      errorMissingMonthYear: 'The date that the goods arrive at the UK customs border must include a month and year',
     },
     movingGoodsFromNorthernIrelandToAnEUCountry: {
       title: 'Moving goods from Northern Ireland to an EU country',
@@ -614,6 +779,11 @@ const Translation = {
           url: 'https://www.gov.uk/guidance/trading-and-moving-goods-in-and-out-of-northern-ireland',
         },
       ],
+    },
+    exportAdditionalCode: {
+      question: 'Describe the goods you are exporting in more detail',
+      hint: 'The commodity you have selected can be further classified by adding 4-digits to the end. Select one option.',
+      error: 'Select a further classification for the commodity',
     },
     exportUserTypeTrader: {
       question: 'What are you responsible for?',
@@ -631,7 +801,7 @@ const Translation = {
       goodsSoldInLuggageForBusiness: 'The goods are being sold by a business, carried in luggage or by private vehicle, and are less than £1,500 in value or weigh less than 1,500kg',
       goodsPostedForPersonal: 'The goods are being sent through the post for personal use',
       dividerHeadingBusiness: '<h2 class=\'govuk-heading-s govuk-!-margin-top-6\'>For business use</h2>',
-      dividerHeadingPersonal: '<h2 class=\'govuk-heading-s govuk-!-margin-top-4\'>For personal use</h2>',
+      dividerHeadingPersonal: '<h2 class=\'govuk-heading-s govuk-!-margin-top-4\'>Or for personal use</h2>',
     },
     exportProhibitionsAndRestrictions: {
       title: (destinationCountry: string): string => `Exporting goods to ${destinationCountry}: what you need to do`,
@@ -640,6 +810,7 @@ const Translation = {
       link: 'Learn more about prohibitions and restrictions (opens in new tab).',
     },
     checkInformationAndDocuments: {
+      title: 'Check what information and documents you need',
       caption: 'Prepare UK documents and declarations',
       commercialDocuments: 'Commercial documents',
       commercialDocumentsP1: 'You must provide the right paperwork to present at the UK customs border and <a href="https://www.gov.uk/guidance/archiving-your-trade-documents" target="_blank" rel="noopener noreferrer" class="govuk-link">keep a record of any documents (opens in new tab)</a>.',
@@ -653,210 +824,22 @@ const Translation = {
       shippingDocumentsL1: 'a bill of lading for goods sent by sea',
       shippingDocumentsL2: 'an air waybill for goods sent by air',
     },
-    checkDeclarations: {
-      common: {
-        title: 'Check which declarations you need to submit',
-        healthWarning: 'It is the legal responsibility of the transport operator to make sure the UK customs authority is provided with pre-departure safety and security information. ',
-        submitDeclarationP1: 'To make declarations yourself, your business must be established in the UK. If you are not established in the UK you must get someone to make the declarations for you.',
-        submitDeclarationP2: 'To make declarations yourself, you will need to <a href="https://www.gov.uk/guidance/get-access-to-the-customs-declaration-service" target="_blank" rel="noopener noreferrer" class="govuk-link">subscribe to the Customs Declaration Service (opens in new tab)</a> or <a href="https://www.gov.uk/guidance/apply-to-access-customs-handling-of-import-and-export-freight-c1800" target="_blank" rel="noopener noreferrer" class="govuk-link">get access to the Customs Handling of Import and Export Freight (CHIEF) system (opens in new tab)</a>.',
-        insetText: 'If goods are travelling through Great Britain (England, Scotland and Wales) or Northern Ireland to other countries, <a href="https://www.gov.uk/guidance/check-if-you-can-use-transit-to-move-goods-to-the-eu-and-common-transit-countries" target="_blank" rel="noopener noreferrer" class="govuk-link">check the common transit rules (opens in new tab)</a> to find out if you can move goods more quickly without the need to do multiple declarations.',
-        otherDeclarations: 'Other declarations you may need to submit',
-      },
-      export: {
-        declarations: 'Export declarations',
-        declarationsP1: 'You must declare the goods before they can be sent from the UK. Declaring goods can be complicated, so you may want to <a href="https://www.gov.uk/guidance/appoint-someone-to-deal-with-customs-on-your-behalf" target="_blank" rel="noopener noreferrer" class="govuk-link">get someone to deal with customs for you (opens in new tab)</a>.',
-        makingDeclaration: 'Making an export declaration',
-        makingDeclarationP1: 'You will need to <a href="https://www.gov.uk/guidance/making-a-full-export-declaration" target="_blank" rel="noopener noreferrer" class="govuk-link">make a full export declaration (opens in new tab)</a>, or, if you’ve applied and got permission to do so, you can <a href="https://www.gov.uk/guidance/using-simplified-declarations-for-exports" target="_blank" rel="noopener noreferrer" class="govuk-link">make a simplified declaration for exports (opens in new tab)</a>.',
-        submitDeclaration: 'How to submit an export declaration',
-        otherDeclarationsP1: 'You may need to make an exit summary declaration depending on where the goods are going to. Check if you need to <a href="https://www.gov.uk/guidance/find-out-when-to-make-an-exit-summary-declaration" target="_blank" rel="noopener noreferrer" class="govuk-link">make an exit summary declaration (opens in new tab)</a>.',
-      },
-      import: {
-        declarations: 'Import declarations',
-        declarationsP1: 'Goods sent to the UK from abroad may need to be declared. Declaring goods can be complicated so you may want to <a href="https://www.gov.uk/guidance/check-what-you-need-to-consider-before-getting-someone-to-deal-with-customs-for-you" target="_blank" rel="noopener noreferrer" class="govuk-link">get someone to deal with customs for you (opens in new tab)</a>.',
-        makingDeclaration: 'Making an import declaration',
-        makingDeclarationP1: 'You will need to <a href="https://www.gov.uk/guidance/making-a-full-import-declaration" target="_blank" rel="noopener noreferrer" class="govuk-link">make a full import declaration (opens in new tab)</a> or if you’ve applied and got permission to do so, you can <a href="https://www.gov.uk/guidance/using-simplified-declarations-for-exports" target="_blank" rel="noopener noreferrer" class="govuk-link">make a simplified declaration for imports (opens in new tab)</a>.',
-        submitDeclaration: 'How to submit an import declaration',
-        otherDeclarationsP1: 'You may need to make an entry summary declaration depending on where the goods are sent from. Check if you need to <a href="https://www.gov.uk/guidance/check-if-you-need-to-make-an-entry-summary-declaration" target="_blank" rel="noopener noreferrer" class="govuk-link">make an entry summary declaration (opens in new tab)</a>.',
-      },
-    },
-    exportResponsibleForDeclaringGoods: {
-      question: (countryName: string): string => `Are you responsible for declaring the goods at ${countryName}’s border?`,
-      hint: 'Check your contractual arrangements because you may be responsible for customs clearance at both the UK and country of destination’s border.',
-      yes: 'Yes',
-      no: 'No, the buyer or importer will be responsible',
-      notSure: 'I’m not sure',
-      error: (countryName: string): string => `Select who is responsible for declaring the goods at ${countryName}’s border`,
+    exportCheckDeclarations: {
+      title: 'Check which declarations you need to submit ',
+      makingDeclaration: 'Making an export declaration',
+      makingDeclarationP1: 'You must declare the goods before they can be sent from the UK. Declaring goods can be complicated, so you may want to <a href="https://www.gov.uk/guidance/appoint-someone-to-deal-with-customs-on-your-behalf" target="_blank" rel="noopener noreferrer" class="govuk-link">get someone to deal with customs for you (opens in new tab)</a>.',
+      exportDeclarations: 'Export declarations',
+      exportDeclarationsP1: 'You will need to <a href="https://www.gov.uk/guidance/making-a-full-export-declaration" target="_blank" rel="noopener noreferrer" class="govuk-link">make a full export declaration (opens in new tab)</a>, or, if you’ve applied and got permission to do so, you can <a href="https://www.gov.uk/guidance/using-simplified-declarations-for-exports" target="_blank" rel="noopener noreferrer" class="govuk-link">make a simplified declaration for exports (opens in new tab)</a>.',
+      exitSummary: 'Exit summary declaration',
+      exitSummaryP1: 'If your export declaration does not include safety and security information, you will need to <a href="https://www.gov.uk/guidance/find-out-when-to-make-an-exit-summary-declaration" target="_blank" rel="noopener noreferrer" class="govuk-link">submit a separate exit summary declaration (opens in new tab)</a>.',
+      exitSummaryP2: 'It is the legal responsibility of the transport operator to make sure the UK customs authority is provided with pre-departure safety and security information. ',
+      submitDeclaration: 'How to submit a declaration',
+      submitDeclarationP1: 'To make declarations yourself, your business must be established in the UK. If you are not established in the UK you must get someone to make the declarations for you.',
+      submitDeclarationP2: 'To make declarations yourself, you will need to <a href="https://www.gov.uk/guidance/get-access-to-the-customs-declaration-service" target="_blank" rel="noopener noreferrer" class="govuk-link">subscribe to the Customs Declaration Service (opens in new tab)</a> or <a href="https://www.gov.uk/guidance/apply-to-access-customs-handling-of-import-and-export-freight-c1800" target="_blank" rel="noopener noreferrer" class="govuk-link">get access to the Customs Handling of Import and Export Freight (CHIEF) system (opens in new tab)</a>.',
+      submitDeclarationP3: 'If goods are travelling through Great Britain or Northern Ireland to other countries, <a href="https://www.gov.uk/government/collections/using-common-or-union-transit-to-move-goods-into-through-and-out-of-the-uk" target="_blank" rel="noopener noreferrer" class="govuk-link">check the common transit rules (opens in new tab)</a> to find out if you can move your goods more quickly without the need to do multiple declarations.',
     },
   },
   common: {
-    additionalCode: {
-      questionExport: 'Describe the goods you are exporting in more detail',
-      questionImport: 'Describe the goods you are importing in more detail',
-      hint: 'The commodity you have selected can be further classified by adding 4-digits to the end. Select one option.',
-      error: 'Select a further classification for the commodity',
-    },
-    measures: {
-      printDisclaimer:
-        'Information is likely subject to change over time. Return to this service for the latest information.',
-      summaryImport: 'Importing goods into the UK: what you need to do',
-      and: 'and',
-      enterBox44: (measureOptionCertificateCode: string): string => `Enter <strong>${measureOptionCertificateCode}</strong> in Box 44 of your import declaration.`,
-      rules: 'Rules that apply to your goods',
-      exceptions: 'When rules are different or do not apply',
-      followRules: 'Follow the rules that apply to import your goods.',
-      followRulesExport: 'Follow the rules that apply to export your goods.',
-      multiCertificatePrefix: 'Provide both of these documents:',
-      showLabel: 'Show full classification',
-      hideLabel: 'Hide full classification',
-      noMeasuresOrRestrictions: (country: string): string => `<p class="govuk-heading-s">There are no measures or restrictions for importing this commodity into the UK from ${country}.</p><p class="govuk-body">Please check back later, as the rules may change.</p>`,
-      condition: 'You must meet this condition',
-      multipleConditions: (amount: string): string => `You must meet one of these ${amount} conditions`,
-      code: 'Code',
-      calculateTaxAndDuties: 'Calculate tax and duties',
-      waiverApplies: (certificateCode: string): string => `${certificateCode} waiver applies`,
-      waiverAlsoApplies: (certificateCode: string): string => `${certificateCode} waiver also applies`,
-      calculateNow: 'Calculate now',
-      commoditySummaryDetailsLink: 'Import details',
-      importDeclarationsNotRequired: 'No import declaration is needed for these goods',
-      calculateImportVat: 'Calculate the Import VAT',
-      noCustomsDutyToPay: 'There is no Customs Duty to pay',
-      noImportVatToPay: 'There is no Import VAT to pay',
-      '999L': {
-        header: 'Customs Declaration Service (CDS) Licence Waiver',
-        body: 'The use of 999L allows a CDS waiver code to be declared for prohibited and restricted goods, allowing declarants to confirm that the goods are not subject to specific licencing measures. You must enter ‘CDS Waiver’ in the additional documentation field for this commodity item.\n\nThis waiver cannot be used for goods that are imported/exported or moved to/from Northern Ireland.',
-      },
-      readyToImport: 'When the goods are ready to import',
-      checkWhatInformation: 'Check what information and documents you may need',
-      entrySummaryDeclaration: 'Find out how to make an entry summary declaration (ENS)',
-      makeAnimportDeclaration: 'Find out how to make an import declaration',
-      subsidary: {
-        'check-licences-certificates-and-other-restrictions': 'Check licences, certificates and other restrictions',
-        'calculate-the-customs-duty-and-import-vat': 'Calculate the Customs Duty and Import VAT',
-        'register-to-bring-goods-across-the-border': 'Check which services you need to register with',
-        'check-what-information-and-documents-you-may-need': 'Check what information and documents you may need',
-      },
-      measureOptionSubtype: {
-        PRICE_BASED: 'Price threshold applies',
-        VOLUME_BASED: 'Volume threshold applies',
-        UNIT_BASED: 'Unit threshold applies',
-        WEIGHT_BASED: 'Weight threshold applies',
-        PRICE_PER_UNIT_BASED: (unit: string): string => `Price / ${unit} threshold applies`,
-      },
-      thresholdConditionsApply: 'Threshold conditions apply:',
-      /* eslint-disable */
-      checkLicensesAndCertificates: {
-        non_declaring_trader: (): string => `## Rules that apply to your goods
-
-Follow the rules to find out:
-
-- licences that you need to move the goods
-- certificates that you must provide
-- controls or restrictions on goods entering the country
-- sanctions that make it illegal to trade with other countries
-
-:::+
-If you do not have the right documents or licences, you will not be able to import your goods.
-
-Make sure you [use the right commodity code and classify your goods correctly](https://www.gov.uk/guidance/finding-commodity-codes-for-imports-or-exports).
-:::
-
-### Exemptions: when rules are different or do not apply
-
-Sometimes the rules are different or do not apply to specific goods or circumstances. The exemptions that appear after the rules tell you:
-
-- when the rules do not apply to your goods
-- any conditions you need to meet or evidence you need to show to prove the goods are exempt`,
-        declaring_trader: (showSdsContent?: string): string => `## Rules that apply to your goods
-
-Follow the rules to find out:
-
-- licences that you need to move the goods
-- certificates that you must provide
-- controls or restrictions on goods entering the country
-- sanctions that make it illegal to trade with other countries
-
-:::+
-If you do not have the right documents or licences, you will not be able to import your goods.
-
-Make sure you [use the right commodity code and classify your goods correctly](https://www.gov.uk/guidance/finding-commodity-codes-for-imports-or-exports).
-:::
-
-### Exemptions: when rules are different or do not apply
-
-Sometimes the rules are different or do not apply to specific goods or circumstances. The exemptions that appear after the rules tell you:
-
-- when the rules do not apply to your goods
-- any conditions you need to meet or evidence you need to show to prove the goods are exempt
-
-+++ Document codes
-The codes next to the rules or exemptions are the document codes that apply to your goods. You will need these document codes to complete the import declaration.
-${showSdsContent}
-+++`,
-        intermediary: (showSdsContent?: string): string => `## Rules that apply to the goods
-
-Follow the rules to find out:
-
-- licences that your importer needs to move the goods
-- certificates that the seller must provide
-- controls or restrictions on goods entering the country
-- sanctions that make it illegal to trade with other countries
-
-:::+
-If you do not have the right documents or licences, you will not be able to import the goods.
-
-Make sure you [use the right commodity code and classify the goods correctly](https://www.gov.uk/guidance/finding-commodity-codes-for-imports-or-exports).
-:::
-
-### Exemptions: when rules are different or do not apply
-
-Sometimes the rules are different or do not apply to specific goods or circumstances. The exemptions that appear after the rules tell you:
-
-- when the rules do not apply to your goods
-- any conditions you need to meet or evidence you need to show to prove the goods are exempt
-
-+++ Document codes
-The codes next to the rules or exemptions are the document codes that apply to your goods. You will need these document codes to complete the import declaration.
-${showSdsContent}
-+++`,
-      },
-      /* eslint-enable */
-      whichDocumentsAreNeeded: {
-        non_declaring_trader: 'Make sure you know what information you need to supply and the accompanying documents required to bring your goods into the country.\n\n'
-          + 'Missing or inaccurate documents can increase risks, lead to delays and extra costs, or prevent your goods from crossing the border.\n\n'
-          + '[Find out which documents are needed for goods to travel](https://www.gov.uk/guidance/international-trade-paperwork-the-basics)\n\n'
-          + '[Read about trade contracts and incoterms](https://www.great.gov.uk/advice/prepare-for-export-procedures-and-logistics/international-trade-contracts-and-incoterms/)',
-        declaring_trader: 'Make sure you know what information you need to supply and the accompanying documents required to bring your goods into the country.\n\n'
-          + 'Missing or inaccurate documents can increase risks, lead to delays and extra costs, or prevent your goods from crossing the border.\n\n'
-          + '[Find out which documents are needed for goods to travel](https://www.gov.uk/guidance/international-trade-paperwork-the-basics)\n\n'
-          + '[Read about trade contracts and incoterms](https://www.great.gov.uk/advice/prepare-for-export-procedures-and-logistics/international-trade-contracts-and-incoterms/)',
-        intermediary: 'Make sure you know what information you and your importer need to supply and the accompanying documents required to bring the goods into the country.\n\n'
-          + 'Missing or inaccurate documents can increase risks, lead to delays and extra costs, or prevent goods from crossing the border.\n\n'
-          + '[Find out which documents are needed for goods to travel](https://www.gov.uk/guidance/international-trade-paperwork-the-basics)\n\n'
-          + '[Read about trade contracts and incoterms](https://www.great.gov.uk/advice/prepare-for-export-procedures-and-logistics/international-trade-contracts-and-incoterms/)',
-      },
-      calculateCustomsDutyImportVat: {
-        non_declaring_trader: '## Work out the duty, VAT and excise you need to pay\n'
-          + 'How much VAT and Customs Duty you pay depends on the [value of the goods you’re importing](https://www.gov.uk/guidance/how-to-value-your-imports-for-customs-duty-and-trade-statistics?step-by-step-nav=849f71d1-f290-4a8e-9458-add936efefc5)\n\n'
-          + 'Calculate how much import duty, VAT and excise you need to pay.',
-        declaring_trader: '## Work out the duty, VAT and excise you need to pay\n'
-          + 'How much VAT and Customs Duty you pay depends on the [value of the goods you’re importing](https://www.gov.uk/guidance/how-to-value-your-imports-for-customs-duty-and-trade-statistics?step-by-step-nav=849f71d1-f290-4a8e-9458-add936efefc5)\n\n'
-          + 'Calculate how much import duty, VAT and excise you need to pay.',
-        intermediary: '## Work out the duty, VAT and excise you need to pay\n'
-          + 'How much VAT and Customs Duty your importer pays depends on the [value of the goods you’re importing](https://www.gov.uk/guidance/how-to-value-your-imports-for-customs-duty-and-trade-statistics?step-by-step-nav=849f71d1-f290-4a8e-9458-add936efefc5)\n\n'
-          + 'Calculate how much import duty, VAT and excise your importer needs to pay.',
-      },
-      registerToBringGoodsAcrossTheBorder: {
-        non_declaring_trader: 'To bring goods into the UK, you need to:\n\n'
-          + '- [get an EORI number](http://www.gov.uk/eori)\n'
-          + '- [check if you should register for VAT](https://www.gov.uk/vat-registration/when-to-register?step-by-step-nav=849f71d1-f290-4a8e-9458-add936efefc5)',
-        declaring_trader: 'To bring goods into the UK, you need to:\n\n'
-          + '- [get an EORI number](http://www.gov.uk/eori)\n'
-          + '- [check if you should register for VAT](https://www.gov.uk/vat-registration/when-to-register?step-by-step-nav=849f71d1-f290-4a8e-9458-add936efefc5)',
-        intermediary: 'To bring goods into the UK, your importer needs to:\n\n'
-          + '- [get an EORI number](http://www.gov.uk/eori)\n'
-          + '- [check if they should register for VAT](https://www.gov.uk/vat-registration/when-to-register?step-by-step-nav=849f71d1-f290-4a8e-9458-add936efefc5)',
-      },
-    },
     header: {
       serviceName: 'Check how to import or export goods',
       beta: 'BETA',
@@ -877,7 +860,6 @@ ${showSdsContent}
       acceptedCookies: 'You have accepted additional cookies.',
       rejectedCookies: 'You have rejected additional cookies.',
       changeCookies: (cookiesPage: string): string => `<a href="${cookiesPage}">You can change your cookie settings at any time</a>.`,
-      hideMessage: 'Hide this message',
     },
     errors: {
       error: 'Error',
@@ -900,27 +882,19 @@ ${showSdsContent}
       home: 'Home',
       cancel: 'Cancel',
       backToResults: 'Back to results summary',
-      print: 'Print this page',
     },
     footer: {
       cookies: 'Cookies',
       accessibilityStatement: 'Accessibility statement',
-      privacyNotice: 'Privacy policy',
-      termsAndConditions: 'Terms and conditions',
-      help: 'Help using GOV.UK',
-      contact: 'Contact',
-      welshLanguageServices: 'Rhestr o Wasanaethau Cymraeg',
+      toggle: 'Cymraeg',
+      privacyNotice: 'Privacy',
       itSupport: 'Help',
-      contentLicence: 'All content is available under the <a class="govuk-footer__link" href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank">Open Government Licence v3.0</a>, except where otherwise stated',
-      copyright: '© Crown copyright',
-      supportLinks: 'Support links',
     },
     accessibility: {
       opensNewTab: '(opens in new tab)',
       warning: 'Warning',
       followingLinksOpensInNewTab: 'The following links open in a new tab.',
       defaultCountrySelectLabel: 'Select a country',
-      skipLink: 'Skip to main content',
     },
     notificationBanner: {
       success: 'Success',
@@ -930,31 +904,18 @@ ${showSdsContent}
       general: 'General enquiries about importing or exporting',
       technical: 'Enquiries about this service or report a technical issue',
     },
-    labels: {
-      date: {
-        day: 'Day',
-        month: 'Month',
-        year: 'Year',
-      },
-    },
     session: {
       expire: 'Your session has timed out',
       message: 'Your session has timed out due to inactivity.<br /><br /><a href="/" class="govuk-button" role="button">Start again</a>',
     },
     tradeDetails: {
-      summaryLinkText: {
-        import: 'Import summary',
-        export: 'Export summary',
-      },
+      detailsLink: 'Trade details',
       change: 'Change',
       commodityCode: 'Commodity code',
       exportDate: 'Export date',
       countryOfDeparture: 'Country of departure',
       goodsGoingInto: 'Goods going into',
       classification: 'Classification',
-      goodsComingInto: 'Goods coming into',
-      countryOfOrigin: 'Country of origin',
-      importDate: 'Import date',
     },
     numbers: {
       1: 'one',
@@ -977,256 +938,6 @@ ${showSdsContent}
       18: 'eighteen',
       19: 'nineteen',
       20: 'twenty',
-    },
-    countries: {
-      GB: 'Great Britain (England, Scotland and Wales)',
-      XI: 'Northern Ireland',
-      AD: 'Andorra',
-      AE: 'United Arab Emirates',
-      AF: 'Afghanistan',
-      AG: 'Antigua and Barbuda',
-      AI: 'Anguilla',
-      AL: 'Albania',
-      AM: 'Armenia',
-      AO: 'Angola',
-      AQ: 'Antarctica',
-      AR: 'Argentina',
-      AS: 'American Samoa',
-      AT: 'Austria',
-      AU: 'Australia',
-      AW: 'Aruba',
-      AZ: 'Azerbaijan',
-      BA: 'Bosnia and Herzegovina',
-      BB: 'Barbados',
-      BD: 'Bangladesh',
-      BE: 'Belgium',
-      BF: 'Burkina Faso',
-      BG: 'Bulgaria',
-      BH: 'Bahrain',
-      BI: 'Burundi',
-      BJ: 'Benin',
-      BL: 'Saint Barthélemy',
-      BM: 'Bermuda',
-      BN: 'Brunei',
-      BO: 'Bolivia',
-      BQ: 'Bonaire, Sint Eustatius and Saba',
-      BR: 'Brazil',
-      BS: 'The Bahamas',
-      BT: 'Bhutan',
-      BV: 'Bouvet Island',
-      BW: 'Botswana',
-      BY: 'Belarus',
-      BZ: 'Belize',
-      CA: 'Canada',
-      CC: 'Cocos (Keeling) Islands',
-      CD: 'Congo (Democratic Republic)',
-      CF: 'Central African Republic',
-      CG: 'Congo',
-      CH: 'Switzerland',
-      CI: 'Ivory Coast',
-      CK: 'Cook Islands',
-      CL: 'Chile',
-      CM: 'Cameroon',
-      CN: 'China',
-      CO: 'Colombia',
-      CR: 'Costa Rica',
-      CU: 'Cuba',
-      CV: 'Cabo Verde',
-      CW: 'Curaçao',
-      CX: 'Christmas Island',
-      CY: 'Cyprus',
-      CZ: 'Czechia',
-      DE: 'Germany',
-      DJ: 'Djibouti',
-      DK: 'Denmark',
-      DM: 'Dominica',
-      DO: 'Dominican Republic',
-      DZ: 'Algeria',
-      EC: 'Ecuador',
-      EE: 'Estonia',
-      EG: 'Egypt',
-      EH: 'Western Sahara',
-      ER: 'Eritrea',
-      ES: 'Spain',
-      ET: 'Ethiopia',
-      FI: 'Finland',
-      FJ: 'Fiji',
-      FK: 'Falkland Islands',
-      FM: 'Micronesia',
-      FO: 'Faroe Islands',
-      FR: 'France',
-      GA: 'Gabon',
-      GD: 'Grenada',
-      GE: 'Georgia',
-      GH: 'Ghana',
-      GI: 'Gibraltar',
-      GL: 'Greenland',
-      GM: 'The Gambia',
-      GN: 'Guinea',
-      GQ: 'Equatorial Guinea',
-      GR: 'Greece',
-      GS: 'South Georgia and South Sandwich Islands',
-      GT: 'Guatemala',
-      GU: 'Guam',
-      GW: 'Guinea-Bissau',
-      GY: 'Guyana',
-      HK: 'Hong Kong',
-      HM: 'Heard Island and McDonald Islands',
-      HN: 'Honduras',
-      HR: 'Croatia',
-      HT: 'Haiti',
-      HU: 'Hungary',
-      ID: 'Indonesia',
-      IE: 'Ireland',
-      IL: 'Israel',
-      IN: 'India',
-      IO: 'British Indian Ocean Territory',
-      IQ: 'Iraq',
-      IR: 'Iran',
-      IS: 'Iceland',
-      IT: 'Italy',
-      JM: 'Jamaica',
-      JO: 'Jordan',
-      JP: 'Japan',
-      KE: 'Kenya',
-      KG: 'Kyrgyzstan',
-      KH: 'Cambodia',
-      KI: 'Kiribati',
-      KM: 'Comoros',
-      KN: 'St Kitts and Nevis',
-      KP: 'North Korea',
-      KR: 'South Korea',
-      KW: 'Kuwait',
-      KY: 'Cayman Islands',
-      KZ: 'Kazakhstan',
-      LA: 'Laos',
-      LB: 'Lebanon',
-      LC: 'St Lucia',
-      LI: 'Liechtenstein',
-      LK: 'Sri Lanka',
-      LR: 'Liberia',
-      LS: 'Lesotho',
-      LT: 'Lithuania',
-      LU: 'Luxembourg',
-      LV: 'Latvia',
-      LY: 'Libya',
-      MA: 'Morocco',
-      MD: 'Moldova',
-      ME: 'Montenegro',
-      MG: 'Madagascar',
-      MH: 'Marshall Islands',
-      MK: 'North Macedonia',
-      ML: 'Mali',
-      MM: 'Myanmar (Burma)',
-      MN: 'Mongolia',
-      MO: 'Macao',
-      MP: 'Northern Mariana Islands',
-      MR: 'Mauritania',
-      MS: 'Montserrat',
-      MT: 'Malta',
-      MU: 'Mauritius',
-      MV: 'Maldives',
-      MW: 'Malawi',
-      MX: 'Mexico',
-      MY: 'Malaysia',
-      MZ: 'Mozambique',
-      NA: 'Namibia',
-      NC: 'New Caledonia',
-      NE: 'Niger',
-      NF: 'Norfolk Island',
-      NG: 'Nigeria',
-      NI: 'Nicaragua',
-      NL: 'Netherlands',
-      NO: 'Norway',
-      NP: 'Nepal',
-      NR: 'Nauru',
-      NU: 'Niue',
-      NZ: 'New Zealand',
-      OM: 'Oman',
-      PA: 'Panama',
-      PE: 'Peru',
-      PF: 'French Polynesia',
-      PG: 'Papua New Guinea',
-      PH: 'Philippines',
-      PK: 'Pakistan',
-      PL: 'Poland',
-      PM: 'Saint Pierre and Miquelon',
-      PN: 'Pitcairn, Henderson, Ducie and Oeno Islands',
-      PS: 'Occupied Palestinian Territories',
-      PT: 'Portugal',
-      PW: 'Palau',
-      PY: 'Paraguay',
-      QA: 'Qatar',
-      RO: 'Romania',
-      RU: 'Russia',
-      RW: 'Rwanda',
-      SA: 'Saudi Arabia',
-      SB: 'Solomon Islands',
-      SC: 'Seychelles',
-      SD: 'Sudan',
-      SE: 'Sweden',
-      SG: 'Singapore',
-      SH: 'Saint Helena, Ascension and Tristan da Cunha',
-      SI: 'Slovenia',
-      SK: 'Slovakia',
-      SL: 'Sierra Leone',
-      SM: 'San Marino',
-      SN: 'Senegal',
-      SO: 'Somalia',
-      SR: 'Suriname',
-      SS: 'South Sudan',
-      ST: 'Sao Tome and Principe',
-      SV: 'El Salvador',
-      SX: 'Sint Maarten (Dutch part)',
-      SY: 'Syria',
-      SZ: 'Eswatini',
-      TC: 'Turks and Caicos Islands',
-      TD: 'Chad',
-      TF: 'French Southern Territories',
-      TG: 'Togo',
-      TH: 'Thailand',
-      TJ: 'Tajikistan',
-      TK: 'Tokelau',
-      TL: 'East Timor',
-      TM: 'Turkmenistan',
-      TN: 'Tunisia',
-      TO: 'Tonga',
-      TR: 'Turkey',
-      TT: 'Trinidad and Tobago',
-      TV: 'Tuvalu',
-      TW: 'Taiwan',
-      TZ: 'Tanzania',
-      UA: 'Ukraine',
-      UG: 'Uganda',
-      UM: 'United States Minor Outlying Islands',
-      US: 'United States',
-      UY: 'Uruguay',
-      UZ: 'Uzbekistan',
-      VA: 'Vatican City',
-      VC: 'St Vincent',
-      VE: 'Venezuela',
-      VG: 'British Virgin Islands',
-      VI: 'United States Virgin Islands',
-      VN: 'Vietnam',
-      VU: 'Vanuatu',
-      WF: 'Wallis and Futuna',
-      WS: 'Samoa',
-      XC: 'Ceuta',
-      XK: 'Kosovo',
-      XL: 'Melilla',
-      XS: 'Serbia',
-      YE: 'Yemen',
-      ZA: 'South Africa',
-      ZB: 'Belgian Continental Shelf',
-      ZD: 'Danish Continental Shelf',
-      ZE: 'Irish Continental Shelf',
-      ZF: 'French Continental Shelf',
-      ZG: 'German Continental Shelf',
-      ZH: 'Netherlands Continental Shelf',
-      ZM: 'Zambia',
-      ZN: 'Norwegian Continental Shelf',
-      ZU: 'United Kingdom Continental Shelf',
-      ZW: 'Zimbabwe',
     },
   },
 };

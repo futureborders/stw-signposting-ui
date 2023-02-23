@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+
+{% set title = translation.page.importGoods.question %}
+
+{% block pageTitle %}
+{% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% if original and errors %}
+{% set getBackLink = "manage-this-trade?" + originalQueryParams %}
+{% else %}
+{% set getBackLink = previousPage + "?" + queryParams %}
+{% endif %}
+
+{% block content %}
+
+{{ govukBackLink({
+  text: translation.common.buttons.back,
+  href: getBackLink,
+  classes: "govuk-!-margin-bottom-9",
+  attributes: {
+    id: "back-link",
+    rel: "noreferrer noopener"
+  }
+}) }}
+
+<div class="govuk-grid-row" id="main-content">
+
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if errors %}
+      {{ govukErrorSummary({
+        titleText: translation.common.errors.problem,
+        errorList: [
+          {
+            text: errors.text,
+            href: "#commodity"
+          }
+        ]
+      }) }}
+    {% endif %}
+
+    <form action="/search" method="get" novalidate>
+
+    <h1 class="govuk-label--xl govuk-!-margin-top-0">{{ title }}</h1>
+
+    <p class="govuk-body">{{translation.page.importGoods.p1}}</p>
+    <p class="govuk-body">{{translation.page.importGoods.p2}}</p>
+    <p class="govuk-body">{{translation.page.importGoods.p3 | safe}}</p>
+
+      {{ govukInput({
+          label: {
+            text: translation.page.importGoods.label,
+            isPageHeading: false
+          },
+          id: "commodity",
+          name: "commodity",
+          value: commodity,
+          errorMessage: errors,
+          classes: "govuk-!-width-full",
+          spellcheck: false
+        }) }}
+
+      {{ govukButton({
+          text: translation.common.buttons.continue
+        }) }}
+
+      {% include "includes/cancel-change-button.html" %}
+
+      <input type="hidden" name="originCountry" value="{{originCountry}}">
+      <input type="hidden" name="goodsIntent" value="{{goodsIntent}}">
+      <input type="hidden" name="userTypeTrader" value="{{userTypeTrader}}">
+      <input type="hidden" name="tradeType" value="{{tradeType}}">
+      <input type="hidden" name="destinationCountry" value="{{destinationCountry}}">
+      <input type="hidden" name="importDeclarations" value="{{importDeclarations}}">
+      {% include "includes/import-date-fields.html" %}
+
+      {% if isEdit %}
+      <input type="hidden" name="original" value="{{original}}">
+      {% if additionalCode %}
+      <input type="hidden" name="additionalCode" value="{{additionalCode}}">
+      {% endif %}
+      {% endif %}
+
+    </form>
+  </div>
+</div>
+
+{% endblock %}

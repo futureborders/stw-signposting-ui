@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,17 +20,12 @@ import {
   getErrorMessage,
   clearSessionErrorMessages,
 } from '../../../utils/sessionHelpers';
-import { Route } from '../../../interfaces/routes.interface';
-import { ExportDeclarations } from '../../../interfaces/enums.interface';
+
 import {
   updateQueryParams,
 } from '../../../utils/queryHelper';
-import { redirectRoute } from '../../../utils/redirectRoute';
 
 import { journey } from '../../../utils/previousNextRoutes';
-import {
-  commodityCodeIsEmpty,
-} from '../../../utils/validateCommodityCode';
 
 class ExportCommoditySearchController {
   public exportCommoditySearch: RequestHandler = (req, res, next) => {
@@ -39,24 +34,54 @@ class ExportCommoditySearchController {
     clearSessionErrorMessages(req);
 
     try {
-      const { commodity, tradeDetails, exportDeclarations } = req.query;
-      const { queryParams, translation } = res.locals;
+      const {
+        tradeType,
+        exportGoodsIntent,
+        goodsIntent,
+        exportDeclarations,
+        exportCommoditySearch,
+        commodity,
+        destinationCountry,
+        originCountry,
+        tradeDateDay,
+        tradeDateMonth,
+        tradeDateYear,
+        additionalCode,
+        exportUserTypeTrader,
+        tradeDetails,
+      } = req.query;
+
+      const { queryParams, backPath } = res.locals;
+
       const isEdit = req.query.isEdit === 'true';
-      const isAgent = exportDeclarations === ExportDeclarations.no;
-      const original = req.query.commodity || req.query.original || '';
-      const getQueryParams = updateQueryParams(queryParams, { commodity: original });
-      const jsBackButton = !!tradeDetails;
-      const previousPage = `${journey.export.exportCommoditySearch.previousPage(isEdit, isAgent)}?${getQueryParams}`;
+
+      const originalValues = this.persistOriginalValues(isEdit, `${commodity}`, `${req.query.original}`, `${queryParams}`);
+
+      const { original } = originalValues;
+      const { originalQueryParams } = originalValues;
+      const previousPage = journey.export.exportCommoditySearch.previousPage(original);
 
       res.render('export/commoditySearch/view.njk', {
-        jsBackButton,
+        tradeType,
+        exportGoodsIntent,
+        goodsIntent,
         previousPage,
+        exportDeclarations,
+        exportCommoditySearch,
         commodity,
+        destinationCountry,
+        originCountry,
         isEdit,
         original,
+        originalQueryParams,
+        tradeDateDay,
+        tradeDateMonth,
+        tradeDateYear,
+        additionalCode,
+        exportUserTypeTrader,
+        backPath,
         tradeDetails,
-        Route,
-        errors: showErrorMessage ? { text: showErrorMessage, visuallyHiddenText: translation.common.errors.error } : null,
+        errors: showErrorMessage ? { text: showErrorMessage } : null,
         csrfToken: req.csrfToken(),
       });
     } catch (e) {
@@ -64,32 +89,25 @@ class ExportCommoditySearchController {
     }
   };
 
-  public exportCommoditySearchSubmit: RequestHandler = (req, res, next) => {
-    const isEdit = req.body.isEdit === 'true';
-    const commodity = req.body.commodity.trim();
-    const { queryParams, translation } = res.locals;
-    const { original } = req.body;
-    const updatedQueryParams = decodeURIComponent(updateQueryParams(queryParams, { commodity }));
-
-    try {
-      if (commodityCodeIsEmpty(commodity)) {
-        redirectRoute(
-          Route.exportCommoditySearch,
-          isEdit
-            ? updateQueryParams(updatedQueryParams, { original, isEdit })
-            : queryParams, res, req, translation.page.exportCommoditySearch.error,
-        );
-      } else {
-        redirectRoute(
-          Route.search,
-          updatedQueryParams,
-          res,
-        );
-      }
-    } catch (e) {
-      next(e);
+  private persistOriginalValues = (
+    isEdit: boolean,
+    commodity: string,
+    originalCommodity: string,
+    queryParams: string,
+  ) => {
+    let original;
+    let originalQueryParams;
+    if (isEdit) {
+      original = commodity;
+    } else {
+      original = originalCommodity !== 'undefined' ? originalCommodity : '';
+      originalQueryParams = updateQueryParams(queryParams, { commodity: `${original}` });
     }
-  };
+    return {
+      original,
+      originalQueryParams,
+    };
+  }
 }
 
 export default ExportCommoditySearchController;

@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,17 +38,15 @@ class ExportGoodsIntentController {
 
     try {
       const { exportGoodsIntent } = req.query;
-      const { translation } = res.locals;
       const isEdit = req.query.isEdit === 'true';
-      const previousPage = `${journey.export.exportGoodsIntent.previousPage(isEdit)}?${res.locals.queryParams}`;
+      const previousPage = journey.export.exportGoodsIntent.previousPage(isEdit);
 
       res.render('export/goodsIntent/view.njk', {
         exportGoodsIntent,
         ExportGoodsIntent,
         previousPage,
         isEdit,
-        Route,
-        errors: showErrorMessage ? { text: showErrorMessage, visuallyHiddenText: translation.common.errors.error } : null,
+        errors: showErrorMessage ? { text: showErrorMessage } : null,
         csrfToken: req.csrfToken(),
       });
     } catch (e) {
@@ -58,7 +56,8 @@ class ExportGoodsIntentController {
 
   public exportGoodsIntentSubmit: RequestHandler = (req, res, next) => {
     const { exportGoodsIntent, isEdit } = req.body;
-    const { queryParams, translation } = res.locals;
+    const { queryParams } = res.locals;
+    const { translation } = res.locals;
 
     const updatedQueryParams = updateQueryParams(queryParams, { exportGoodsIntent });
     const nextPage = journey.export.exportGoodsIntent.nextPage();
@@ -80,7 +79,7 @@ class ExportGoodsIntentController {
         );
       } else if (isEdit) {
         redirectRoute(
-          Route.checkYourAnswers,
+          Route.exportCheckYourAnswers,
           updatedQueryParams,
           res,
         );

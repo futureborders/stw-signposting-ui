@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import { TaskStatuses } from '../features/common/taskList/interface';
 
 export interface Params {
    commodity?: string;
@@ -35,22 +33,9 @@ export interface Params {
    originalImportDateYear?: string;
    subheadingSuffix?: string;
    isSubheading?: string;
-   editCancelled?: string;
    'additional-question'?: string;
    '710'?: string;
    '750'?: string;
-   goodsPurpose?: string;
-   exportGoodsIntent?: string;
-   tradeDateDay?: string;
-   tradeDateMonth?: string;
-   tradeDateYear?: string;
-   exportUserTypeTrader?: string;
-   exportDeclarations?: string;
-   hasAddionalCode?: string;
-   hasNoMeasures?: boolean;
-   error?: string;
-   taskStatuses?: TaskStatuses;
-   exportResponsibleForDeclaringGoods?: string;
  }
 
 export default Params;

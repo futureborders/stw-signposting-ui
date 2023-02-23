@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +18,6 @@ import { formatDate } from './formatDate';
 import { ImportDate } from '../../interfaces/importDate.interface';
 
 describe('Testing formatDate filter', () => {
-  test('It should format the date as 1 Rhagfyr 2021', () => {
-    const importDate:ImportDate = {
-      day: '1',
-      month: '12',
-      year: '2021',
-    };
-    expect(formatDate(importDate, 'cy')).toBe('1 Rhagfyr 2021');
-  });
   test('It should format the date as 1 December 2021', () => {
     const importDate:ImportDate = {
       day: '1',

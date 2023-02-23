@@ -1,4 +1,4 @@
-{% extends "layout.njk" %}
+{% extends "layout.html" %}
 
 {% set title = translation.page.accessibility.header %}
 
@@ -7,7 +7,17 @@
 {% endblock %}
 
 {% block content %}
-  <div class="govuk-grid-row">
+
+{{ govukBackLink({
+  text: translation.common.buttons.back,
+  href: backPath,
+  classes: "govuk-!-margin-bottom-9",
+  attributes: {
+    id: "back-link",
+    rel: "noreferrer noopener"
+  }
+}) }}
+  <div class="govuk-grid-row" id="main-content">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl">{{ translation.page.accessibility.header }}</h1>
       <p class="govuk-body-l">{{ translation.page.accessibility.summary.p1 }}</p>
@@ -31,6 +41,14 @@
       <h2 class="govuk-heading-l">{{ translation.page.accessibility.howAccessible.header }}</h2>
       <p class="govuk-body">{{ translation.page.accessibility.howAccessible.p1 | safe }}</p>
       <p class="govuk-body">{{ translation.page.accessibility.howAccessible.p2 }}</p>
+
+      {% if translation.page.accessibility.howAccessible.list | length %}
+      <ul class="govuk-list govuk-list--bullet">
+        {% for item in translation.page.accessibility.howAccessible.list %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
 
       <h2 class="govuk-heading-l">{{ translation.page.accessibility.reportingProblems.header }}</h2>
       <p class="govuk-body">{{ translation.page.accessibility.reportingProblems.p1 | safe }}</p>

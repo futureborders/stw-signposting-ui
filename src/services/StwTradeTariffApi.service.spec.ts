@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -644,34 +644,6 @@ describe('Testing StwTradeTariffApi', () => {
         );
       } catch (e) {
         expect(e.response.response.data.validationErrors[0].message).toEqual('some invalid message');
-      }
-      expect(mockedAxios.get).toHaveBeenCalled();
-    });
-    test('getRestrictiveMeasures throw InvalidAdditionalCodeError', async () => {
-      const expectedResult: any = {
-        response: {
-          data: {
-            validationErrors: [{
-              fieldName: 'additionalCode',
-              message: 'Invalid additionalCode',
-            }],
-          },
-        },
-      };
-
-      mockedAxios.get.mockRejectedValue(expectedResult);
-
-      try {
-        await stwTradeTariffApi.getRestrictiveMeasures(
-          '0208907000',
-          'export',
-          'XX',
-          DestinationCountry.GB,
-          importDate as ImportDate,
-          'abc',
-        );
-      } catch (e) {
-        expect(e.response.response.data.validationErrors[0].message).toEqual('Invalid additionalCode');
       }
       expect(mockedAxios.get).toHaveBeenCalled();
     });

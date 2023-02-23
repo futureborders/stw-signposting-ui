@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ describe('Testing getCountryNameByCode ', () => {
     expect(getCountryNameByCode('CN', 'en')).toEqual('China');
   });
   test('It should return the correct country name for welsh', () => {
-    expect(getCountryNameByCode('CN', 'cy')).toEqual('Tsieina');
+    expect(getCountryNameByCode('CN', 'cy')).toEqual('China (Welsh)');
   });
   test('It should return undefined when no country match', () => {
     expect(getCountryNameByCode('XX', 'en')).toBeUndefined();

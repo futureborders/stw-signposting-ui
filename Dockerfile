@@ -1,29 +1,10 @@
-# Build stage
-FROM node:16-alpine AS build
+FROM node:14-alpine3.14
 
-ENV PATH /app/node_modules/.bin:$PATH
-ENV YARN_CACHE_FOLDER /tmp/.yarn/cache
-
-RUN mkdir /build && \
-    mkdir /app
-
-WORKDIR /build
-
-COPY . .
-
-RUN yarn install --immutable && \
-    yarn build:ci
-
-RUN cp -r yarn.lock package.json src dist public .well-known /app/
-
-WORKDIR /app
-
-RUN yarn install --immutable --production
-
-# Production stage
-FROM node:16-alpine
+RUN npm install -g npm
 
 ENV PORT 8080
+# ENV NODE_ENV production
+ENV PATH /app/node_modules/.bin:$PATH
 
 RUN apk update && \
     addgroup -g 1001 -S appuser && \
@@ -34,10 +15,16 @@ RUN apk update && \
 
 WORKDIR /app
 
-COPY --from=build --chown=appuser:appuser /app/ /app/
+ADD package.json yarn.lock /tmp/
+RUN cd /tmp && yarn install --pure-lockfile && \
+    ln -s /tmp/node_modules /app/node_modules
+
+COPY . .
+
+RUN cd /app && yarn build:ci
 
 EXPOSE $PORT
 
 USER appuser
 
-CMD ["yarn", "start:dist"]
+CMD ["yarn", "start"]

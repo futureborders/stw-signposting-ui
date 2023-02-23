@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,15 +19,7 @@ export enum MeasureOptionType {
   MULTI_CERTIFICATE = 'MULTI_CERTIFICATE',
   EXCEPTION = 'EXCEPTION',
   THRESHOLD = 'THRESHOLD',
-  THRESHOLD_CERTIFICATE = 'THRESHOLD_CERTIFICATE',
-}
-
-export enum MeasureOptionSubtype {
-  PRICE_BASED = 'PRICE_BASED',
-  VOLUME_BASED = 'VOLUME_BASED',
-  UNIT_BASED = 'UNIT_BASED',
-  WEIGHT_BASED = 'WEIGHT_BASED',
-  PRICE_PER_UNIT_BASED = 'PRICE_PER_UNIT_BASED',
+  THRESHOLD_CERTIFICATE = 'THRESHOLD_CERTIFICATE'
 }
 
 export const measureOptionTypeOrder = [
@@ -39,12 +31,9 @@ export const measureOptionTypeOrder = [
 ];
 
 export interface OptionsEntity {
-  certificateCode?: string | null;
+  certificateCode: string;
   type: MeasureOptionType;
   descriptionOverlay: string;
-  subtype?: MeasureOptionSubtype | null;
-  unit?: string | null;
-  conditionCode?: string | null;
 }
 
 export interface MeasureOptionsEntity {

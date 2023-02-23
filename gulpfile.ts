@@ -10,11 +10,6 @@ gulp.task('copy-govuk-sass', () => (
     .pipe(gulp.dest('./sass/'))
 ))
 
-gulp.task('copy-hmrc-sass', () => (
-  gulp.src('./node_modules/hmrc-frontend/hmrc/components/language-select/*.scss')
-    .pipe(gulp.dest('./sass/components/hmrc'))
-))
-
 gulp.task('copy-govuk-assets', () => (
   gulp.src('./node_modules/govuk-frontend/govuk/assets/**/*')
     .pipe(gulp.dest('./public'))
@@ -52,11 +47,9 @@ gulp.task('clean', () => (
     .pipe(clean())
 ));
 
-
 gulp.task('assets', gulp.series(
   'clean',
   'copy-govuk-sass',
-  'copy-hmrc-sass',
   'copy-govuk-assets',
   'copy-js',
   'copy-govuk-autocomplete',

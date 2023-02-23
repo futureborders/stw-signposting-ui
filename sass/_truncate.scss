@@ -1,0 +1,89 @@
+/**
+ * Copyright 2021 Crown Copyright (Single Trade Window)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+ .js-enabled {
+
+   .govuk-grid-column-full {
+      .truncated-block {
+        max-height: 5.2em;
+      }
+   }
+
+   .truncated-block {
+     overflow: hidden;
+     position: relative;
+     max-height: 13.2em;
+     margin-right: -1em;
+     padding-right: 1em;
+   }
+
+   .truncated-block:before {
+     content: "…";
+     position: absolute;
+     right: 0;
+     bottom: 0;
+   }
+
+   .truncated {
+    text-align: justify;
+    margin-bottom: .6em;
+   }
+
+   @media (max-width: 639px) {
+     .govuk-grid-column-full {
+        .truncated-block {
+          max-height: 5em;
+          margin-right: 0;
+        }
+     }
+
+     .truncated-block {
+       overflow: hidden;
+       position: relative;
+       max-height: 13.6em;
+       margin-right: 0px !important;
+     }
+
+     .truncated {
+       margin-right: 16px;
+     }
+   }
+
+   .truncated-block:after {
+     content: "";
+     position: absolute;
+     right: 0;
+     width: 1em;
+     height: 1em;
+     margin-top: 0.2em;
+     background: white;
+   }
+
+   .truncated-block-toggle {
+      margin-top: 10px;
+      display: inline-block;
+      border: 0;
+      margin: 10px 0 0;
+      padding: 0;
+      font-size: 1em;
+      color: $govuk-link-colour;
+      background: none;
+      cursor: pointer;
+      -webkit-appearance: none;
+      @include govuk-link-common;
+      @include govuk-link-style-default;
+    }
+ }

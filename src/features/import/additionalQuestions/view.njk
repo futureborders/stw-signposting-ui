@@ -1,4 +1,4 @@
-{% extends "layout.njk" %}
+{% extends "layout.html" %}
 
 {% set title = notAnsweredQuestions[0].question %}
 
@@ -7,7 +7,18 @@
 {% endblock %}
 
 {% block content %}
- <div class="govuk-grid-row">
+
+{{ govukBackLink({
+  text: translation.common.buttons.back,
+  href:  "/manage-this-trade?" + queryParams,
+  classes: "govuk-!-margin-bottom-9 js-back-button",
+  attributes: {
+    id: "back-link",
+    rel: "noreferrer noopener"
+  }
+}) }}
+
+ <div class="govuk-grid-row" id="main-content">
   <div class="govuk-grid-column-two-thirds">
 
     {% if errors %}
@@ -21,7 +32,7 @@
         ]
       }) }}
     {% endif %}
-    <form action="{{Route.importAdditionalQuestions}}" method="get" novalidate>
+    <form action="/manage-this-trade/additional-question" method="get" novalidate>
       {% set options = [] %}
       {% set hint = null %}
       {% for  option in notAnsweredQuestions[0].options %}

@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,34 +15,9 @@
  */
 
 /* eslint-disable */
+// initialize accessibleAutocomplete
 
-(function () {
-  // initialize accessibleAutocomplete
-  accessibleAutocomplete.enhanceSelectElement({
-    defaultValue: '',
-    selectElement: document.querySelector('#location-picker'),
-    tNoResults: () => document.getElementsByTagName('html')[0].getAttribute('lang') === 'cy' ? 'Dim canlyniadau wedi’u canfod' : 'No results found',
-  });
-
-  function checkOption(label) {
-    var result = [];
-    var sel = document.querySelector('#location-picker-select');
-    var opts = sel.options;
-
-    for(var i = 0; i < opts.length; i++) {
-      result.push(opts[i].innerText)
-    }
-    return result.filter( o => o === label ).length > 0;
-  }
-
-  document.querySelector('#location-picker').addEventListener('blur', (event) => {
-    if (event.target.value === '' || !checkOption(event.target.value)){
-      document.querySelector('#location-picker-select').value = '';
-    }
-  });
-
-  if(document.querySelector('.govuk-form-group--error')){
-    document.querySelector('#location-picker').value = '';
-    document.querySelector('#location-picker-select').value = '';
-  }
-})();
+accessibleAutocomplete.enhanceSelectElement({
+  defaultValue: '',
+  selectElement: document.querySelector('#location-picker'),
+});

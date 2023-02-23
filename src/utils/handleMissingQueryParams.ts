@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,6 +53,7 @@ export const handleMissingQueryParams = (req: Request): boolean => {
         || isMissing(destinationCountry)
         || isMissing(originCountry)
         || isMissing(exportGoodsIntent)
+        // todo: add more checks as we go
     );
   } else {
     params = (
@@ -71,12 +72,13 @@ export const handleMissingQueryParams = (req: Request): boolean => {
 
   if ((req.route.path === Route.search
     || req.route.path === Route.additionalCode
+    || req.route.path === Route.manageThisTrade
     || req.route.path === Route.importAdditionalQuestions
     || req.route.path === Route.importCheckLicencesAndRestrictions
     || req.route.path === Route.importProhibitionsAndRestrictions
     || req.route.path === Route.exportCheckLicencesAndRestrictions
-    || req.route.path === Route.taskList
-    || req.route.path === Route.checkYourAnswers
+    || req.route.path === Route.exportTaskList
+    || req.route.path === Route.exportCheckYourAnswers
   ) && params) {
     return true;
   }

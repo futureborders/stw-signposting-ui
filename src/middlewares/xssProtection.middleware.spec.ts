@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,12 +58,6 @@ describe('Testing sanitizeMiddleware', () => {
       };
       await xssProtectionMiddleware(req, res, next);
       expect(res.header).toBe('X-XSS-Protection: 1; mode=block');
-      expect(next).toBeCalled();
-    });
-    test('It should not error if header is missing', async () => {
-      req.headers = {
-      };
-      await xssProtectionMiddleware(req, res, next);
       expect(next).toBeCalled();
     });
   });

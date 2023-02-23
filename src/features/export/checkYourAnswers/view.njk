@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% set title = translation.page.checkYourAnswers.title %}
+
+{% block pageTitle %}
+{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+
+{% if "/search" in backPath %}
+{% set jsBackButton = " js-back-button" %}
+{% else %}
+{% set jsBackButton = "" %}
+{% endif %}
+
+{{ govukBackLink({
+  text: translation.common.buttons.back,
+    href: previousPage + "?" + queryParams,
+  classes: "govuk-!-margin-bottom-9" + jsBackButton,
+  attributes: {
+    id: "back-link",
+    rel: "noreferrer noopener"
+  }
+}) }}
+
+<div class="govuk-grid-row" id="main-content">
+ <div class="govuk-grid-column-two-thirds">
+   <h1 class="govuk-heading-xl govuk-!-margin-bottom-20">{{title}}</h1>
+
+   {{ govukSummaryList(checkYourAnswersRowsHtml) }}
+
+   {{ govukButton({
+     text: translation.common.buttons.continue,
+     href: nextPage + "?" + queryParams  | removeParam(['original']),
+     classes: "govuk-!-margin-top-6"
+   }) }}
+
+   <br />
+
+   {{ govukButton({
+     text: translation.page.manageThisTrade.print,
+     href: '#',
+     classes: "govuk-link gem-c-print-link__link govuk-link--no-visited-state govuk-!-margin-top-4 hideNoJs printButton",
+     attributes: {
+       id: "printButton"
+     }
+   }) }}
+
+ </div>
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+  {% include "../../../views/includes/truncate-scripts.html" %}
+{% endblock %}

@@ -1,6 +1,6 @@
-{% extends "layout.njk" %}
+{% extends "layout.html" %}
 
-{% set title = translation.page.checkDeclarations.common.title %}
+{% set title = translation.page.exportCheckDeclarations.title %}
 
 {% block pageTitle %}
 {{title}} - {{serviceName}} - {{titleSuffix}}
@@ -9,52 +9,57 @@
 {% block content %}
 
 {% set tradeDetails %}
-  {% include "../../common/tradeDetails/trade-details-export.partial.njk" %}
+  {% include "../../common/tradeDetails/trade-details.partial.njk" %}
 {% endset %}
 
-<div class="govuk-grid-row">
+{{ govukBackLink({
+  text: translation.common.buttons.back,
+    href: previousPage + "?" + queryParams,
+  classes: "govuk-!-margin-bottom-9",
+  attributes: {
+    rel: "noreferrer noopener",
+    "aria-label": translation.common.buttons.backAriaLabel
+  }
+}) }}
+
+<div class="govuk-grid-row" id="main-content">
  <div class="govuk-grid-column-two-thirds">
-   <span class="govuk-caption-xl">{{ translation.page.taskList.preparingToClearOriginBorderHeading }}</span>
-   <h1 class="govuk-heading-xl">
-     {{ title }}
-   </h1>
+   <h1 class="govuk-heading-xl govuk-!-margin-bottom-20">{{title}}</h1>
 
-   {{ govukDetails({
-      summaryText: translation.common.tradeDetails.summaryLinkText[tradeType] | capitalize,
-      html: tradeDetails
-    }) }}
-
-  <h2 class="govuk-heading-l">{{ translation.page.checkDeclarations.export.declarations }}</h2>
-  <p>{{ translation.page.checkDeclarations.export.declarationsP1  | safe}}</p>
-
-  <h3 class="govuk-heading-m">{{ translation.page.checkDeclarations.export.makingDeclaration }}</h3>
-  <p>{{ translation.page.checkDeclarations.export.makingDeclarationP1 | safe }}</p>
-
-  <h3 class="govuk-heading-m">{{ translation.page.checkDeclarations.export.submitDeclaration }}</h3>
-  <p>{{ translation.page.checkDeclarations.common.submitDeclarationP1 }}</p>
-  <p>{{ translation.page.checkDeclarations.common.submitDeclarationP2 | safe }}</p>
-
-  {{ govukInsetText({
-      html: translation.page.checkDeclarations.common.insetText
-    }) }}
-
-  <h3 class="govuk-heading-m">{{ translation.page.checkDeclarations.common.otherDeclarations }}</h3>
-  <p>{{ translation.page.checkDeclarations.export.otherDeclarationsP1 | safe }}</p>
-
-  {{ govukWarningText({
-    text: translation.page.checkDeclarations.common.healthWarning,
-    iconFallbackText: translation.common.accessibility.warning
-  }) }}
-
-   {{ govukButton({
-     text: translation.common.buttons.backToResults,
-     href: previousPage,
-     classes: "govuk-!-margin-top-6"
+  {{ govukDetails({
+     summaryText: translation.common.tradeDetails.detailsLink,
+     html: tradeDetails
    }) }}
 
-  {% include "../../../views/includes/print-button.njk" %}
+  <h3 class="govuk-heading-m">{{ translation.page.exportCheckDeclarations.makingDeclaration }}</h3>
+  <p>{{ translation.page.exportCheckDeclarations.makingDeclarationP1 | safe }}</p>
 
+  <h3 class="govuk-heading-m">{{ translation.page.exportCheckDeclarations.exportDeclarations }}</h3>
+  <p>{{ translation.page.exportCheckDeclarations.exportDeclarationsP1  | safe}}</p>
+
+  <h3 class="govuk-heading-m">{{ translation.page.exportCheckDeclarations.exitSummary }}</h3>
+  <p>{{ translation.page.exportCheckDeclarations.exitSummaryP1 | safe }}</p>
+  <p>{{ translation.page.exportCheckDeclarations.exitSummaryP2 }}</p>
+  
+  <h3 class="govuk-heading-m">{{ translation.page.exportCheckDeclarations.submitDeclaration }}</h3>
+  <p>{{ translation.page.exportCheckDeclarations.submitDeclarationP1 }}</p>
+  <p>{{ translation.page.exportCheckDeclarations.submitDeclarationP2 | safe }}</p>
+  {{ govukInsetText({
+      html: translation.page.exportCheckDeclarations.submitDeclarationP3
+    }) }}
+    
+   <br />
+   {{ govukButton({
+     text: translation.common.buttons.backToResults,
+     href: previousPage + "?" + queryParams,
+     classes: "govuk-!-margin-top-6"
+   }) }}
  </div>
 </div>
 
 {% endblock %}
+
+{% block pageScripts %}
+  {% include "../../../views/includes/truncate-scripts.html" %}
+{% endblock %}
+

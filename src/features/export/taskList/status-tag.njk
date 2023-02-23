@@ -1,0 +1,40 @@
+
+{% from "govuk/components/tag/macro.njk"                  import govukTag %}
+
+{% macro statusTag(params) %}
+
+{% if params.exportState == 'VIEWED' %}
+{{govukTag({
+    text: params.translation.statusTags.viewed,
+    classes: "govuk-tag app-task-list__tag",
+    attributes: {
+      id: params.id
+    }
+  })}}
+{% elif params.exportState == 'TO_VIEW' %}
+{{govukTag({
+    text: params.translation.statusTags.toView,
+    classes: "govuk-tag govuk-tag--grey app-task-list__tag",
+    attributes: {
+      id: params.id
+    }
+  })}}
+{% elif params.exportState == 'NOT_REQUIRED' %}
+{{govukTag({
+    text: params.translation.statusTags.notRequired,
+    classes: "govuk-tag govuk-tag--inactive app-task-list__tag",
+    attributes: {
+      id: params.id
+    }
+  })}}
+{% else %}
+{{govukTag({
+    text: params.translation.statusTags.cannotViewYet,
+    classes: "govuk-tag govuk-tag--grey app-task-list__tag",
+    attributes: {
+      id: params.id
+    }
+  })}}
+{% endif %}
+
+{% endmacro %}

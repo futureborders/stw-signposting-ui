@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,6 +51,8 @@ const mockedStwTradeTariffApi = <jest.Mocked<StwTradeTariffApi>>(
   new MockedStwTradeTariffApi()
 );
 
+jest.mock('../../../middlewares/auth-middleware', () => jest.fn((req, res, next) => next()));
+
 const indexRoute = new IndexRoute(
   mockedTradeTariffApi,
   mockedStwTradeTariffApi,
@@ -67,7 +69,7 @@ beforeEach(() => {
     tradeType: 'import',
     goodsIntent: 'bringGoodsToSell',
     importDeclarations: 'yes',
-    userTypeTrader: 'yes',
+    userTypeTrader: 'true',
     destinationCountry: 'GB',
     originCountry: 'CN',
     additionalCode: 'false',
@@ -146,7 +148,7 @@ describe(`[GET] ${Route.importCheckLicencesAndRestrictions}`, () => {
       .expect(200)
       .then((res) => {
         expect(res.text).toContain(
-          renderMarkdown(translation.common.measures.checkLicensesAndCertificates.non_declaring_trader(), translation),
+          renderMarkdown(translation.page.manageThisTrade.checkLicensesAndCertificates.non_declaring_trader()),
         );
       });
     expect(mockedStwTradeTariffApi.getRestrictiveMeasures).toHaveBeenCalled();
@@ -165,7 +167,7 @@ describe(`[GET] ${Route.importCheckLicencesAndRestrictions}`, () => {
 
     params.importDeclarations = 'yes';
 
-    const showSdsContent = `#### ${translation.common.measures['999L'].header}\n\n${translation.common.measures['999L'].body}`;
+    const showSdsContent = `#### ${translation.page.manageThisTrade['999L'].header}\n\n${translation.page.manageThisTrade['999L'].body}`;
 
     await request(app.getServer())
       .get(`${Route.importCheckLicencesAndRestrictions}${getParams(params)}`)
@@ -173,7 +175,7 @@ describe(`[GET] ${Route.importCheckLicencesAndRestrictions}`, () => {
       .expect(200)
       .then((res) => {
         expect(res.text).toContain(
-          renderMarkdown(translation.common.measures.checkLicensesAndCertificates.declaring_trader(showSdsContent), translation),
+          renderMarkdown(translation.page.manageThisTrade.checkLicensesAndCertificates.declaring_trader(showSdsContent)),
         );
       });
     expect(mockedStwTradeTariffApi.getRestrictiveMeasures).toHaveBeenCalled();
@@ -190,9 +192,9 @@ describe(`[GET] ${Route.importCheckLicencesAndRestrictions}`, () => {
 
     mockedStwTradeTariffApi.getRestrictiveMeasures.mockResolvedValue(axiosRestrictiveMeasuresResponse);
 
-    params.userTypeTrader = 'no';
+    params.userTypeTrader = 'false';
 
-    const showSdsContent = `#### ${translation.common.measures['999L'].header}\n\n${translation.common.measures['999L'].body}`;
+    const showSdsContent = `#### ${translation.page.manageThisTrade['999L'].header}\n\n${translation.page.manageThisTrade['999L'].body}`;
 
     await request(app.getServer())
       .get(`${Route.importCheckLicencesAndRestrictions}${getParams(params)}`)
@@ -200,13 +202,13 @@ describe(`[GET] ${Route.importCheckLicencesAndRestrictions}`, () => {
       .expect(200)
       .then((res) => {
         expect(res.text).toContain(
-          renderMarkdown(translation.common.measures.checkLicensesAndCertificates.intermediary(showSdsContent), translation),
+          renderMarkdown(translation.page.manageThisTrade.checkLicensesAndCertificates.intermediary(showSdsContent)),
         );
       });
     expect(mockedStwTradeTariffApi.getRestrictiveMeasures).toHaveBeenCalled();
   });
 
-  it(`It should respond with statusCode 200 and redirect back to ${Route.importCheckLicencesAndRestrictions} correct copy when each selected yes`, async () => {
+  it('It should respond with statusCode 200 and redirect back to /manage-this-trade/check-licences-certificates-and-other-restrictions correct copy when each selected yes', async () => {
     const axiosRestrictiveMeasuresResponse: AxiosResponse = {
       ...mockedAdditionalQuestionsData,
       status: 200,
@@ -235,7 +237,7 @@ describe(`[GET] ${Route.importCheckLicencesAndRestrictions}`, () => {
     expect(mockedStwTradeTariffApi.getRestrictiveMeasures).toHaveBeenCalled();
   });
 
-  it(`It should respond with statusCode 200 and redirect back to ${Route.importCheckLicencesAndRestrictions} with correct copy when each selected no`, async () => {
+  it('It should respond with statusCode 200 and redirect back to /manage-this-trade/check-licences-certificates-and-other-restrictions with correct copy when each selected no', async () => {
     const axiosRestrictiveMeasuresResponse: AxiosResponse = {
       ...mockedAdditionalQuestionsData,
       status: 200,
@@ -264,7 +266,7 @@ describe(`[GET] ${Route.importCheckLicencesAndRestrictions}`, () => {
     expect(mockedStwTradeTariffApi.getRestrictiveMeasures).toHaveBeenCalled();
   });
 
-  it(`It should respond with statusCode 200 and redirect back to ${Route.importCheckLicencesAndRestrictions} with correct copy when each selected notSure`, async () => {
+  it('It should respond with statusCode 200 and redirect back to /manage-this-trade/check-licences-certificates-and-other-restrictions with correct copy when each selected notSure', async () => {
     const axiosRestrictiveMeasuresResponse: AxiosResponse = {
       ...mockedAdditionalQuestionsData,
       status: 200,

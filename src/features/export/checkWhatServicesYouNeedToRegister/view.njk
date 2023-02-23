@@ -1,6 +1,6 @@
-{% extends "layout.njk" %}
+{% extends "layout.html" %}
 
-{% set title = translation.page.taskList.checkWhatServicesYouNeedToRegisterWithLink %}
+{% set title = translation.page.checkWhatServicesYouNeedToRegister.title %}
 
 {% block pageTitle %}
 {{title}} - {{serviceName}} - {{titleSuffix}}
@@ -9,20 +9,30 @@
 {% block content %}
 
 {% set tradeDetails %}
-  {% include "../../common/tradeDetails/trade-details-export.partial.njk" %}
+  {% include "../../common/tradeDetails/trade-details.partial.njk" %}
 {% endset %}
 
-<div class="govuk-grid-row">
+{{ govukBackLink({
+  text: translation.common.buttons.back,
+    href: previousPage + "?" + queryParams,
+  classes: "govuk-!-margin-bottom-9",
+  attributes: {
+    id: "back-link",
+    rel: "noreferrer noopener"
+  }
+}) }}
+
+<div class="govuk-grid-row" id="main-content">
  <div class="govuk-grid-column-two-thirds">
    <h1 class="govuk-heading-xl govuk-!-margin-bottom-20">
-     <span class="govuk-caption-xl">{{ translation.page.taskList.beforeTheGoodsAreSoldHeading }}</span>
+     <span class="govuk-caption-xl">{{ translation.page.checkWhatServicesYouNeedToRegister.caption }}</span>
      {{title}}
    </h1>
 
    {{ govukDetails({
-      summaryText: translation.common.tradeDetails.summaryLinkText[tradeType] | capitalize,
-      html: tradeDetails
-    }) }}
+     summaryText: translation.common.tradeDetails.detailsLink,
+     html: tradeDetails
+   }) }}
 
    <p>{{ translation.page.checkWhatServicesYouNeedToRegister.hint }}</span></p>
 
@@ -31,16 +41,17 @@
       <li><a href="{{link.url}}" target="_blank" rel="noopener noreferrer">{{ link.text }}<span class="govuk-visually-hidden"> {{ translation.common.accessibility.opensNewTab }}</span></li>
       {% endfor %}
     </ul>
-
+   <br />
    {{ govukButton({
      text: translation.common.buttons.backToResults,
-     href: previousPage,
+     href: previousPage + "?" + queryParams,
      classes: "govuk-!-margin-top-6"
    }) }}
-
-   {% include "../../../views/includes/print-button.njk" %}
-
  </div>
 </div>
 
+{% endblock %}
+
+{% block pageScripts %}
+  {% include "../../../views/includes/truncate-scripts.html" %}
 {% endblock %}

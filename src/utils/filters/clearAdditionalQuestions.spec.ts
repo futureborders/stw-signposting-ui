@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ import { clearAdditionalQuestions } from './clearAdditionalQuestions';
 
 describe('Testing clear additional Questions params', () => {
   test('It should return same params if no questions passed', () => {
-    const params = 'commodity=0208907000&originCountry=AQ&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB';
+    const params = 'commodity=0208907000&originCountry=AQ&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB';
     const searchParams = new URLSearchParams(params);
     const result = clearAdditionalQuestions(params, []);
 
@@ -26,8 +26,8 @@ describe('Testing clear additional Questions params', () => {
   });
 
   test('It should remove the param on the question array', () => {
-    const params = '710=yes&commodity=0208907000&originCountry=AQ&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB';
-    const expectedParams = 'commodity=0208907000&originCountry=AQ&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB';
+    const params = '710=yes&commodity=0208907000&originCountry=AQ&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB';
+    const expectedParams = 'commodity=0208907000&originCountry=AQ&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB';
 
     const expectedSearchParams = new URLSearchParams(expectedParams);
     const result = clearAdditionalQuestions(params, ['710']);
@@ -36,8 +36,8 @@ describe('Testing clear additional Questions params', () => {
   });
 
   test('It should remove multiple param on the question array', () => {
-    const params = '710=yes&commodity=0208907000&originCountry=AQ&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB';
-    const expectedParams = 'originCountry=AQ&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB';
+    const params = '710=yes&commodity=0208907000&originCountry=AQ&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB';
+    const expectedParams = 'originCountry=AQ&goodsIntent=bringGoodsToSell&userTypeTrader=true&tradeType=import&destinationCountry=GB';
 
     const expectedSearchParams = new URLSearchParams(expectedParams);
     const result = clearAdditionalQuestions(params, ['710', 'commodity']);

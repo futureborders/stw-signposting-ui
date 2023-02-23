@@ -1,6 +1,6 @@
-{% extends "layout.njk" %}
+{% extends "layout.html" %}
 
-{% set title = translation.page.taskList.checkWhatLicencesCertificatesAndOtherRestrictionsApplyToTheGoodsLink %}
+{% set title = translation.page.exportCheckLicencesAndRestrictions.title %}
 
 {% block pageTitle %}
 {{title}} - {{serviceName}} - {{titleSuffix}}
@@ -8,22 +8,32 @@
 
 {% block content %}
 
+{{ govukBackLink({
+  text: translation.common.buttons.back,
+  href: previousPage + "?" + queryParams,
+  classes: "govuk-!-margin-bottom-9",
+  attributes: {
+    id: "back-link",
+    rel: "noreferrer noopener"
+  }
+}) }}
+
 {% set tradeDetails %}
-  {% include "../../common/tradeDetails/trade-details-export.partial.njk" %}
+  {% include "../../common/tradeDetails/trade-details.partial.njk" %}
 {% endset %}
 
-<div class="govuk-grid-row">
+<div class="govuk-grid-row" id="main-content">
   <div class="govuk-grid-column-two-thirds">
-    <p class="print-disclaimer" aria-hidden="true">{{ translation.common.measures.printDisclaimer }}</p>
+    <p class="print-disclaimer" aria-hidden="true">{{ translation.page.manageThisTrade.printDisclaimer }}</p>
     <h1 class="govuk-heading-xl">
-      <span class="govuk-caption-xl">{{ translation.page.taskList.beforeTheGoodsAreSoldHeading }}</span>
+      <span class="govuk-caption-xl">{{ translation.page.exportCheckLicencesAndRestrictions.caption }}</span>
       {{ title }}
     </h1>
 
     {{ govukDetails({
-       summaryText: translation.common.tradeDetails.summaryLinkText[tradeType] | capitalize,
-       html: tradeDetails
-     }) }}
+      summaryText: translation.common.tradeDetails.detailsLink,
+      html: tradeDetails
+    }) }}
 
   </div>
 </div>
@@ -37,18 +47,31 @@
     {{ complexMeasuresAsHtml | safe }}
 
     {% else  %}
-    <p>{{ translation.page.taskList.export.noMeasures }}</p>
+    <p>{{ translation.page.exportCheckLicencesAndRestrictions.rulesThatApplyToYourGoods.noMeasures }}</p>
     {% endif  %}
 
     {{ govukButton({
       text: translation.common.buttons.backToResults,
-      href: previousPage,
+      href: previousPage + "?" + queryParams,
       classes: "govuk-!-margin-top-6"
     }) }}
 
-    {% include "../../../views/includes/print-button.njk" %}
+    <br />
+
+    {{ govukButton({
+      text: translation.page.manageThisTrade.print,
+      href: '#',
+      classes: "govuk-link gem-c-print-link__link govuk-link--no-visited-state govuk-!-margin-top-4 hideNoJs printButton",
+      attributes: {
+        id: "printButton"
+      }
+    }) }}
 
   </div>
 </div>
 
+{% endblock %}
+
+{% block pageScripts %}
+  {% include "../../../views/includes/truncate-scripts.html" %}
 {% endblock %}

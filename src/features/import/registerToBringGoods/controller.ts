@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,45 +15,51 @@
  */
 
 import { RequestHandler } from 'express';
+import { getCountryNameByCode } from '../../../utils/filters/getCountryNameByCode';
 import { Route } from '../../../interfaces/routes.interface';
-import { hierarchy } from '../../common/checkYourAnswers/model';
+import { hierarchy } from '../../export/checkYourAnswers/model';
 import { findCode } from '../../../utils/findCode';
 import { getImportDateFromQuery } from '../../../utils/queryHelper';
-import { DestinationCountry, OriginCountry, TaskStatus } from '../../../interfaces/enums.interface';
-import { handleExceptions } from '../../../exceptions/handleExceptions';
-import { getUserType } from '../../../models/measures.models';
-import { getSessionStatus, setSessionStatus } from '../../../utils/sessionHelpers';
-import { calculateNewTaskStatuses } from '../../../utils/taskListStatus';
-import { Tasks } from '../../common/taskList/interface';
-import { journey } from '../../../utils/previousNextRoutes';
+import { DestinationCountry, OriginCountry } from '../../../interfaces/enums.interface';
+import { handleImportExceptions } from '../../../exceptions/handleExceptions';
+import { Countries } from '../../../interfaces/countries.interface';
+import { getUserType } from '../../../models/manageThisTrade.models';
+
+const countries = require('../../../countries.json');
 
 class ImportRegisterToBringGoodsController {
   public importRegisterToBringGoods: RequestHandler = async (req, res, next) => {
-    setSessionStatus(req, calculateNewTaskStatuses(getSessionStatus(req), Tasks.checkServicestoRegister, TaskStatus.VIEWED));
-
-    const commodity = String(req.query.commodity);
+    const commodityCode = String(req.query.commodity);
     const destinationCountry = String(req.query.destinationCountry);
     const originCountry = String(req.query.originCountry);
     const additionalCode = String(req.query.additionalCode);
     const tradeType = String(req.query.tradeType);
     const userTypeTrader = String(req.query.userTypeTrader);
-    const goodsIntent = String(req.query.goodsIntent);
-    const tradeDate = getImportDateFromQuery(req);
+    const { goodsIntent } = req.query;
+    const importDate = getImportDateFromQuery(req);
     const importDeclarations = String(req.query.importDeclarations);
     const userType = getUserType(userTypeTrader, importDeclarations);
-    const previousPage = `${journey.import.importRegisterToBringGoods.previousPage()}?${res.locals.queryParams}`;
-    const commodityClassification = hierarchy(findCode(commodity));
-
+    const previousPage = Route.manageThisTrade;
     try {
+      const destinationCountryName = getCountryNameByCode(destinationCountry, res.locals.language);
+
+      const commodityClassification = hierarchy(findCode(commodityCode));
+
+      const country = countries.data.filter(
+        (countryItem: Countries) => countryItem.id === originCountry,
+      )[0].attributes.description;
+
       res.render('import/registerToBringGoods/view.njk', {
         previousPage,
-        tradeDate,
-        commodity,
+        destinationCountryName,
+        importDate,
+        commodityCode,
         additionalCode,
         originCountry,
         commodityClassification,
         Route,
         importDeclarations,
+        country,
         goodsIntent,
         userTypeTrader,
         tradeType,
@@ -64,7 +70,7 @@ class ImportRegisterToBringGoodsController {
         csrfToken: req.csrfToken(),
       });
     } catch (e) {
-      handleExceptions(res, req, e, next);
+      handleImportExceptions(res, req, e, next, previousPage);
     }
   };
 }

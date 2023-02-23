@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-import { RequestHandler } from 'express';
+import { RequestHandler, Request } from 'express';
+import { GoodsIntent } from '../../../interfaces/enums.interface';
 import { Route } from '../../../interfaces/routes.interface';
 import { getImportDateFromQuery, updateQueryParams } from '../../../utils/queryHelper';
 import validateImportDate, { hasDateErrors } from '../../../utils/validateImportDate';
-import { DateErrors } from '../../../interfaces/importDate.interface';
+import { ImportDate, DateErrors } from '../../../interfaces/importDate.interface';
 import {
   setSessionCurrentPath,
   getErrorMessage,
@@ -37,34 +38,37 @@ class ExportGoodsArrivalDateController {
     clearSessionErrorMessages(req);
 
     try {
-      const { tradeDetails } = req.query;
-      const { queryParams, translation } = res.locals;
+      const {
+        tradeType, goodsIntent, commodity, destinationCountry, tradeDetails,
+      } = req.query;
+      const { queryParams } = res.locals;
       const tradeDate = getImportDateFromQuery(req);
       const isEdit = req.query.isEdit === 'true';
 
-      const getQueryParams = updateQueryParams(queryParams, {
-        tradeDateDay: req.query.originalTradeDateDay || tradeDate.day,
-        tradeDateMonth: req.query.originalTradeDateMonth || tradeDate.month,
-        tradeDateYear: req.query.originalTradeDateYear || tradeDate.year,
-      });
+      const originalValues = this.persistOriginalValues(`${isEdit}`, tradeDate, req, queryParams);
 
-      const originalTradeDateDay = tradeDate.day || req.query.originalTradeDateDay;
-      const originalTradeDateMonth = tradeDate.month || req.query.originalTradeDateMonth;
-      const originalTradeDateYear = tradeDate.year || req.query.originalTradeDateYear;
+      const previousPage = journey.export.exportGoodsArrivalDate.previousPage(`${originalValues.originalTradeDateDay}`);
 
+      const { originalTradeDateDay } = originalValues;
+      const { originalTradeDateMonth } = originalValues;
+      const { originalTradeDateYear } = originalValues;
+      const { originalQueryParams } = originalValues;
       const dateErrors: DateErrors = hasDateErrors(showErrorMessage?.id);
-      const previousPage = `${journey.export.exportGoodsArrivalDate.previousPage(isEdit)}?${getQueryParams}`;
-      const jsBackButton = !!tradeDetails;
 
       res.render('export/goodsArrivalDate/view.njk', {
         Route,
-        jsBackButton,
+        tradeType,
+        goodsIntent,
         previousPage,
+        GoodsIntent,
         tradeDate,
         isEdit,
+        commodity,
+        destinationCountry,
         originalTradeDateDay,
         originalTradeDateMonth,
         originalTradeDateYear,
+        originalQueryParams,
         tradeDetails,
         dateErrors,
         errors: showErrorMessage
@@ -72,7 +76,6 @@ class ExportGoodsArrivalDateController {
             text: showErrorMessage.message,
             idForAnchor: getErrorIdForAnchor(showErrorMessage.id),
             id: showErrorMessage.id,
-            visuallyHiddenText: translation.common.errors.error,
           }
           : null,
         csrfToken: req.csrfToken(),
@@ -93,9 +96,9 @@ class ExportGoodsArrivalDateController {
       isEdit,
     } = req.body;
 
-    const { queryParams, translation, language } = res.locals;
+    const { queryParams, translation } = res.locals;
     const tradeDate = getImportDateFromQuery(req, true);
-    const error = validateImportDate(tradeDate, translation, String(req.query.tradeType), language);
+    const error = validateImportDate(tradeDate, translation, String(req.query.tradeType));
 
     const updatedQueryParams = updateQueryParams(queryParams, {
       tradeDateDay,
@@ -107,7 +110,6 @@ class ExportGoodsArrivalDateController {
       originalTradeDateDay,
       originalTradeDateMonth,
       originalTradeDateYear,
-      isEdit,
     }) : updatedQueryParams;
 
     try {
@@ -121,7 +123,7 @@ class ExportGoodsArrivalDateController {
         );
       } else if (isEdit) {
         redirectRoute(
-          Route.checkYourAnswers,
+          Route.exportCheckYourAnswers,
           removeParam(updatedQueryParams, [
             'originalTradeDateDay',
             'originalTradeDateMonth',
@@ -132,11 +134,7 @@ class ExportGoodsArrivalDateController {
       } else {
         redirectRoute(
           journey.export.exportGoodsArrivalDate.nextPage(),
-          removeParam(updatedQueryParams, [
-            'originalTradeDateDay',
-            'originalTradeDateMonth',
-            'originalTradeDateYear',
-          ]),
+          updatedQueryParams,
           res,
         );
       }
@@ -144,6 +142,39 @@ class ExportGoodsArrivalDateController {
       next(e);
     }
   };
+
+  private persistOriginalValues = (
+    isEdit: string,
+    tradeDate: ImportDate,
+    req: Request,
+    queryParams: string,
+  ) => {
+    let originalTradeDateDay;
+    let originalTradeDateMonth;
+    let originalTradeDateYear;
+    let originalQueryParams;
+
+    if (isEdit === 'true') {
+      originalTradeDateDay = tradeDate.day;
+      originalTradeDateMonth = tradeDate.month;
+      originalTradeDateYear = tradeDate.year;
+    } else {
+      originalTradeDateDay = req.query.originalTradeDateDay;
+      originalTradeDateMonth = req.query.originalTradeDateMonth;
+      originalTradeDateYear = req.query.originalTradeDateYear;
+      originalQueryParams = updateQueryParams(queryParams, {
+        tradeDateDay: `${originalTradeDateDay}`,
+        tradeDateMonth: `${originalTradeDateMonth}`,
+        tradeDateYear: `${originalTradeDateYear}`,
+      });
+    }
+    return {
+      originalTradeDateDay,
+      originalTradeDateMonth,
+      originalTradeDateYear,
+      originalQueryParams,
+    };
+  }
 }
 
 export default ExportGoodsArrivalDateController;

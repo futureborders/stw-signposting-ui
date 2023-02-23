@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,26 +49,18 @@ export const getFiles = (dir: string): string[] => {
   return results;
 };
 
-const calculateFileHashes = () => {
+const fileHash = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+):void => {
   const folder = getFiles('./public');
   const hashedRef: any = {};
   folder.forEach((file: any) => {
     const fileName = file.split(/(\\|\/)/g).pop().split('.').join('.');
     hashedRef[fileName] = `?ref=${getHash(file)}`;
   });
-
-  return hashedRef;
-};
-
-// Cache the file hashes
-const fileHashes = calculateFileHashes();
-
-const fileHash = (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-):void => {
-  res.locals.fileHash = fileHashes;
+  res.locals.fileHash = hashedRef;
   next();
 };
 

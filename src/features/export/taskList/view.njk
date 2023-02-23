@@ -1,0 +1,155 @@
+{% extends "layout.html" %}
+
+{% from "./task-list-item.partial.njk" import taskListItem %}
+
+{% set title = translation.page.exportTaskList.title(exportState.destinationCountryName) %}
+{% set preparingToClearOriginBorderHeading = translation.page.exportTaskList.preparingToClearOriginBorderHeading %}
+{% set prepareCustomsDeclarationsOriginSubheading = translation.page.exportTaskList.prepareCustomsDeclarationsOriginSubheading %}
+
+{% block pageTitle %}
+{% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+
+{{ govukBackLink({
+  text: translation.common.buttons.back,
+  href: previousPage + '?' + queryParams,
+  classes: "govuk-!-margin-bottom-9",
+  attributes: {
+    id: "back-link",
+    rel: "noreferrer noopener"
+  }
+}) }}
+
+{% set tradeDetails %}
+  {% include "../../common/tradeDetails/trade-details.partial.njk" %}
+{% endset %}
+
+<div class="govuk-grid-row" id="main-content">
+  <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">{{title}}</h1>
+
+      {{ govukDetails({
+        summaryText: translation.common.tradeDetails.detailsLink,
+        html: tradeDetails
+      }) }}
+
+      <ol class="app-task-list">
+        <li>
+          <h2 class="govuk-heading-l govuk-!-margin-bottom-7 govuk-!-margin-top-7">
+            1. {{ translation.page.exportTaskList.beforeTheGoodsAreSoldHeading }}
+          </h2>
+          <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
+            {{ translation.page.exportTaskList.checkYourExportDetailsSubheading }}
+          </h3>
+          <ul class="app-task-list__items govuk-!-margin-bottom-7">
+            {{
+              taskListItem({
+                desc: translation.page.exportTaskList.checkEligibilityLink,
+                href: Route.exportCheckYourAnswers + '?' + queryParams,
+                exportState: exportState.exportTaskStatuses.checkEligibility,
+                exportTaskListTranslation: translation.page.exportTaskList,
+                id: "REVIEW_EXPORT_DETAILS"
+              })
+            }}
+          </ul>
+          <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
+            {{ translation.page.exportTaskList.checkWhatRestrictionsApplyToTheGoodsSubheading }}
+          </h3>
+          <ul class="app-task-list__items govuk-!-margin-bottom-7">
+
+            {% if hasNoMeasures %}
+            {{
+              taskListItem({
+                desc: translation.page.exportTaskList.checkWhatLicencesCertificatesAndOtherRestrictionsApplyToTheGoodsLink + "<br /><br />" + translation.page.exportCheckLicencesAndRestrictions.rulesThatApplyToYourGoods.noMeasures,
+                href: '#',
+                exportState: exportState.exportTaskStatuses.checkLicensesAndCertificates,
+                exportTaskListTranslation: translation.page.exportTaskList,
+                id: "CHECK_LICENSES_AND_CERTIFICATES"
+              })
+            }}
+            {% else %}
+            {{
+              taskListItem({
+                desc: translation.page.exportTaskList.checkWhatLicencesCertificatesAndOtherRestrictionsApplyToTheGoodsLink,
+                href: Route.exportCheckLicencesAndRestrictions + "?" + queryParams,
+                exportState: exportState.exportTaskStatuses.checkLicensesAndCertificates,
+                exportTaskListTranslation: translation.page.exportTaskList,
+                id: "CHECK_LICENSES_AND_CERTIFICATES"
+              })
+            }}
+            {% endif %}
+          </ul>
+          <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
+            {{ translation.page.exportTaskList.signUpToServicesSubheading }}
+          </h3>
+          <ul class="app-task-list__items govuk-!-margin-bottom-7">
+          {{
+            taskListItem({
+              desc: translation.page.exportTaskList.checkWhatServicesYouNeedToRegisterWithLink,
+              href: Route.exportCheckWhatServicesYouNeedToRegister + "?" + queryParams,
+              exportState: exportState.exportTaskStatuses.checkServicestoRegister,
+              exportTaskListTranslation: translation.page.exportTaskList,
+              id: "CHECK_SERVICES_TO_REGISTER"
+            })
+          }}
+          </ul>
+        </li>
+        <li>
+          <h2 class="govuk-heading-l govuk-!-margin-bottom-7 govuk-!-margin-top-7">
+            2. {{preparingToClearOriginBorderHeading}}
+          </h2>
+          <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
+            {{prepareCustomsDeclarationsOriginSubheading}}
+          </h3>
+          <ul class="app-task-list__items govuk-!-margin-bottom-7">
+            {{
+              taskListItem({
+                desc: translation.page.exportTaskList.checkWhatInformationAndDocumentsYouMayNeedLink,
+                href: Route.exportCheckInformationAndDocuments + "?" + queryParams,
+                exportState: exportState.exportTaskStatuses.checkInformationAndDocuments,
+                exportTaskListTranslation: translation.page.exportTaskList,
+                id: "CHECK_DOCUMENTS"
+              })
+            }}
+            {% if exportState.exportDeclarations !== 'no' %}
+            {{
+              taskListItem({
+                desc: translation.page.exportTaskList.checkWhatCustomsDeclarationsYouMayNeedToSubmitLink,
+                href: Route.exportCheckDeclarations + "?" + queryParams,
+                exportState: exportState.exportTaskStatuses.checkCustomsDeclarations,
+                exportTaskListTranslation: translation.page.exportTaskList,
+                id: "CHECK_CUSTOMS_DECLARATIONS"
+              })
+            }}
+            {% endif %}
+          </ul>
+        </li>
+      </ol>
+
+      <div class="greyPanel">
+        <h3 class="govuk-heading-s">
+          {{translation.page.exportTaskList.preparingToClearDestinationBorderHeading(exportState.destinationCountryName)}}
+        </h3>
+        <p>{{ translation.page.exportTaskList.preparingToClearDestinationBorderParagraph }}</p>
+        <p class="govuk-!-margin-bottom-0"><a href="{{ chegUrl }}" target="_blank" rel="noopener" class="govuk-link">{{ translation.page.exportTaskList.checkHowToClearGoodsIntoDestinationLink(exportState.destinationCountryName) }}</a></p>
+      </div>
+
+      {{ govukButton({
+        text: translation.page.manageThisTrade.print,
+        href: '#',
+        classes: "govuk-link gem-c-print-link__link govuk-link--no-visited-state govuk-!-margin-top-4 hideNoJs printButton",
+        attributes: {
+          id: "printButton"
+        }
+      }) }}
+
+    </div>
+</div>
+{% endblock %}
+
+{% block pageScripts %}
+  {% include "../../../views/includes/truncate-scripts.html" %}
+{% endblock %}

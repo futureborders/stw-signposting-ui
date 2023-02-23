@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,8 @@ import {
   setSessionCurrentPath,
   getErrorMessage,
   clearSessionErrorMessages,
-  setSessionStatus,
-  getSessionStatus,
+  setSessionExport,
+  getSessionExport,
   getSessionCurrentPath,
 } from './sessionHelpers';
 
@@ -89,8 +89,8 @@ describe('Testing sessionHelpers', () => {
     });
   });
 
-  describe('getSessionStatus', () => {
-    test('It should set session.state getSessionStatus to values in query', () => {
+  describe('getSessionExport', () => {
+    test('It should set session.exportState getSessionExport to values in query', () => {
       const req: any = {
         query: {
           commodity: '0208907000',
@@ -100,10 +100,11 @@ describe('Testing sessionHelpers', () => {
         },
         session: {},
       };
-      const state: any = {
+      const exportState: any = {
         commodity: '0208907000',
         destinationCountry: 'BR',
         originCountry: 'GB',
+        checkRestrictions: 'undefined',
         tradeType: 'export',
         exportDeclarations: 'notSure',
         exportGoodsIntent: ExportGoodsIntent.goodsExportedToBeSoldForBusiness,
@@ -111,6 +112,8 @@ describe('Testing sessionHelpers', () => {
         tradeDateDay: '01',
         tradeDateMonth: '01',
         tradeDateYear: '2022',
+        destinationCountryName: 'Brazil',
+        originCountryName: 'England, Scotland and Wales',
         checkExportDetailsStatus: 'IN_PROGRESS',
         checkRestrictionsStatus: 'CANNOT_VIEW_YET',
         signUpToServicesStatus: 'CANNOT_VIEW_YET',
@@ -118,11 +121,11 @@ describe('Testing sessionHelpers', () => {
         preparingToClearDestinationCountryBorderStatus: 'CANNOT_VIEW_YET',
         finalSummaryStatus: 'CANNOT_VIEW_YET',
       };
-      setSessionStatus(req, state);
-      expect(req.session.state.commodity).toBe('0208907000');
+      setSessionExport(req, exportState);
+      expect(req.session.exportState.commodity).toBe('0208907000');
     });
 
-    test('It should overide value in session.state getSessionStatus to values in query', () => {
+    test('It should overide value in session.exportState getSessionExport to values in query', () => {
       const req: any = {
         query: {
           commodity: '0208907001',
@@ -132,10 +135,11 @@ describe('Testing sessionHelpers', () => {
         },
         session: {},
       };
-      const state: any = {
+      const exportState: any = {
         commodity: '0208907000',
         destinationCountry: 'BR',
         originCountry: 'GB',
+        checkRestrictions: 'undefined',
         tradeType: 'export',
         exportDeclarations: 'notSure',
         exportGoodsIntent: ExportGoodsIntent.goodsExportedToBeSoldForBusiness,
@@ -143,6 +147,8 @@ describe('Testing sessionHelpers', () => {
         tradeDateDay: '01',
         tradeDateMonth: '01',
         tradeDateYear: '2022',
+        destinationCountryName: 'Brazil',
+        originCountryName: 'England, Scotland and Wales',
         checkExportDetailsStatus: 'IN_PROGRESS',
         checkRestrictionsStatus: 'CANNOT_VIEW_YET',
         signUpToServicesStatus: 'CANNOT_VIEW_YET',
@@ -150,32 +156,32 @@ describe('Testing sessionHelpers', () => {
         preparingToClearDestinationCountryBorderStatus: 'CANNOT_VIEW_YET',
         finalSummaryStatus: 'CANNOT_VIEW_YET',
       };
-      setSessionStatus(req, state);
-      expect(req.session.state.commodity).toBe('0208907000');
+      setSessionExport(req, exportState);
+      expect(req.session.exportState.commodity).toBe('0208907000');
     });
 
-    test('It should return {} when no session object from getSessionStatus', () => {
+    test('It should return {} when no session object from getSessionExport', () => {
       const req: any = {};
-      const state: any = {};
-      expect(setSessionStatus(req, state)).toStrictEqual({});
+      const exportState: any = {};
+      expect(setSessionExport(req, exportState)).toStrictEqual({});
     });
   });
 
-  describe('getSessionStatus', () => {
-    test('It should return commodity from getSessionStatus', () => {
+  describe('getSessionExport', () => {
+    test('It should return commodity from getSessionExport', () => {
       const req: any = {
         session: {
-          state: {
+          exportState: {
             commodity: '0208907000',
           },
         },
       };
-      const res = getSessionStatus(req);
+      const res = getSessionExport(req);
       expect(res.commodity).toBe('0208907000');
     });
     test('It should be undefined', () => {
       const req: any = {};
-      const res = getSessionStatus(req);
+      const res = getSessionExport(req);
       expect(res.commodity).toBe(undefined);
     });
   });

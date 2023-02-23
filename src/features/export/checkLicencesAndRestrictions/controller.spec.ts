@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,13 +27,12 @@ import { ImportDate } from '../../../interfaces/importDate.interface';
 
 import {
   mockedRestrictiveMeasures,
-  mockedRestrictiveMeasuresNo999L,
 } from './mockedData';
 
-import { mockedAdditionalCodeData } from '../../common/additionalCode/mockedData';
+import { mockedAdditionalCodeData } from '../additionalCode/mockedData';
 
 import translation from '../../../translation/en';
-import { Params } from '../../../interfaces/params.interface';
+import { ExportsParams } from '../../../interfaces/exports.interface';
 import { getParams } from '../../../utils/queryHelper';
 import getTodaysDate from '../../../utils/tests/getTodaysDate';
 import { formatDate } from '../../../utils/filters/formatDate';
@@ -51,13 +50,15 @@ const mockedStwTradeTariffApi = <jest.Mocked<StwTradeTariffApi>>(
   new MockedStwTradeTariffApi()
 );
 
+jest.mock('../../../middlewares/auth-middleware', () => jest.fn((req, res, next) => next()));
+
 const indexRoute = new IndexRoute(
   mockedTradeTariffApi,
   mockedStwTradeTariffApi,
 );
 const app = new App([indexRoute]);
 
-let params:Params = {};
+let params:ExportsParams = {};
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -80,7 +81,7 @@ afterAll(async () => {
 
 describe(`[GET] ${Route.exportCheckLicencesAndRestrictions}`, () => {
   it('It should return status 200', async () => {
-    const axiosRestrictiveMeasuresResponse: AxiosResponse = {
+    const axiosTradeDataResponse: AxiosResponse = {
       ...mockedRestrictiveMeasures,
       status: 200,
       statusText: 'OK',
@@ -89,7 +90,7 @@ describe(`[GET] ${Route.exportCheckLicencesAndRestrictions}`, () => {
     };
 
     mockedStwTradeTariffApi.getRestrictiveMeasures.mockResolvedValue(
-      axiosRestrictiveMeasuresResponse,
+      axiosTradeDataResponse,
     );
 
     const axiosAdditionalCodeResponse: AxiosResponse = {
@@ -116,7 +117,6 @@ describe(`[GET] ${Route.exportCheckLicencesAndRestrictions}`, () => {
         expect(res.text).toEqual(expect.stringContaining('Document codes'));
         expect(res.text).toEqual(expect.stringContaining('Y900'));
         expect(res.text).toEqual(expect.stringContaining('C400'));
-        expect(res.text).toEqual(expect.stringContaining('Customs Declaration Service (CDS) Licence Waiver'));
       });
     expect(mockedStwTradeTariffApi.getRestrictiveMeasures).toHaveBeenCalled();
     expect(mockedStwTradeTariffApi.getAdditionalCode).toHaveBeenCalled();
@@ -125,7 +125,7 @@ describe(`[GET] ${Route.exportCheckLicencesAndRestrictions}`, () => {
   it('It should return status 200 and not display codes and details element for non-declaring traders', async () => {
     params.exportDeclarations = 'no';
 
-    const axiosRestrictiveMeasuresResponse: AxiosResponse = {
+    const axiosTradeDataResponse: AxiosResponse = {
       ...mockedRestrictiveMeasures,
       status: 200,
       statusText: 'OK',
@@ -134,7 +134,7 @@ describe(`[GET] ${Route.exportCheckLicencesAndRestrictions}`, () => {
     };
 
     mockedStwTradeTariffApi.getRestrictiveMeasures.mockResolvedValue(
-      axiosRestrictiveMeasuresResponse,
+      axiosTradeDataResponse,
     );
 
     await request(app.getServer())
@@ -147,31 +147,6 @@ describe(`[GET] ${Route.exportCheckLicencesAndRestrictions}`, () => {
         expect(res.text).not.toEqual(expect.stringContaining('Document codes'));
         expect(res.text).not.toEqual(expect.stringContaining('Y900'));
         expect(res.text).not.toEqual(expect.stringContaining('C400'));
-      });
-    expect(mockedStwTradeTariffApi.getRestrictiveMeasures).toHaveBeenCalled();
-  });
-
-  it('It should return status 200 and not display CDS content', async () => {
-    params.exportDeclarations = 'yes';
-
-    const axiosRestrictiveMeasuresResponse: AxiosResponse = {
-      ...mockedRestrictiveMeasuresNo999L,
-      status: 200,
-      statusText: 'OK',
-      config: {},
-      headers: {},
-    };
-
-    mockedStwTradeTariffApi.getRestrictiveMeasures.mockResolvedValue(
-      axiosRestrictiveMeasuresResponse,
-    );
-
-    await request(app.getServer())
-      .get(`${Route.exportCheckLicencesAndRestrictions}${getParams(params)}`)
-      .set('user-agent', 'node-superagent')
-      .expect(200)
-      .then((res) => {
-        expect(res.text).not.toEqual(expect.stringContaining('Customs Declaration Service (CDS) Licence Waiver'));
       });
     expect(mockedStwTradeTariffApi.getRestrictiveMeasures).toHaveBeenCalled();
   });
@@ -202,8 +177,8 @@ describe(`[GET] ${Route.exportCheckLicencesAndRestrictions}`, () => {
       .expect('Location', Route.typeOfTrade);
   });
 
-  it(`It should respond with statusCode 302 and redirect to ${Route.additionalCode} if invalid additional code`, async () => {
-    const axiosRestrictiveMeasuresResponse: AxiosResponse = {
+  it(`It should respond with statusCode 302 and redirect to ${Route.exportAdditionalCode} if invalid additional code`, async () => {
+    const axiosTradeDataResponse: AxiosResponse = {
       ...mockedRestrictiveMeasures,
       status: 200,
       statusText: 'OK',
@@ -212,7 +187,7 @@ describe(`[GET] ${Route.exportCheckLicencesAndRestrictions}`, () => {
     };
 
     mockedStwTradeTariffApi.getRestrictiveMeasures.mockResolvedValue(
-      axiosRestrictiveMeasuresResponse,
+      axiosTradeDataResponse,
     );
 
     const axiosAdditionalCodeResponse: AxiosResponse = {
@@ -233,13 +208,13 @@ describe(`[GET] ${Route.exportCheckLicencesAndRestrictions}`, () => {
       .get(`${Route.exportCheckLicencesAndRestrictions}${getParams(params)}`)
       .set('user-agent', 'node-superagent')
       .expect(302)
-      .expect('Location', `${Route.additionalCode}${getParams(params)}&error=${encodeURIComponent(translation.common.additionalCode.error)}`);
+      .expect('Location', `${Route.exportAdditionalCode}${getParams(params)}&error=${encodeURIComponent(translation.page.exportAdditionalCode.error)}`);
     expect(mockedStwTradeTariffApi.getRestrictiveMeasures).toHaveBeenCalled();
     expect(mockedStwTradeTariffApi.getAdditionalCode).toHaveBeenCalled();
   });
 
   it('It should return status 200 and show correct trade details', async () => {
-    const axiosRestrictiveMeasuresResponse: AxiosResponse = {
+    const axiosTradeDataResponse: AxiosResponse = {
       ...mockedRestrictiveMeasures,
       status: 200,
       statusText: 'OK',
@@ -248,7 +223,7 @@ describe(`[GET] ${Route.exportCheckLicencesAndRestrictions}`, () => {
     };
 
     mockedStwTradeTariffApi.getRestrictiveMeasures.mockResolvedValue(
-      axiosRestrictiveMeasuresResponse,
+      axiosTradeDataResponse,
     );
 
     const axiosAdditionalCodeResponse: AxiosResponse = {

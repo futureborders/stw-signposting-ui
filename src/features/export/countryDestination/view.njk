@@ -1,17 +1,39 @@
-{% extends "layout.njk" %}
+{% extends "layout.html" %}
 
 {% block head %}
-  {% include "includes/head.njk" %}
-  <link href="/static/components/accessible-autocomplete.min.css{{ fileHash['accessible-autocomplete.min.css'] }}" media="all" rel="stylesheet" type="text/css" />
+  {% include "includes/head.html" %}
+  <link href="/static/components/accessible-autocomplete.min.css" media="all" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block pageTitle %}
 {% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
 {% endblock %}
 
+{% if tradeDetails %}
+{% set jsBackButton = " js-back-button" %}
+{% else %}
+{% set jsBackButton = "" %}
+{% endif %}
+
 {% block content %}
 
-<div class="govuk-grid-row">
+{% if original %}
+{% set getBackLink = "manage-this-trade?" + originalQueryParams %}
+{% else %}
+{% set getBackLink = previousPage + "?" + queryParams %}
+{% endif %}
+
+{{ govukBackLink({
+  text: translation.common.buttons.back,
+  href: getBackLink,
+  classes: "govuk-!-margin-bottom-9" + jsBackButton,
+  attributes: {
+    id: "back-link",
+    rel: "noreferrer noopener"
+  }
+}) }}
+
+<div class="govuk-grid-row" id="main-content">
   <div class="govuk-grid-column-two-thirds">
 
         {% if errors %}
@@ -59,5 +81,5 @@
 {% endblock %}
 
 {% block pageScripts %}
-{% include "includes/autocomplete.njk" %}
+{% include "includes/autocomplete.html" %}
 {% endblock %}

@@ -1,4 +1,4 @@
-{% extends "layout.njk" %}
+{% extends "layout.html" %}
 
 {% set title = translation.page.exportGoodsArrivalDate.question %}
 
@@ -6,8 +6,31 @@
 {% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
 {% endblock %}
 
+{% if (originalTradeDateDay and errors) or (originalTradeDateMonth and errors) or (originalTradeDateYear and errors) %}
+{% set getPreviousPageQueryParams = originalQueryParams %}
+{% else %}
+{% set getPreviousPageQueryParams = queryParams %}
+{% endif %}
+
+{% if tradeDetails %}
+{% set jsBackButton = " js-back-button" %}
+{% else %}
+{% set jsBackButton = "" %}
+{% endif %}
+
 {% block content %}
- <div class="govuk-grid-row">
+
+{{ govukBackLink({
+  text: translation.common.buttons.back,
+  href: previousPage + "?" + getPreviousPageQueryParams,
+  classes: "govuk-!-margin-bottom-9" + jsBackButton,
+  attributes: {
+    id: "back-link",
+    rel: "noreferrer noopener"
+  }
+}) }}
+
+ <div class="govuk-grid-row" id="main-content">
   <div class="govuk-grid-column-two-thirds">
 
     {% if errors %}
@@ -27,7 +50,7 @@
       <h1 class="govuk-label--xl govuk-!-margin-top-0">{{ translation.page.exportGoodsArrivalDate.question }}</h1>
 
       <p>{{ translation.page.exportGoodsArrivalDate.p1 }}</p>
-      
+      <p>{{ translation.page.exportGoodsArrivalDate.p2 }}</p>
       {{ govukDateInput({
           id: "exportGoodsArrivalDate",
           errorMessage: errors,
@@ -43,19 +66,19 @@
       items: [
       {
         classes: 'govuk-input--width-2 govuk-input--error' if dateErrors.day else 'govuk-input--width-2',
-        label: translation.common.labels.date.day,
+        label: "Day",
         name: "tradeDateDay",
         value: tradeDate.day
       },
       {
         classes: 'govuk-input--width-2 govuk-input--error' if dateErrors.month else 'govuk-input--width-2',
-        label: translation.common.labels.date.month,
+        label: "Month",
         name: "tradeDateMonth",
         value: tradeDate.month
       },
       {
         classes: 'govuk-input--width-4 govuk-input--error' if dateErrors.year else 'govuk-input--width-4',
-        label: translation.common.labels.date.year,
+        label: "Year",
         name: "tradeDateYear",
         value: tradeDate.year
       }
@@ -66,7 +89,7 @@
           text: translation.common.buttons.continue
         }) }}
 
-      {% if isEdit %}
+      {% if isEdit or (originalTradeDateDay and errors) or (originalTradeDateMonth and errors) or (originalTradeDateYear and errors) %}
         <input type="hidden" name="isEdit" value="{{isEdit}}">
         <input type="hidden" name="originalTradeDateDay" value="{{originalTradeDateDay}}">
         <input type="hidden" name="originalTradeDateMonth" value="{{originalTradeDateMonth}}">

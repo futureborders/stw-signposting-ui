@@ -1,4 +1,4 @@
-{% extends "layout.njk" %}
+{% extends "layout.html" %}
 
 {% set title = translation.page.exportCommoditySearch.question %}
 
@@ -8,7 +8,29 @@
 
 {% block content %}
 
- <div class="govuk-grid-row">
+{% if original and errors %}
+{% set getQueryParams = originalQueryParams %}
+{% else %}
+{% set getQueryParams = queryParams %}
+{% endif %}
+
+{% if tradeDetails %}
+{% set jsBackButton = " js-back-button" %}
+{% else %}
+{% set jsBackButton = "" %}
+{% endif %}
+
+{{ govukBackLink({
+  text: translation.common.buttons.back,
+  href: previousPage + "?" + getQueryParams,
+  classes: "govuk-!-margin-bottom-9" + jsBackButton,
+  attributes: {
+    id: "back-link",
+    rel: "noreferrer noopener"
+  }
+}) }}
+
+ <div class="govuk-grid-row" id="main-content">
   <div class="govuk-grid-column-two-thirds">
 
     {% if errors %}
@@ -23,6 +45,7 @@
       }) }}
     {% endif %}
 
+    <form action="/search" method="GET" novalidate>
 
       <h1 class="govuk-label--xl govuk-!-margin-top-0">{{ title }}</h1>
 
@@ -32,18 +55,11 @@
         classes: 'govuk-!-margin-top-4'
       }) }}
 
-      {{ govukWarningText({
-        text: translation.page.exportCommoditySearch.warning,
-        iconFallbackText: translation.common.accessibility.warning
-      }) }}
-
-      <form action="{{Route.exportCommoditySearch}}?{{queryParams}}" method="POST" novalidate>
-
       {{ govukInput({
           label: {
             text: translation.page.exportCommoditySearch.label,
             isPageHeading: false,
-            classes: 'govuk-label--m'
+            classes: 'govuk-label--s'
           },
           id: 'exportCommoditySearch',
           name: 'commodity',
@@ -53,19 +69,30 @@
           spellcheck: false
         }) }}
 
+
       {{ govukButton({
           text: translation.common.buttons.continue
         }) }}
 
     {% if isEdit %}
       <input type="hidden" name="original" value="{{original}}">
-      <input type="hidden" name="isEdit" value="{{isEdit}}">
     {% endif %}
     {% if tradeDetails %}
       <input type="hidden" name="tradeDetails" value="{{tradeDetails}}">
     {% endif %}
+      <input type="hidden" name="tradeType" value="{{tradeType}}">
+      <input type="hidden" name="exportGoodsIntent" value="{{exportGoodsIntent}}">
+      <input type="hidden" name="exportDeclarations" value="{{exportDeclarations}}">
+      <input type="hidden" name="destinationCountry" value="{{destinationCountry}}">
+      <input type="hidden" name="originCountry" value="{{originCountry}}">
+      <input type="hidden" name="tradeDateDay" value="{{tradeDateDay}}">
+      <input type="hidden" name="tradeDateMonth" value="{{tradeDateMonth}}">
+      <input type="hidden" name="tradeDateYear" value="{{tradeDateYear}}">
+      <input type="hidden" name="exportUserTypeTrader" value="{{exportUserTypeTrader}}">
 
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    {% if additionalCode %}
+      <input type="hidden" name="additionalCode" value="{{additionalCode}}">
+    {% endif %}
 
     </form>
   </div>

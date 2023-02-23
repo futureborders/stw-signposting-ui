@@ -1,6 +1,6 @@
-{% extends "layout.njk" %}
+{% extends "layout.html" %}
 
-{% set title = translation.page.exportProhibitionsAndRestrictions.title(translation.common.countries[destinationCountry]) %}
+{% set title = translation.page.exportProhibitionsAndRestrictions.title(destinationCountryName) %}
 
 {% block pageTitle %}
 {{title}} - {{serviceName}} - {{titleSuffix}}
@@ -9,17 +9,27 @@
 {% block content %}
 
 {% set tradeDetails %}
-  {% include "../../common/tradeDetails/trade-details-export.partial.njk" %}
+  {% include "../../common/tradeDetails/trade-details.partial.njk" %}
 {% endset %}
 
-<div class="govuk-grid-row">
+{{ govukBackLink({
+  text: translation.common.buttons.back,
+    href: previousPage + "?" + queryParams,
+  classes: "govuk-!-margin-bottom-9",
+  attributes: {
+    id: "back-link",
+    rel: "noreferrer noopener"
+  }
+}) }}
+
+<div class="govuk-grid-row" id="main-content">
  <div class="govuk-grid-column-two-thirds">
    <h1 class="govuk-heading-xl govuk-!-margin-bottom-5">{{ title }}</h1>
 
    {{ govukDetails({
-      summaryText: translation.common.tradeDetails.summaryLinkText[tradeType] | capitalize,
-      html: tradeDetails
-    }) }}
+     summaryText: translation.common.tradeDetails.detailsLink,
+     html: tradeDetails
+   }) }}
 
    {{ restrictions | safe }}
 
@@ -33,9 +43,20 @@
     </a>
   </p>
 
-  {% include "../../../views/includes/print-button.njk" %}
-
+   <br />
+   {{ govukButton({
+     text: translation.page.manageThisTrade.print,
+     href: '#',
+     classes: "govuk-link gem-c-print-link__link govuk-link--no-visited-state govuk-!-margin-top-4 hideNoJs printButton",
+     attributes: {
+       id: "printButton"
+     }
+   }) }}
  </div>
 </div>
 
+{% endblock %}
+
+{% block pageScripts %}
+  {% include "../../../views/includes/truncate-scripts.html" %}
 {% endblock %}

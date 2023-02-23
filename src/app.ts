@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@ import * as http from 'http';
 import { Response } from 'express';
 
 import { createTerminus } from '@godaddy/terminus';
-import * as basicAuth from 'express-basic-auth';
 import logger from './utils/logger';
 import requestLoggerMiddleware from './middlewares/requestLogger.middleware';
 import sanitizeMiddleware from './middlewares/sanitize.middleware';
@@ -44,15 +43,19 @@ import overrideXForwardedHeaders from './middlewares/overrideXForwardedHeaders';
 import Routes from './interfaces/routes.interface';
 import { onHealthCheck } from './health-check';
 
+const passport = require('passport');
+const { OAuth2Strategy } = require('passport-oauth');
 const cookieSession = require('cookie-session');
+const checkUserIsAuthenticated = require('./middlewares/auth-middleware');
+
+export const AUTH_PROVIDER_URL = '/auth/provider';
+export const AUTH_CALLBACK_URL = '/auth/callback';
 
 const cspWhitelist = (res: Response) => `${process.env.CSP_WHITE_LIST} 'nonce-${res.locals.$gatagCspNonce}'`;
 
 const views = [
   path.join(__dirname, '../node_modules/govuk-frontend/'),
   path.join(__dirname, '../node_modules/govuk-frontend/components'),
-  path.join(__dirname, '../node_modules/hmrc-frontend/'),
-  path.join(__dirname, '../node_modules/hmrc-frontend/components'),
   path.join(__dirname, '../src/views'),
   path.join(__dirname, '../src/features'),
 ];
@@ -74,6 +77,9 @@ class App {
     this.env = prod;
     this.cookieSecret = `${process.env.COOKIE_SECRET}`;
     this.initializeMiddlewares();
+    if (process.env.AUTH_ENABLED === 'true') {
+      this.initializeLogin();
+    }
     this.initializeRoutes(routes);
     this.initializeRenderEngine();
     this.initializeErrorHandling();
@@ -159,20 +165,13 @@ class App {
   }
 
   private initializeRoutes(routes: Routes[]) {
+    routes.forEach((route) => {
+      this.app.use('/', route.router);
+    });
+
     this.app.get('/robots.txt', (req, res) => {
       res.type('text/plain');
       res.send('User-agent: *\nDisallow: /');
-    });
-
-    routes.forEach((route) => {
-      if (process.env.AUTH_ENABLED === 'true') {
-        this.app.use('/', basicAuth({
-          users: { stwUser: `${process.env.BASIC_AUTH_SECRET}` },
-          challenge: true,
-        }), route.router);
-      } else {
-        this.app.use('/', route.router);
-      }
     });
   }
 
@@ -183,7 +182,8 @@ class App {
     }).addGlobal('CONTACT_TECHNICAL_HELP', process.env.CONTACT_TECHNICAL_HELP)
       .addGlobal('BETA_FEEDBACK', process.env.BETA_FEEDBACK)
       .addGlobal('STARTPAGE_ENABLED', process.env.STARTPAGE_ENABLED)
-      .addGlobal('STARTPAGE_URL', process.env.STARTPAGE_URL);
+      .addGlobal('STARTPAGE_URL', process.env.STARTPAGE_URL)
+      .addGlobal('EXPORTS_ENABLED', process.env.EXPORTS_ENABLED);
 
     this.app.engine('html', nunjucks.render);
     this.app.set('views', views);
@@ -194,6 +194,59 @@ class App {
   private initializeErrorHandling() {
     this.app.use(errorMiddleware);
     this.app.use(notFoundMiddleware);
+  }
+
+  private initializeLogin() {
+    const client = new OAuth2Strategy({
+      authorizationURL: `${process.env.OAUTH_DOMAIN}/oauth2/authorize`,
+      tokenURL: `${process.env.OAUTH_DOMAIN}/oauth2/token`,
+      clientID: process.env.OAUTH_CLIENT_ID,
+      clientSecret: process.env.OAUTH_CLIENT_SECRET,
+      callbackURL: process.env.REDIRECT_DOMAIN + AUTH_CALLBACK_URL,
+    },
+    ((accessToken: any, refreshToken: any, profile: any, done: any) => {
+      done(null, profile);
+    }));
+
+    client.userProfile = function auth(accesstoken: any, done: any) {
+      const headers = {
+        Authorization: `Bearer ${accesstoken}`,
+      };
+      this._oauth2._request('GET', `${process.env.OAUTH_DOMAIN}/oauth2/userInfo`, headers, null, accesstoken, (err: any, data: any) => {
+        if (err) { return done(err); }
+        try {
+          return done(null, JSON.parse(data));
+        } catch (e) {
+          return done(e);
+        }
+      });
+    };
+
+    passport.use('provider', client);
+
+    passport.serializeUser((user: any, done: any) => {
+      done(null, user);
+    });
+
+    passport.deserializeUser((user: any, done: any) => {
+      done(null, user);
+    });
+
+    this.app.use(passport.initialize());
+
+    this.app.use(passport.session());
+
+    this.app.use(checkUserIsAuthenticated);
+
+    this.app.get(AUTH_PROVIDER_URL, passport.authenticate('provider'));
+
+    this.app.get(AUTH_CALLBACK_URL, passport.authenticate('provider', { successRedirect: '/' }));
+
+    this.app.get('/logout', (req, res) => {
+      req.logout();
+      const logoutUrl = `${process.env.OAUTH_DOMAIN}/logout?client_id=${process.env.OAUTH_CLIENT_ID}&logout_uri=${process.env.REDIRECT_DOMAIN}/`;
+      res.redirect(logoutUrl);
+    });
   }
 }
 

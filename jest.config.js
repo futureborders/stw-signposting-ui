@@ -2,8 +2,7 @@ module.exports = {
   globals: {
     'ts-jest': {
       tsconfig: 'tsconfig.json',
-      diagnostics: true,
-      resetMocks: true
+      diagnostics: true
     }
   },
   moduleFileExtensions: [
@@ -27,6 +26,5 @@ module.exports = {
   },
   collectCoverageFrom: [
     './src/**/*.{ts,tsx}'
-  ],
-   setupFiles: ['<rootDir>/jest.setup.ts'],
+  ]
 };

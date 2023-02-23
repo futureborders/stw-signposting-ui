@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ import StwTradeTariffApi from '../../../services/StwTradeTariffApi.service';
 import { getAdditionalQuestions } from '../../../models/additionalQuestions.models';
 
 import 'dotenv/config';
-import { handleExceptions } from '../../../exceptions/handleExceptions';
+import { handleImportExceptions } from '../../../exceptions/handleExceptions';
 
 import { Route } from '../../../interfaces/routes.interface';
 import { redirectRoute } from '../../../utils/redirectRoute';
@@ -34,7 +34,6 @@ import validateImportDate from '../../../utils/validateImportDate';
 import { findCode } from '../../../utils/findCode';
 import logger from '../../../utils/logger';
 import validateAdditionalQuestion from '../../../utils/validateAdditionalQuestion';
-import { journey } from '../../../utils/previousNextRoutes';
 
 import {
   cleanCommodity,
@@ -50,15 +49,15 @@ class ImportAdditionalQuestionsController {
   public importAdditionalQuestions: RequestHandler = async (req, res, next) => {
     setSessionCurrentPath(req);
     const additionalCode = String(req.query.additionalCode);
+    const { translation } = res.locals;
     const commodityCode = cleanCommodity(`${req.query.commodity}`);
-    const originCountry = String(req.query.originCountry);
-    const tradeType = String(req.query.tradeType);
-    const destinationCountry = String(req.query.destinationCountry);
-    const { queryParams, language, translation } = res.locals;
-    const previousPage = `${journey.import.importAdditionalQuestions.previousPage()}?${queryParams}`;
+    const { originCountry } = req.query;
+    const { tradeType } = req.query;
+    const { destinationCountry } = req.query;
+    const { queryParams } = res.locals;
+    const previousPage = `${additionalCode}`.includes('false') ? Route.importGoods : Route.additionalCode;
     const importDate = getImportDateFromQuery(req);
-    const invalidDate = validateImportDate(importDate, translation, tradeType, language);
-    const jsBackButton = true;
+    const invalidDate = validateImportDate(importDate, translation);
 
     try {
       if (handleMissingQueryParams(req)) {
@@ -99,16 +98,14 @@ class ImportAdditionalQuestionsController {
           notAnsweredQuestions,
           questionsId,
           hasAdditionalQuestions: notAnsweredQuestions.length > 0,
-          jsBackButton,
           previousPage,
           csrfToken: req.csrfToken(),
           query: req.query,
-          Route,
           errors,
         });
       }
     } catch (e) {
-      handleExceptions(res, req, e, next);
+      handleImportExceptions(res, req, e, next, previousPage);
     }
     return null;
   }

@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,8 @@
  */
 
 import { format } from 'date-fns';
-import { cy } from 'date-fns/locale';
 import { ImportDate } from '../../interfaces/importDate.interface';
 
-export const formatDate = (date: ImportDate, language?: string): string => {
-  const locale = language === 'cy' ? { locale: cy } : {};
-  return format(new Date(Number(date.year), Number(date.month) - 1, Number(date.day)), 'd MMMM yyyy', locale);
-};
+export const formatDate = (date: ImportDate): string => format(new Date(Number(date.year), Number(date.month) - 1, Number(date.day)), 'd MMMM yyyy');
 
 export default formatDate;

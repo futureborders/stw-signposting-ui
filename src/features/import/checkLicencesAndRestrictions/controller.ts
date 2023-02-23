@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,11 +21,7 @@ import {
   getUserType,
   has999l,
   getMeasuresAsHtml,
-} from '../../../models/measures.models';
-
-import { getSessionStatus, setSessionStatus, setSessionCurrentPath } from '../../../utils/sessionHelpers';
-import { calculateNewTaskStatuses } from '../../../utils/taskListStatus';
-import { Tasks } from '../../common/taskList/interface';
+} from '../../../models/manageThisTrade.models';
 
 import 'dotenv/config';
 
@@ -35,22 +31,23 @@ import {
   DestinationCountry,
   OriginCountry,
   TypeOfTrade,
-  TaskStatus,
 } from '../../../interfaces/enums.interface';
+import { setSessionCurrentPath } from '../../../utils/sessionHelpers';
+import { Countries } from '../../../interfaces/countries.interface';
 import { getImportDateFromQuery } from '../../../utils/queryHelper';
 import { ImportDate } from '../../../interfaces/importDate.interface';
 import { handleMissingQueryParams } from '../../../utils/handleMissingQueryParams';
 import validateImportDate from '../../../utils/validateImportDate';
 import { findCode } from '../../../utils/findCode';
 import logger from '../../../utils/logger';
-import { hierarchy } from '../../common/checkYourAnswers/model';
-import { handleExceptions } from '../../../exceptions/handleExceptions';
-import { journey } from '../../../utils/previousNextRoutes';
-import { clearAdditionalQuestions } from '../../../utils/filters/clearAdditionalQuestions';
+import { hierarchy } from '../../export/checkYourAnswers/model';
+import { handleImportExceptions } from '../../../exceptions/handleExceptions';
 
 import {
   cleanCommodity,
 } from '../../../utils/validateCommodityCode';
+
+const countries = require('../../../countries.json');
 
 class ImportCheckLicencesAndRestrictionsController {
   private stwTradeTariffApi: StwTradeTariffApi;
@@ -61,20 +58,20 @@ class ImportCheckLicencesAndRestrictionsController {
 
   public importCheckLicencesAndRestrictions: RequestHandler = async (req, res, next) => {
     setSessionCurrentPath(req);
-    setSessionStatus(req, calculateNewTaskStatuses(getSessionStatus(req), Tasks.checkLicensesAndCertificates, TaskStatus.VIEWED));
-
     const additionalCode = String(req.query.additionalCode);
-    const { translation, language, queryParams } = res.locals;
-    const commodity = cleanCommodity(String(req.query.commodity));
-    const originCountry = String(req.query.originCountry);
-    const goodsIntent = String(req.query.goodsIntent);
+    const { translation } = res.locals;
+    const commodityCode = cleanCommodity(`${req.query.commodity}`);
+    const { originCountry } = req.query;
+    const { goodsIntent } = req.query;
     const userTypeTrader = String(req.query.userTypeTrader);
-    const tradeType = String(req.query.tradeType);
-    const destinationCountry = String(req.query.destinationCountry);
+    const { tradeType } = req.query;
+    const { destinationCountry } = req.query;
+    const { queryParams } = res.locals;
     const importDeclarations = String(req.query.importDeclarations);
+    const previousPage = `${additionalCode}`.includes('false') ? Route.importGoods : Route.additionalCode;
     const userType = getUserType(userTypeTrader, importDeclarations);
-    const tradeDate = getImportDateFromQuery(req);
-    const invalidDate = validateImportDate(tradeDate, translation, String(tradeType), language);
+    const importDate = getImportDateFromQuery(req);
+    const invalidDate = validateImportDate(importDate, translation);
 
     try {
       if (handleMissingQueryParams(req)) {
@@ -87,55 +84,57 @@ class ImportCheckLicencesAndRestrictionsController {
         return null;
       }
 
-      if (!findCode(commodity)) {
-        logger.info(`Commodity code: ${commodity} missing from codes.json`);
+      if (!findCode(commodityCode)) {
+        logger.info(`Commodity code: ${commodityCode} missing from codes.json`);
         redirectRoute(Route.importGoods, queryParams, res, req, translation.page.importGoods.errors.commodityNotFound);
         return null;
       }
 
       const { data } = await this.stwTradeTariffApi.getRestrictiveMeasures(
-        commodity,
-        tradeType,
-        originCountry,
-        destinationCountry as DestinationCountry,
-        tradeDate as ImportDate,
-        additionalCode,
+        `${commodityCode}`,
+        `${tradeType}`,
+        `${originCountry}`,
+          destinationCountry as DestinationCountry,
+          importDate as ImportDate,
+          additionalCode,
       );
+
+      const country = countries.data.filter(
+        (countryItem: Countries) => countryItem.id === originCountry,
+      )[0].attributes.description;
 
       const { questionsId } = getAdditionalQuestions(data, translation);
 
-      const commodityClassification = hierarchy(findCode(commodity));
+      const commodityClassification = hierarchy(findCode(commodityCode));
 
       const complexMeasuresAsHtml = getMeasuresAsHtml(data, translation, userType, req, tradeType as TypeOfTrade);
 
       const show999l = has999l(data.measures);
 
-      const previousPage = `${journey.import.importCheckLicencesAndRestrictions.previousPage()}?${clearAdditionalQuestions(queryParams, questionsId)}`;
-
       res.render('import/checkLicencesAndRestrictions/view.njk', {
         complexMeasuresAsHtml,
         questionsId,
         importDeclarations,
+        country,
         originCountry,
         goodsIntent,
         userTypeTrader,
         tradeType,
-        commodity,
+        commodityCode,
         commodityClassification,
         destinationCountry,
         additionalCode,
         previousPage,
-        tradeDate,
+        importDate,
         show999l,
         OriginCountry,
         DestinationCountry,
         userType,
-        Route,
         csrfToken: req.csrfToken(),
         query: req.query,
       });
     } catch (e) {
-      handleExceptions(res, req, e, next);
+      handleImportExceptions(res, req, e, next, previousPage);
     }
     return null;
   }

@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,10 +37,13 @@ const mockedStwTradeTariffApi = <jest.Mocked<StwTradeTariffApi>>(
   new MockedStwTradeTariffApi()
 );
 
+jest.mock('../middlewares/auth-middleware', () => jest.fn((req, res, next) => next()));
+
 const indexRoute = new IndexRoute(
   mockedTradeTariffApi,
   mockedStwTradeTariffApi,
 );
+const app = new App([indexRoute]);
 
 afterAll(async () => {
   await new Promise<void>((resolve) => setTimeout(() => resolve(), 500));
@@ -51,8 +54,6 @@ beforeEach(() => {
 });
 
 describe('Testing routes', () => {
-  const app = new App([indexRoute]);
-
   describe(`[GET] ${Route.privacyNotice}`, () => {
     it('It should return 200 if server is healthy', () => request(app.getServer())
       .get(`${Route.privacyNotice}`)
@@ -82,20 +83,4 @@ describe('Testing routes', () => {
       .expect(200)
       .then((res) => expect(res.text).toEqual('User-agent: *\nDisallow: /')));
   });
-});
-
-describe('Testing basic auth', () => {
-  process.env.AUTH_ENABLED = 'true';
-  const app = new App([indexRoute]);
-
-  it('It should respond with statusCode 401', () => request(app.getServer())
-    .get(Route.typeOfTrade)
-    .set('user-agent', 'node-superagent')
-    .expect(401));
-
-  it('It should respond with statusCode 200', () => request(app.getServer())
-    .get(Route.typeOfTrade)
-    .auth('stwUser', `${process.env.BASIC_AUTH_SECRET}`)
-    .set('user-agent', 'node-superagent')
-    .expect(200));
 });

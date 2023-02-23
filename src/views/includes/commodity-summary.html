@@ -1,0 +1,123 @@
+
+
+{% if additionalCode !== 'false' and additionalCode !== 'undefined' %}
+{% set getAdditionalCode = " - " + additionalCode %}
+{% else %}
+{% set getAdditionalCode = "" %}
+{% endif %}
+
+{% if destinationCountry == DestinationCountry.XI and originCountry == OriginCountry.GB %}
+{% set displayCountry = translation.page.destinationCountry.gb %}
+{% else %}
+{% set displayCountry = country %}
+{% endif %}
+
+{% if destinationCountry == DestinationCountry.XI %}
+{% set displayDestinationCountry = translation.page.destinationCountry.xi %}
+{% else %}
+{% set displayDestinationCountry = translation.page.destinationCountry.gb %}
+{% endif %}
+
+{{ govukSummaryList({
+  rows: [
+    {
+      key: {
+        text: translation.page.manageThisTrade.commoditySummary.commodityCode,
+        classes: 'govuk-!-width-one-third'
+      },
+      value: {
+        text: commodityCode + getAdditionalCode
+      },
+      actions: {
+        items: [
+          {
+            href: "/import-goods?" + queryParams + "&isEdit=true",
+            text: translation.page.manageThisTrade.commoditySummary.edit,
+            visuallyHiddenText: translation.page.manageThisTrade.commoditySummary.commodityCode,
+            attributes: {
+              id: 'editCommodityCode'
+            }
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: translation.page.manageThisTrade.commoditySummary.importDate
+      },
+      value: {
+        text: importDate | formatDate
+      },
+      actions: {
+        items: [
+          {
+            href: "/import-date?" + queryParams + "&isEdit=true",
+            text: translation.page.manageThisTrade.commoditySummary.edit,
+            visuallyHiddenText: translation.page.manageThisTrade.commoditySummary.importDate,
+            attributes: {
+              id: 'editImportDate'
+            }
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: translation.page.manageThisTrade.commoditySummary.importingFrom
+      },
+      value: {
+        text: displayCountry
+      },
+      actions: {
+        items: [
+          {
+            href: "/import-country-origin?" + queryParams + "&isEdit=true",
+            text: translation.page.manageThisTrade.commoditySummary.edit,
+            visuallyHiddenText: translation.page.manageThisTrade.commoditySummary.importingFrom,
+            attributes: {
+              id: 'editImportingFrom'
+            }
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: translation.page.manageThisTrade.commoditySummary.importingInto
+      },
+      value: {
+        text: displayDestinationCountry
+      },
+      actions: {
+        items: [
+          {
+            href: "/destination-country?" + queryParams + "&isEdit=true",
+            text: translation.page.manageThisTrade.commoditySummary.edit,
+            visuallyHiddenText: translation.page.manageThisTrade.commoditySummary.importingInto,
+            attributes: {
+              id: 'editImportingInto'
+            }
+          }
+        ]
+      }
+    },
+    {
+      key: {
+        text: translation.page.manageThisTrade.commoditySummary.classification
+      },
+      value: {
+        html: '<div class="truncated-block-container" id="toggle"><div class="truncated truncated-block" data-show-label="' + translation.page.manageThisTrade.showLabel + '" data-hide-label="' + translation.page.manageThisTrade.hideLabel + '">' + commodityClassification + '</div></div>'
+      },
+      actions: {
+        items: [{
+          href: "#",
+          text: translation.page.manageThisTrade.commoditySummary.edit,
+          classes: "govuk-!-display-none",
+          attributes: {
+            "aria-hidden": true
+          }
+        }]
+      }
+    }
+  ]
+}) }}

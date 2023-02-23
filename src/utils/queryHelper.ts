@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable import/prefer-default-export */
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,9 +37,10 @@ export const trimDateInput = (input: string): string => decode(input).replace(/\
 export const getImportDateFromQuery = (req: Request, isPost?: true): ImportDate => {
   // TODO: refactor imports date to use tradeDate
 
-  let dateDay; let dateMonth; let dateYear;
-  let tradeDateDay; let tradeDateMonth; let tradeDateYear;
-  let importDateDay; let importDateMonth; let importDateYear;
+  let dateDay; let dateMonth; let
+    dateYear;
+  let tradeDateDay; let tradeDateMonth; let
+    tradeDateYear;
 
   if (req.query.tradeType === 'export') {
     if (isPost) {
@@ -55,15 +56,7 @@ export const getImportDateFromQuery = (req: Request, isPost?: true): ImportDate 
     dateMonth = tradeDateMonth;
     dateYear = tradeDateYear;
   } else {
-    if (isPost) {
-      importDateDay = req.body.importDateDay;
-      importDateMonth = req.body.importDateMonth;
-      importDateYear = req.body.importDateYear;
-    } else {
-      importDateDay = req.query.importDateDay;
-      importDateMonth = req.query.importDateMonth;
-      importDateYear = req.query.importDateYear;
-    }
+    const { importDateDay, importDateMonth, importDateYear } = req.query;
     dateDay = importDateDay;
     dateMonth = importDateMonth;
     dateYear = importDateYear;

@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 import { Request } from 'express';
-import { Params } from '../interfaces/params.interface';
+import { ExportsParams } from '../interfaces/exports.interface';
 
 export const setSessionCurrentPath = (req: Request): void => {
   if (req.session) {
@@ -45,19 +45,19 @@ export const clearSessionErrorMessages = (req: Request): void => {
   }
 };
 
-export const setSessionStatus = (req: Request, state: Params): Params => {
+export const setSessionExport = (req: Request, exportState: ExportsParams): ExportsParams => {
   if (req.session) {
-    req.session.state = state;
+    req.session.exportState = exportState;
     // calc states
-    return state;
+    return exportState;
   }
   // TODO: error?
   return {};
 };
 
-export const getSessionStatus = (req: Request): Params => {
+export const getSessionExport = (req: Request): ExportsParams => {
   if (req.session) {
-    return req.session.state;
+    return req.session.exportState;
   }
   return {};
 };

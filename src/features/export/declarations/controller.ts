@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 import { RequestHandler } from 'express';
 import { Route } from '../../../interfaces/routes.interface';
-import { ExportDeclarations } from '../../../interfaces/enums.interface';
 import {
   setSessionCurrentPath,
   getErrorMessage,
@@ -39,16 +38,16 @@ class ExportDeclarationsController {
 
     try {
       const { exportDeclarations } = req.query;
-      const { queryParams, translation } = res.locals;
+      const { backPath } = res.locals;
       const isEdit = req.query.isEdit === 'true';
-      const previousPage = `${journey.export.exportDeclarations.previousPage(isEdit)}?${queryParams}&isEdit=${isEdit}`;
+      const isExportUserTypeTraderbackPath = String(backPath).includes(Route.exportUserTypeTrader);
+      const previousPage = journey.export.exportDeclarations.previousPage(isEdit, isExportUserTypeTraderbackPath);
 
       res.render('export/declarations/view.njk', {
         previousPage,
         exportDeclarations,
-        ExportDeclarations,
         isEdit,
-        errors: showErrorMessage ? { text: showErrorMessage, visuallyHiddenText: translation.common.errors.error } : null,
+        errors: showErrorMessage ? { text: showErrorMessage } : null,
         csrfToken: req.csrfToken(),
       });
     } catch (e) {
@@ -59,9 +58,7 @@ class ExportDeclarationsController {
   public exportDeclarationsSubmit: RequestHandler = (req, res, next) => {
     const { exportDeclarations, isEdit } = req.body;
     const { queryParams, translation } = res.locals;
-    const { exportResponsibleForDeclaringGoods } = req.query;
-    const isAgent = exportDeclarations === ExportDeclarations.no;
-    let updatedQueryParams = updateQueryParams(queryParams, { exportDeclarations });
+    const updatedQueryParams = updateQueryParams(queryParams, { exportDeclarations });
     try {
       if (!exportDeclarations) {
         redirectRoute(
@@ -71,18 +68,15 @@ class ExportDeclarationsController {
           req,
           translation.page.exportDeclarations.error,
         );
-      } else if (isEdit && !isAgent && !exportResponsibleForDeclaringGoods) {
-        redirectRoute(Route.exportResponsibleForDeclaringGoods, updateQueryParams(updatedQueryParams, { isEdit: true }), res);
       } else if (isEdit) {
-        updatedQueryParams = isAgent ? updateQueryParams(updatedQueryParams, { exportResponsibleForDeclaringGoods: '' }) : updatedQueryParams;
         redirectRoute(
-          Route.checkYourAnswers,
+          Route.exportCheckYourAnswers,
           updatedQueryParams,
           res,
         );
       } else {
         redirectRoute(
-          journey.export.exportDeclarations.nextPage(isAgent),
+          journey.export.exportDeclarations.nextPage(),
           updatedQueryParams,
           res,
         );

@@ -10,7 +10,6 @@ dist
 .DS_Store
 public
 package-lock.json
-translationOutput
 
 # GOV.UK Assets
 sass/all-ie8.scss
@@ -25,4 +24,3 @@ sass/settings/**
 sass/tools/**
 sass/utilities/**
 sass/vendor/**
-.clinic

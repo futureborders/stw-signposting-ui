@@ -1,0 +1,5 @@
+{% if isEdit or (original and errors) or (originalImportDateDay and errors) or (originalImportDateMonth and errors) or (originalImportDateYear and errors) %}
+  <p class="govuk-!-margin-bottom-8">
+    <a href="manage-this-trade?{{originalQueryParams or queryParams}}" class="govuk-link" id="cancel-change">{{ translation.common.buttons.cancel }}</a>
+  </p>
+{% endif %}

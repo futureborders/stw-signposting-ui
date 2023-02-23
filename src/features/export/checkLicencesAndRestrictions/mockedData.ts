@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2022 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,25 +18,9 @@ export const mockedRestrictiveMeasures = {
   data: {
     measures: [
       {
-        id: '800',
-        measureTypeSeries: 'B',
-        descriptionOverlay: '## Some Measure heading 3',
-        measureOptions: [
-          {
-            options: [
-              {
-                certificateCode: 'C400',
-                type: 'CERTIFICATE',
-                descriptionOverlay: 'Other certificates: Presentation of the required "CITES" certificate',
-              },
-            ],
-          },
-        ],
-      },
-      {
         id: '715',
         measureTypeSeries: 'B',
-        descriptionOverlay: '## Some Measure heading 1',
+        descriptionOverlay: 'Some Measure heading 1',
         measureOptions: [
           {
             options: [
@@ -112,38 +96,6 @@ export const mockedRestrictiveMeasuresNo999L = {
   },
 };
 
-export const mockedRestrictiveMeasuresMultipleThreshold = {
-  data: {
-    measures: [
-      {
-        id: '715',
-        measureTypeSeries: 'B',
-        descriptionOverlay: 'Some Measure heading 1',
-        measureOptions: [
-          {
-            options: [
-              {
-                type: 'THRESHOLD',
-                subtype: 'PRICE_PER_UNIT_BASED',
-                unit: 'item',
-                conditionCode: 'E',
-                descriptionOverlay: 'descriptionOverlay 1',
-              },
-              {
-                type: 'THRESHOLD',
-                subtype: 'PRICE_PER_UNIT_BASED',
-                unit: 'litre',
-                conditionCode: 'E',
-                descriptionOverlay: 'descriptionOverlay 2',
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-};
-
 export const mockedCommodityCodeError = {
   data: {
     data: {
@@ -193,98 +145,6 @@ export const mockedTradeTypeError = {
         },
       ],
     },
-  },
-};
-
-export const mockedRestrictiveMeasuresOneException = {
-  data: {
-    measures: [
-      {
-        id: '715',
-        measureTypeSeries: 'B',
-        descriptionOverlay: '## Some Measure heading 1',
-        measureOptions: [
-          {
-            options: [
-              {
-                certificateCode: 'C400',
-                type: 'CERTIFICATE',
-                descriptionOverlay: 'Other certificates: Presentation of the required "CITES" certificate',
-              },
-              {
-                certificateCode: '999L',
-                type: 'EXCEPTION',
-                descriptionOverlay: 'EXCEPTION 999L',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        id: '719',
-        measureTypeSeries: 'B',
-        descriptionOverlay: 'Some Measure heading 2',
-        measureOptions: [
-          {
-            options: [
-              {
-                certificateCode: 'C673',
-                type: 'CERTIFICATE',
-                descriptionOverlay: 'Other certificates: Catch certificate',
-              },
-              {
-                certificateCode: '999L',
-                type: 'EXCEPTION',
-                descriptionOverlay: 'EXCEPTION 999L',
-              },
-              {
-                certificateCode: 'Y927',
-                type: 'EXCEPTION',
-                descriptionOverlay: 'EXCEPTION 2',
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-};
-
-export const mockedRestrictiveMeasuresMultipleExceptions = {
-  data: {
-    measures: [
-      {
-        id: '715',
-        measureTypeSeries: 'B',
-        descriptionOverlay: '## Some Measure heading 1',
-        measureOptions: [
-          {
-            options: [
-              {
-                certificateCode: 'C400',
-                type: 'CERTIFICATE',
-                descriptionOverlay: 'Other certificates: Presentation of the required "CITES" certificate',
-              },
-              {
-                certificateCode: 'Y901',
-                type: 'EXCEPTION',
-                descriptionOverlay: 'descriptionOverlay for Y901',
-              },
-              {
-                certificateCode: 'Y900',
-                type: 'EXCEPTION',
-                descriptionOverlay: 'descriptionOverlay for Y900',
-              },
-              {
-                certificateCode: '999L',
-                type: 'EXCEPTION',
-                descriptionOverlay: 'descriptionOverlay for 999L',
-              },
-            ],
-          },
-        ],
-      },
-    ],
   },
 };
 

@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import TradeTariffApi from '../../../services/TradeTariffApi.service';
 import { Route } from '../../../interfaces/routes.interface';
 import IndexRoute from '../../../routes/index.route';
 import { ImportDate } from '../../../interfaces/importDate.interface';
-import { Params } from '../../../interfaces/params.interface';
+import { ExportsParams } from '../../../interfaces/exports.interface';
 
 jest.mock('../../../services/TradeTariffApi.service');
 jest.mock('../../../services/StwTradeTariffApi.service');
@@ -40,13 +40,15 @@ const mockedStwTradeTariffApi = <jest.Mocked<StwTradeTariffApi>>(
     new MockedStwTradeTariffApi()
   );
 
+jest.mock('../../../middlewares/auth-middleware', () => jest.fn((req, res, next) => next()));
+
 const indexRoute = new IndexRoute(
   mockedTradeTariffApi,
   mockedStwTradeTariffApi,
 );
 const app = new App([indexRoute]);
 
-let params:Params = {};
+let params:ExportsParams = {};
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -60,6 +62,10 @@ beforeEach(() => {
     destinationCountry: 'CN',
     commodity: '0301921000',
   };
+});
+
+afterAll(async () => {
+  await new Promise<void>((resolve) => setTimeout(() => resolve(), 500));
 });
 
 afterAll(async () => {

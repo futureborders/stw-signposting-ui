@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,9 +36,8 @@ class ExportUserTypeTraderController {
 
     try {
       const { exportUserTypeTrader } = req.query;
-      const { translation } = res.locals;
       const isEdit = req.query.isEdit === 'true';
-      const previousPage = `${journey.export.exportUserTypeTrader.previousPage(isEdit)}?${res.locals.queryParams}`;
+      const previousPage = journey.export.exportUserTypeTrader.previousPage(isEdit);
 
       res.render('export/userTypeTrader/view.njk', {
         previousPage,
@@ -46,7 +45,7 @@ class ExportUserTypeTraderController {
         ExportUserTypeTrader,
         isEdit,
         Route,
-        errors: showErrorMessage ? { text: showErrorMessage, visuallyHiddenText: translation.common.errors.error } : null,
+        errors: showErrorMessage ? { text: showErrorMessage } : null,
         csrfToken: req.csrfToken(),
       });
     } catch (e) {
@@ -56,6 +55,7 @@ class ExportUserTypeTraderController {
 
   public exportUserTypeTraderSubmit: RequestHandler = (req, res, next) => {
     const { exportUserTypeTrader, isEdit } = req.body;
+    const { exportDeclarations } = req.query;
     const { queryParams, translation } = res.locals;
     const updatedQueryParams = updateQueryParams(queryParams, { exportUserTypeTrader });
 
@@ -68,15 +68,33 @@ class ExportUserTypeTraderController {
           req,
           translation.page.exportUserTypeTrader.error,
         );
-      } else if (isEdit) {
+      } else if (isEdit && exportUserTypeTrader !== ExportUserTypeTrader.actingOnBehalfOfSeller && exportDeclarations) {
         redirectRoute(
-          Route.checkYourAnswers,
+          Route.exportCheckYourAnswers,
           updatedQueryParams,
+          res,
+        );
+      } else if (isEdit && exportUserTypeTrader !== ExportUserTypeTrader.actingOnBehalfOfSeller && !exportDeclarations) {
+        redirectRoute(
+          Route.exportDeclarations,
+          updateQueryParams(updatedQueryParams, { isEdit: true }),
+          res,
+        );
+      } else if (isEdit && exportUserTypeTrader === ExportUserTypeTrader.actingOnBehalfOfSeller) {
+        redirectRoute(
+          Route.exportCheckYourAnswers,
+          updateQueryParams(updatedQueryParams, { exportDeclarations: '' }),
+          res,
+        );
+      } else if (!isEdit && exportUserTypeTrader === ExportUserTypeTrader.actingOnBehalfOfSeller) {
+        redirectRoute(
+          Route.exportOriginCountry,
+          updateQueryParams(updatedQueryParams, { exportDeclarations: '' }),
           res,
         );
       } else {
         redirectRoute(
-          journey.export.exportUserTypeTrader.nextPage(),
+          Route.exportDeclarations,
           updatedQueryParams,
           res,
         );

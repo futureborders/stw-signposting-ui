@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,7 +56,7 @@ describe('Testing error middleware', () => {
     await errorMiddleware(error, req, res, next);
     expect(res.status).toBeCalledWith(error.response.status);
     expect(res.render).toBeCalledWith(
-      'error.njk', {
+      'error', {
         title,
         message,
         status,
@@ -75,7 +75,7 @@ describe('Testing error middleware', () => {
     await errorMiddleware(error, req, res, next);
     expect(res.status).toBeCalledWith(error.response.status);
     expect(res.render).toBeCalledWith(
-      'error.njk', {
+      'error', {
         title,
         message,
         status,
@@ -89,7 +89,7 @@ describe('Testing error middleware', () => {
     await errorMiddleware(error, req, res, next);
     expect(res.status).toBeCalledWith(500);
     expect(res.render).toBeCalledWith(
-      'error.njk', {
+      'error', {
         title,
         message,
         status: 500,
@@ -105,7 +105,7 @@ describe('Testing error middleware', () => {
     await errorMiddleware(error, req, res, next);
     expect(res.status).toBeCalledWith(500);
     expect(res.render).toBeCalledWith(
-      'error.njk', {
+      'error', {
         title,
         message,
         status: 500,
@@ -140,7 +140,7 @@ describe('Testing error middleware', () => {
     const status = 200;
 
     expect(res.render).toBeCalledWith(
-      'error.njk', {
+      'error', {
         title,
         message,
         status,

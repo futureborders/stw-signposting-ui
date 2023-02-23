@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 Crown Copyright (Single Trade Window)
+ * Copyright 2021 Crown Copyright (Single Trade Window)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,8 @@
  */
 
 import { AdditionalCodeResponse, AdditionalCodeRadioInput } from '../interfaces/additionalCode.interface';
-import { notTranslated } from '../utils/filters/notTranslated';
 
-export const getAdditionalCodeRadiosInputs = (response: AdditionalCodeResponse, additionalCode: string, language: string): AdditionalCodeRadioInput[] => {
+export const getAdditionalCodeRadiosInputs = (response: AdditionalCodeResponse, additionalCode: string): AdditionalCodeRadioInput[] => {
   const additionalCodeRadioInputs: AdditionalCodeRadioInput[] = [];
   const { data } = response;
 
@@ -27,7 +26,7 @@ export const getAdditionalCodeRadiosInputs = (response: AdditionalCodeResponse, 
       const { description } = data[items];
       additionalCodeRadioInputs.push({
         value: code,
-        html: `<strong>${code}</strong> - ${notTranslated(description, language)}`,
+        html: `<strong>${code}</strong> - ${description}`,
         checked: `${additionalCode}` === code,
       });
     });

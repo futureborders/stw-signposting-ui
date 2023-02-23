@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+
+{% set title = translation.page.importDeclarations.question %}
+
+{% block pageTitle %}
+{% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+
+{{ govukBackLink({
+  text: translation.common.buttons.back,
+  href: previousPage + "?" + queryParams,
+  classes: "govuk-!-margin-bottom-9",
+  attributes: {
+    id: "back-link",
+    rel: "noreferrer noopener"
+  }
+}) }}
+
+<div class="govuk-grid-row" id="main-content">
+
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if errors %}
+      {{ govukErrorSummary({
+        titleText: translation.common.errors.problem,
+        errorList: [
+          {
+            text: errors.text,
+            href: "#importDeclarations"
+          }
+        ]
+      }) }}
+    {% endif %}
+
+    <form action="/import-country-origin" method="get">
+
+      {{ govukRadios({
+          idPrefix: "importDeclarations",
+          name: "importDeclarations",
+          errorMessage: errors,
+          hint: {
+            html: translation.page.importDeclarations.hint
+          },
+          fieldset: {
+            legend: {
+              text: title,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--xl"
+            }
+          },
+          items: [
+            {
+              value: ImportDeclarations.yes,
+              text: translation.page.importDeclarations.yes,
+              checked: (importDeclarations == ImportDeclarations.yes)
+            },
+            {
+              value: ImportDeclarations.no,
+              text: translation.page.importDeclarations.no,
+              checked: (importDeclarations == ImportDeclarations.no)
+            },
+            {
+              value: ImportDeclarations.notSure,
+              text: translation.page.importDeclarations.notSure,
+              checked: (importDeclarations == ImportDeclarations.notSure)
+            }
+          ]
+        }) }}
+
+      {{ govukButton({
+        text: translation.common.buttons.continue
+      }) }}
+
+  	  <input type="hidden" name="userTypeTrader" value="{{userTypeTrader}}">
+      <input type="hidden" name="goodsIntent" value="{{goodsIntent}}">
+      <input type="hidden" name="tradeType" value="{{tradeType}}">
+
+    </form>
+  </div>
+</div>
+
+{% endblock %}

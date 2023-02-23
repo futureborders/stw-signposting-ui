@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+
+{% set title = translation.page.typeOfTrade.question %}
+
+{% block pageTitle %}
+{% if errors %}{{translation.common.errors.error}}: {% endif %}{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+
+{{ govukBackLink({
+  text: translation.common.buttons.back,
+  href: previousPage,
+  classes: "govuk-!-margin-bottom-9",
+  attributes: {
+    id: "back-link",
+    rel: "noreferrer noopener"
+  }
+}) }}
+
+ <div class="govuk-grid-row" id="main-content">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if errors %}
+      {{ govukErrorSummary({
+        titleText: translation.common.errors.problem,
+        errorList: [
+          {
+            text: errors.text,
+            href: "#tradeType"
+          }
+        ]
+      }) }}
+    {% endif %}
+
+    <form action="/goods-intent" method="get" novalidate>
+
+
+      {% if EXPORTS_ENABLED == "false" %}
+        {% set exportHint %}
+          <p>{{ translation.page.typeOfTrade.hint }}</p>
+        {% endset -%}
+      {% endif %}
+
+      {% set exportsHintParagraph = null %}
+      {% if EXPORTS_ENABLED == "true" %}
+      {% set exportsHintParagraph = { html: "<p>" + translation.page.typeOfTrade.followDifferentRules + "</p>" }  %}
+      {% endif %}
+
+      {{ govukRadios({
+          idPrefix: "tradeType",
+          name: "tradeType",
+          errorMessage: errors,
+          hint: exportsHintParagraph,
+          fieldset: {
+            legend: {
+              text: title,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--xl"
+            }
+          },
+          classes: "radioHint",
+          items: [
+            {
+              value: TypeOfTrade.import,
+              text: translation.page.typeOfTrade.import,
+              checked: (tradeType == TypeOfTrade.import)
+            },
+            {
+              value: TypeOfTrade.export,
+              text: translation.page.typeOfTrade.export,
+              checked: (tradeType == TypeOfTrade.export),
+              conditional: {
+                html: exportHint
+              }
+            }
+          ]
+        }) }}
+
+      {{ govukButton({
+          text: translation.common.buttons.continue
+        }) }}
+
+      {% if EXPORTS_ENABLED == "true" and isEdit %}
+        <input type="hidden" name="commodity" value="{{commodity}}">
+        <input type="hidden" name="original" value="{{original}}">
+        <input type="hidden" name="exportDeclarations" value="{{exportDeclarations}}">
+        <input type="hidden" name="destinationCountry" value="{{destinationCountry}}">
+        <input type="hidden" name="originCountry" value="{{originCountry}}">
+        <input type="hidden" name="tradeDateDay" value="{{tradeDateDay}}">
+        <input type="hidden" name="tradeDateMonth" value="{{tradeDateMonth}}">
+        <input type="hidden" name="tradeDateYear" value="{{tradeDateYear}}">
+        <input type="hidden" name="exportGoodsIntent" value="{{exportGoodsIntent}}">
+        <input type="hidden" name="exportUserTypeTrader" value="{{exportUserTypeTrader}}">
+      {% endif %}
+
+    </form>
+  </div>
+</div>
+
+{% endblock %}

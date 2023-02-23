@@ -1,0 +1,116 @@
+{% extends "layout.html" %}
+
+{% set title = translation.page.manageThisTrade.summaryImport %}
+
+{% if destinationCountry == 'GB' %}
+{% set destinationCountryPrefill = 'UK'  %}
+{% else %}
+{% set destinationCountryPrefill = 'XI'  %}
+{% endif  %}
+
+
+{% block pageTitle %}
+{{title}} - {{serviceName}} - {{titleSuffix}}
+{% endblock %}
+
+{% block content %}
+
+{{ govukBackLink({
+  text: translation.common.buttons.back,
+  href: previousPage + "?" + queryParams,
+  classes: "govuk-!-margin-bottom-9 js-back-button",
+  attributes: {
+    id: "back-link",
+    rel: "noreferrer noopener"
+  }
+}) }}
+
+{% set commoditySummaryDetails %}
+  {% include "includes/commodity-summary.html" %}
+{% endset %}
+
+<div id="main-content">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <p class="print-disclaimer" aria-hidden="true">{{ translation.page.manageThisTrade.printDisclaimer }}</p>
+      <h1 class="govuk-heading-xl">
+        {{ title }}
+      </h1>
+
+      {{ govukDetails({
+        summaryText: translation.page.manageThisTrade.commoditySummaryDetailsLink,
+        html: commoditySummaryDetails,
+        open: true
+      }) }}
+
+    </div>
+  </div>
+  <div class="govuk-grid-row govuk-main-wrapper">
+    <div class="govuk-grid-column-two-thirds">
+      <h2 class="govuk-heading-l">{{ translation.page.manageThisTrade.beforeBuying }}</h2>
+      <ul class="govuk-list">
+        <li>
+          {% if hasAdditionalQuestions %}
+          <a href="/manage-this-trade/additional-question?{{ queryParams }}">
+          {% else %}
+          <a href="/manage-this-trade/check-licences-certificates-and-other-restrictions?{{ queryParams }}">
+          {% endif %}
+            {{ translation.page.manageThisTrade.subsidary['check-licences-certificates-and-other-restrictions'] }}
+          </a>
+        </li>
+        {% if importsIntoXIFromROWorGB %}
+         <li>
+           <a href="https://www.trade-tariff.service.gov.uk/duty-calculator/prefill?commodity_code={{commodityCode | urlencode}}&country_of_origin={{originCountry | urlencode}}&import_date={{importDate.year | urlencode}}-{{importDate.month | urlencode}}-{{importDate.day | urlencode}}&import_destination={{destinationCountryPrefill | urlencode}}" target="_blank" rel="noopener noreferrer">
+             {{ translation.page.manageThisTrade.subsidary['calculate-the-customs-duty-and-import-vat'] }} {{ translation.common.accessibility.opensNewTab }}
+           </a>
+         </li>
+         {% elif not hasDuty and hasVat %}
+         <li class="govuk-inset-text govuk-!-margin-top-2 govuk-!-margin-bottom-2"><p>{{ translation.page.manageThisTrade.noCustomsDutyToPay }}</p></li>
+         <li>
+           <a href="https://www.trade-tariff.service.gov.uk/duty-calculator/prefill?commodity_code={{commodityCode | urlencode}}&country_of_origin={{originCountry | urlencode}}&import_date={{importDate.year | urlencode}}-{{importDate.month | urlencode}}-{{importDate.day | urlencode}}&import_destination={{destinationCountryPrefill | urlencode}}" target="_blank" rel="noopener noreferrer">
+             {{ translation.page.manageThisTrade.calculateImportVat }} {{ translation.common.accessibility.opensNewTab }}
+           </a>
+         </li>
+         {% elif not hasDuty and not hasVat  %}
+         <li class="govuk-inset-text govuk-!-margin-top-2 govuk-!-margin-bottom-2">
+           <p>{{ translation.page.manageThisTrade.noCustomsDutyToPay }}</p>
+           <p>{{ translation.page.manageThisTrade.noImportVatToPay }}</p>
+         </li>
+         {% else %}
+         <li>
+           <a href="/manage-this-trade/calculate-the-customs-duty-and-import-vat?{{ queryParams }}">
+             {{ translation.page.manageThisTrade.subsidary['calculate-the-customs-duty-and-import-vat'] }}
+           </a>
+         </li>
+        {% endif %}
+          <li>
+            <a href="/manage-this-trade/register-to-bring-goods-across-the-border?{{ queryParams }}">
+             {{ translation.page.manageThisTrade.subsidary['register-to-bring-goods-across-the-border'] }}
+            </a>
+          </li>
+      </ul>
+
+      <h2 class="govuk-heading-l govuk-!-margin-top-8">{{ translation.page.manageThisTrade.readyToImport }}</h2>
+      <ul class="govuk-list">
+        <li><a href="/manage-this-trade/check-what-information-and-documents-you-may-need?{{ queryParams }}">{{ translation.page.manageThisTrade.checkWhatInformation }}</a></li>
+        <li><a href="https://www.gov.uk/guidance/making-an-entry-summary-declaration" target="_blank" rel="noopener noreferrer">{{ translation.page.manageThisTrade.entrySummaryDeclaration }} {{ translation.common.accessibility.opensNewTab }}</a></li>
+        {% if importDeclarationsNotRequired %}
+        <li>{{ translation.page.manageThisTrade.importDeclarationsNotRequired }}</li>
+        {% elif userType !== UserType.nonDeclaringTrader %}
+            <li><a href="https://www.gov.uk/guidance/making-a-full-import-declaration" target="_blank" rel="noopener noreferrer">{{ translation.page.manageThisTrade.makeAnimportDeclaration }} {{ translation.common.accessibility.opensNewTab }}</a></li>
+        {% else %}
+        {% endif %}
+      </ul>
+
+      <a href="#" role="button" class="govuk-link gem-c-print-link__link govuk-link--no-visited-state govuk-!-margin-top-6 hideNoJs printButton" data-module="govuk-button" id="printButton">
+        {{ translation.page.manageThisTrade.print }}
+      </a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+  {% include "includes/truncate-scripts.html" %}
+{% endblock %}
