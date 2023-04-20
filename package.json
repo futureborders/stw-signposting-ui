@@ -98,7 +98,7 @@
     "markdown-it": "^12.3.2",
     "markdown-it-collapsible": "^1.0.0",
     "markdown-it-container": "^3.0.0",
-    "nunjucks": "^3.2.1",
+    "nunjucks": "^3.2.4",
     "sanitize-html": "^2.0.0",
     "winston": "^3.8.1"
   },
