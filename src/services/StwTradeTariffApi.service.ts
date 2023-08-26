@@ -46,7 +46,7 @@ class StwTradeTariffApi {
         },
       });
       return data;
-    } catch (e) {
+    } catch (e: any) {
       const validationErrors = e.response?.data?.validationErrors;
       const invalidDestinationCountry = this.hasValidationErros(validationErrors, 'destinationCountry');
       const invalidOriginCountry = this.hasValidationErros(validationErrors, 'originCountry');
@@ -54,7 +54,7 @@ class StwTradeTariffApi {
       const invalidTradeType = this.hasValidationErros(validationErrors, 'tradeType');
       const invalidImportDate = this.hasValidationErros(validationErrors, 'importDate');
 
-      if (e.response.status === 404) {
+      if (e.response?.status === 404) {
         throw new CommodityNotFoundError(commodityCode);
       } else if (invalidCommodityCode) {
         throw new InvalidCommodityCodeError(e);
@@ -89,14 +89,14 @@ class StwTradeTariffApi {
         },
       });
       return data;
-    } catch (e) {
+    } catch (e: any) {
       const validationErrors = e.response?.data?.validationErrors;
       const invalidDestinationCountry = this.hasValidationErros(validationErrors, 'destinationCountry');
       const invalidOriginCountry = this.hasValidationErros(validationErrors, 'originCountry');
       const invalidCommodityCode = this.hasValidationErros(validationErrors, 'commodityCode');
       const invalidImportDate = this.hasValidationErros(validationErrors, 'importDate');
 
-      if (e.response.status === 404) {
+      if (e.response?.status === 404) {
         throw new CommodityNotFoundError(commodityCode);
       } else if (invalidDestinationCountry) {
         throw new InvalidDestinationCountryError(e);
@@ -135,7 +135,7 @@ class StwTradeTariffApi {
         },
       });
       return data;
-    } catch (e) {
+    } catch (e: any) {
       const validationErrors = e.response?.data?.validationErrors;
       const invalidDestinationCountry = this.hasValidationErros(validationErrors, 'destinationCountry');
       const invalidOriginCountry = this.hasValidationErros(validationErrors, 'originCountry');
@@ -144,7 +144,7 @@ class StwTradeTariffApi {
       const invalidImportDate = this.hasValidationErros(validationErrors, 'importDate');
       const invalidAdditionalCode = this.hasValidationErros(validationErrors, 'additionalCode');
 
-      if (e.response.status === 404) {
+      if (e.response?.status === 404) {
         throw new CommodityNotFoundError(commodityCode);
       } else if (invalidDestinationCountry) {
         throw new InvalidDestinationCountryError(e);
