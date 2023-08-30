@@ -52,7 +52,7 @@
     "@typescript-eslint/eslint-plugin": "^4.21.0",
     "@typescript-eslint/parser": "^4.21.0",
     "autocannon": "^7.9.0",
-    "capture-website": "^2.4.0",
+    "capture-website": "^3.2.0",
     "clinic": "^13.0.0",
     "copyfiles": "^2.4.1",
     "csv": "^6.2.0",
