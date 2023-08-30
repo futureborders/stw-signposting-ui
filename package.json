@@ -24,13 +24,14 @@
     "welsh:import": "yarn messages:update ./welshTools/latestTranslations.csv",
     "clinic:doctor": "clinic doctor --autocannon [ -c 50 /export/goods-intent?tradeType=export ] -- node dist/server.js",
     "clinic:flame": "clinic flame --autocannon [ -c 50 /export/goods-intent?tradeType=export ] -- node dist/server.js",
-    "clinic:heapprofiler": "clinic heapprofiler autocannon [ -c 50 /export/goods-intent?tradeType=export ] -- node dist/server.js"
+    "clinic:heapprofiler": "clinic heapprofiler autocannon [ -c 50 /export/goods-intent?tradeType=export ] -- node dist/server.js",
+    "install-build-test-dev": "yarn install && yarn build && yarn test && yarn dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@google-cloud/translate": "^7.0.0",
+    "@google-cloud/translate": "^8.0.1",
     "@mr-hope/gulp-sass": "^2.0.0",
     "@types/cookie-parser": "^1.4.2",
     "@types/cookie-session": "^2.0.41",
