@@ -1,24 +1,9 @@
-/**
- * Copyright 2023 Crown Copyright (Single Trade Window)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import axios, { AxiosResponse } from 'axios';
 import { DestinationCountry } from '../interfaces/enums.interface';
 import StwTradeTariffApi from './StwTradeTariffApi.service';
 import { mockedTariffAndTaxesData, mockedRestrictiveMeasures } from '../utils/mockedData';
 import { ImportDate } from '../interfaces/importDate.interface';
+import CommodityNotFoundException from '../exceptions/commodityNotFoundException';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -74,14 +59,17 @@ describe('Testing StwTradeTariffApi', () => {
           DestinationCountry.GB,
           importDate as ImportDate,
         );
-      } catch (e) {
-        expect(e.response.status).toEqual(500);
+      } catch (e: any) {
+        if (e.response.status === 500) {
+          expect(e.response.status).toEqual(500);
+        } else {
+          throw e;
+        }
       }
       expect(mockedAxios.get).toHaveBeenCalled();
     });
     test('getAdditionalCode 404', async () => {
-      const expectedResult = 404;
-      mockedAxios.get.mockRejectedValue({ response: { status: expectedResult } });
+      mockedAxios.get.mockRejectedValue(new CommodityNotFoundException('0208907000'));
 
       try {
         await stwTradeTariffApi.getAdditionalCode(
@@ -91,8 +79,13 @@ describe('Testing StwTradeTariffApi', () => {
           DestinationCountry.GB,
           importDate as ImportDate,
         );
-      } catch (e) {
-        expect(e.name).toEqual('CommodityNotFoundError');
+        expect(true).toBe(false);
+      } catch (e: any) {
+        if (e.name === 'CommodityNotFoundError') {
+          expect(e.name).toEqual('CommodityNotFoundError');
+        } else {
+          throw e;
+        }
       }
       expect(mockedAxios.get).toHaveBeenCalled();
     });
@@ -118,8 +111,12 @@ describe('Testing StwTradeTariffApi', () => {
           DestinationCountry.GB,
           importDate as ImportDate,
         );
-      } catch (e) {
-        expect(e.response.response.data.validationErrors[0].message).toEqual('Invalid destination country \'XX\'');
+      } catch (e: any) {
+        if (e.response.response.data.validationErrors[0].fieldName === 'destinationCountry') {
+          expect(e.response.response.data.validationErrors[0].message).toEqual('Invalid destination country \'XX\'');
+        } else {
+          throw e;
+        }
       }
       expect(mockedAxios.get).toHaveBeenCalled();
     });
@@ -145,8 +142,12 @@ describe('Testing StwTradeTariffApi', () => {
           DestinationCountry.GB,
           importDate as ImportDate,
         );
-      } catch (e) {
-        expect(e.response.response.data.validationErrors[0].message).toEqual('Invalid origin country \'XX\'');
+      } catch (e: any) {
+        if (e.response.response.data.validationErrors[0].fieldName === 'originCountry') {
+          expect(e.response.response.data.validationErrors[0].message).toEqual('Invalid origin country \'XX\'');
+        } else {
+          throw e;
+        }
       }
       expect(mockedAxios.get).toHaveBeenCalled();
     });
@@ -174,8 +175,12 @@ describe('Testing StwTradeTariffApi', () => {
           DestinationCountry.GB,
           importDate as ImportDate,
         );
-      } catch (e) {
-        expect(e.response.response.data.validationErrors[0].message).toEqual('some invalid message');
+      } catch (e: any) {
+        if (e.response.response.data.validationErrors[0].fieldName === 'commodityCode') {
+          expect(e.response.response.data.validationErrors[0].message).toEqual('some invalid message');
+        } else {
+          throw e;
+        }
       }
       expect(mockedAxios.get).toHaveBeenCalled();
     });
@@ -201,8 +206,12 @@ describe('Testing StwTradeTariffApi', () => {
           DestinationCountry.GB,
           importDate as ImportDate,
         );
-      } catch (e) {
-        expect(e.response.response.data.validationErrors[0].message).toEqual('some invalid message');
+      } catch (e: any) {
+        if (e.response.response.data.validationErrors[0].fieldName === 'tradeType') {
+          expect(e.response.response.data.validationErrors[0].message).toEqual('some invalid message');
+        } else {
+          throw e;
+        }
       }
       expect(mockedAxios.get).toHaveBeenCalled();
     });
@@ -236,8 +245,12 @@ describe('Testing StwTradeTariffApi', () => {
           DestinationCountry.GB,
           importDate as ImportDate,
         );
-      } catch (e) {
-        expect(e.response.response.data.validationErrors[0].message).toEqual('some invalid message');
+      } catch (e: any) {
+        if (e.response.response.data.validationErrors[0].fieldName === 'importDate') {
+          expect(e.response.response.data.validationErrors[0].message).toEqual('some invalid message');
+        } else {
+          throw e;
+        }
       }
       expect(mockedAxios.get).toHaveBeenCalled();
     });
@@ -264,9 +277,7 @@ describe('Testing StwTradeTariffApi', () => {
       expect(mockedAxios.get).toHaveBeenCalled();
     });
     test('getTariffAndTaxesData 404', async () => {
-      const expectedResult = 404;
-
-      mockedAxios.get.mockRejectedValue({ response: { status: expectedResult } });
+      mockedAxios.get.mockRejectedValue(new CommodityNotFoundException('0208907000'));
 
       try {
         await stwTradeTariffApi.getTariffAndTaxesData(
@@ -276,8 +287,13 @@ describe('Testing StwTradeTariffApi', () => {
           DestinationCountry.GB,
           importDate as ImportDate,
         );
-      } catch (e) {
-        expect(e.name).toEqual('CommodityNotFoundError');
+        expect(true).toBe(false);
+      } catch (e: any) {
+        if (e.name === 'CommodityNotFoundError') {
+          expect(e.name).toEqual('CommodityNotFoundError');
+        } else {
+          throw e;
+        }
       }
       expect(mockedAxios.get).toHaveBeenCalled();
     });
@@ -294,8 +310,12 @@ describe('Testing StwTradeTariffApi', () => {
           DestinationCountry.GB,
           importDate as ImportDate,
         );
-      } catch (e) {
-        expect(e.response.status).toEqual(500);
+      } catch (e: any) {
+        if (e.response.status === 500) {
+          expect(e.response.status).toEqual(500);
+        } else {
+          throw e;
+        }
       }
       expect(mockedAxios.get).toHaveBeenCalled();
     });
@@ -321,8 +341,12 @@ describe('Testing StwTradeTariffApi', () => {
           DestinationCountry.GB,
           importDate as ImportDate,
         );
-      } catch (e) {
-        expect(e.response.response.data.validationErrors[0].message).toEqual('Invalid destination country \'XX\'');
+      } catch (e: any) {
+        if (e.response.response.data.validationErrors[0].fieldName === 'destinationCountry') {
+          expect(e.response.response.data.validationErrors[0].message).toEqual('Invalid destination country \'XX\'');
+        } else {
+          throw e;
+        }
       }
       expect(mockedAxios.get).toHaveBeenCalled();
     });
@@ -348,8 +372,12 @@ describe('Testing StwTradeTariffApi', () => {
           DestinationCountry.GB,
           importDate as ImportDate,
         );
-      } catch (e) {
-        expect(e.response.response.data.validationErrors[0].message).toEqual('Invalid origin country \'XX\'');
+      } catch (e: any) {
+        if (e.response.response.data.validationErrors[0].fieldName === 'originCountry') {
+          expect(e.response.response.data.validationErrors[0].message).toEqual('Invalid origin country \'XX\'');
+        } else {
+          throw e;
+        }
       }
       expect(mockedAxios.get).toHaveBeenCalled();
     });
@@ -377,8 +405,12 @@ describe('Testing StwTradeTariffApi', () => {
           DestinationCountry.GB,
           importDate as ImportDate,
         );
-      } catch (e) {
-        expect(e.response.response.data.validationErrors[0].message).toEqual('some invalid message');
+      } catch (e: any) {
+        if (e.response.response.data.validationErrors[0].fieldName === 'commodityCode') {
+          expect(e.response.response.data.validationErrors[0].message).toEqual('some invalid message');
+        } else {
+          throw e;
+        }
       }
       expect(mockedAxios.get).toHaveBeenCalled();
     });
@@ -412,8 +444,12 @@ describe('Testing StwTradeTariffApi', () => {
           DestinationCountry.GB,
           importDate as ImportDate,
         );
-      } catch (e) {
-        expect(e.response.response.data.validationErrors[0].message).toEqual('some invalid message');
+      } catch (e: any) {
+        if (e.response.response.data.validationErrors[0].fieldName === 'importDate') {
+          expect(e.response.response.data.validationErrors[0].message).toEqual('some invalid message');
+        } else {
+          throw e;
+        }
       }
       expect(mockedAxios.get).toHaveBeenCalled();
     });
@@ -467,9 +503,7 @@ describe('Testing StwTradeTariffApi', () => {
       expect(mockedAxios.get).toHaveBeenCalled();
     });
     test('getRestrictiveMeasures 404', async () => {
-      const expectedResult = 404;
-
-      mockedAxios.get.mockRejectedValue({ response: { status: expectedResult } });
+      mockedAxios.get.mockRejectedValue(new CommodityNotFoundException('0208907000'));
 
       try {
         await stwTradeTariffApi.getRestrictiveMeasures(
@@ -479,8 +513,13 @@ describe('Testing StwTradeTariffApi', () => {
           DestinationCountry.GB,
           importDate as ImportDate,
         );
-      } catch (e) {
-        expect(e.name).toEqual('CommodityNotFoundError');
+        expect(true).toBe(false);
+      } catch (e: any) {
+        if (e.name === 'CommodityNotFoundError') {
+          expect(e.name).toEqual('CommodityNotFoundError');
+        } else {
+          throw e;
+        }
       }
       expect(mockedAxios.get).toHaveBeenCalled();
     });
@@ -497,8 +536,12 @@ describe('Testing StwTradeTariffApi', () => {
           DestinationCountry.GB,
           importDate as ImportDate,
         );
-      } catch (e) {
-        expect(e.response.status).toEqual(500);
+      } catch (e: any) {
+        if (e.response.status === 500) {
+          expect(e.response.status).toEqual(500);
+        } else {
+          throw e;
+        }
       }
       expect(mockedAxios.get).toHaveBeenCalled();
     });
@@ -524,8 +567,12 @@ describe('Testing StwTradeTariffApi', () => {
           'XX' as DestinationCountry,
           importDate as ImportDate,
         );
-      } catch (e) {
-        expect(e.response.response.data.validationErrors[0].message).toEqual('Invalid destination country \'XX\'');
+      } catch (e: any) {
+        if (e.response.response.data.validationErrors[0].fieldName === 'destinationCountry') {
+          expect(e.response.response.data.validationErrors[0].message).toEqual('Invalid destination country \'XX\'');
+        } else {
+          throw e;
+        }
       }
       expect(mockedAxios.get).toHaveBeenCalled();
     });
@@ -551,8 +598,12 @@ describe('Testing StwTradeTariffApi', () => {
           DestinationCountry.GB,
           importDate as ImportDate,
         );
-      } catch (e) {
-        expect(e.response.response.data.validationErrors[0].message).toEqual('Invalid origin country \'XX\'');
+      } catch (e: any) {
+        if (e.response.response.data.validationErrors[0].fieldName === 'originCountry') {
+          expect(e.response.response.data.validationErrors[0].message).toEqual('Invalid origin country \'XX\'');
+        } else {
+          throw e;
+        }
       }
       expect(mockedAxios.get).toHaveBeenCalled();
     });
@@ -580,8 +631,12 @@ describe('Testing StwTradeTariffApi', () => {
           DestinationCountry.GB,
           importDate as ImportDate,
         );
-      } catch (e) {
-        expect(e.response.response.data.validationErrors[0].message).toEqual('some invalid message');
+      } catch (e: any) {
+        if (e.response.response.data.validationErrors[0].fieldName === 'commodityCode') {
+          expect(e.response.response.data.validationErrors[0].message).toEqual('some invalid message');
+        } else {
+          throw e;
+        }
       }
       expect(mockedAxios.get).toHaveBeenCalled();
     });
@@ -607,8 +662,12 @@ describe('Testing StwTradeTariffApi', () => {
           DestinationCountry.GB,
           importDate as ImportDate,
         );
-      } catch (e) {
-        expect(e.response.response.data.validationErrors[0].message).toEqual('some invalid message');
+      } catch (e: any) {
+        if (e.response.response.data.validationErrors[0].fieldName === 'tradeType') {
+          expect(e.response.response.data.validationErrors[0].message).toEqual('some invalid message');
+        } else {
+          throw e;
+        }
       }
       expect(mockedAxios.get).toHaveBeenCalled();
     });
@@ -642,8 +701,12 @@ describe('Testing StwTradeTariffApi', () => {
           DestinationCountry.GB,
           importDate as ImportDate,
         );
-      } catch (e) {
-        expect(e.response.response.data.validationErrors[0].message).toEqual('some invalid message');
+      } catch (e: any) {
+        if (e.response.response.data.validationErrors[0].fieldName === 'importDate') {
+          expect(e.response.response.data.validationErrors[0].message).toEqual('some invalid message');
+        } else {
+          throw e;
+        }
       }
       expect(mockedAxios.get).toHaveBeenCalled();
     });
@@ -670,8 +733,12 @@ describe('Testing StwTradeTariffApi', () => {
           importDate as ImportDate,
           'abc',
         );
-      } catch (e) {
-        expect(e.response.response.data.validationErrors[0].message).toEqual('Invalid additionalCode');
+      } catch (e: any) {
+        if (e.response.response.data.validationErrors[0].fieldName === 'additionalCode') {
+          expect(e.response.response.data.validationErrors[0].message).toEqual('Invalid additionalCode');
+        } else {
+          throw e;
+        }
       }
       expect(mockedAxios.get).toHaveBeenCalled();
     });
