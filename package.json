@@ -114,6 +114,7 @@
     "terser": "^4.8.1",
     "qs": "^6.10.3",
     "json5": "^2.2.3",
-    "cacheable-request": "^10.2.7"
+    "cacheable-request": "^10.2.7",
+    "d3-color": "^3.1.0"
   }
 }
