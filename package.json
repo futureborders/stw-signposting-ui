@@ -83,7 +83,6 @@
     "cookie-parser": "^1.4.5",
     "cookie-session": "^2.0.0",
     "cross-env": "^7.0.2",
-    "crypto": "^1.0.1",
     "csurf": "^1.11.0",
     "date-fns": "^2.23.0",
     "dotenv": "14.3.2",
