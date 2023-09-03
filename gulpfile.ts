@@ -1,5 +1,6 @@
 import * as gulp from 'gulp';
-import { sass } from '@mr-hope/gulp-sass';
+const gulpSass = require ('gulp-sass');
+const sass = gulpSass(require('sass'));
 // @ts-ignore
 import * as clean from 'gulp-clean';
 
