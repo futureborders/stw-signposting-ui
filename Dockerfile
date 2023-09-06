@@ -11,6 +11,7 @@ WORKDIR /build
 
 COPY . .
 
+ENV yarn PUPPETEER_SKIP_DOWNLOAD=true
 RUN yarn install --immutable && \
     yarn build:ci
 
