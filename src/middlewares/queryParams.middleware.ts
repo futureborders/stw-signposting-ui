@@ -23,9 +23,7 @@ import { trimDateInput } from '../utils/queryHelper';
 
 const url = require('url');
 
-const queryParamsMiddleware = async (
-  req: Request, res: Response, next: NextFunction,
-): Promise<void> => {
+const queryParamsMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const queryParams = url.parse(req.url, true);
 
   let queryString = queryParams.search ? queryParams.search.replace(/\?/g, '') : '';
