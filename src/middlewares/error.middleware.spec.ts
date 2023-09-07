@@ -55,13 +55,11 @@ describe('Testing error middleware', () => {
     const { status } = error.response;
     await errorMiddleware(error, req, res, next);
     expect(res.status).toBeCalledWith(error.response.status);
-    expect(res.render).toBeCalledWith(
-      'error.njk', {
-        title,
-        message,
-        status,
-      },
-    );
+    expect(res.render).toBeCalledWith('error.njk', {
+      title,
+      message,
+      status,
+    });
   });
 
   test('It should return default message with status 500', async () => {
@@ -74,13 +72,11 @@ describe('Testing error middleware', () => {
     const { status } = error.response;
     await errorMiddleware(error, req, res, next);
     expect(res.status).toBeCalledWith(error.response.status);
-    expect(res.render).toBeCalledWith(
-      'error.njk', {
-        title,
-        message,
-        status,
-      },
-    );
+    expect(res.render).toBeCalledWith('error.njk', {
+      title,
+      message,
+      status,
+    });
   });
 
   test('It should return default message with status 500 when no error object', async () => {
@@ -88,13 +84,11 @@ describe('Testing error middleware', () => {
     const error: any = null;
     await errorMiddleware(error, req, res, next);
     expect(res.status).toBeCalledWith(500);
-    expect(res.render).toBeCalledWith(
-      'error.njk', {
-        title,
-        message,
-        status: 500,
-      },
-    );
+    expect(res.render).toBeCalledWith('error.njk', {
+      title,
+      message,
+      status: 500,
+    });
   });
 
   test('It should return default message with status 500 when no response object', async () => {
@@ -104,13 +98,11 @@ describe('Testing error middleware', () => {
     };
     await errorMiddleware(error, req, res, next);
     expect(res.status).toBeCalledWith(500);
-    expect(res.render).toBeCalledWith(
-      'error.njk', {
-        title,
-        message,
-        status: 500,
-      },
-    );
+    expect(res.render).toBeCalledWith('error.njk', {
+      title,
+      message,
+      status: 500,
+    });
   });
 
   test('It should log out level Info, showCookieMessage false and show session expired when EBADCSRFTOKEN', async () => {
@@ -139,13 +131,11 @@ describe('Testing error middleware', () => {
     message = translation.common.session.message;
     const status = 200;
 
-    expect(res.render).toBeCalledWith(
-      'error.njk', {
-        title,
-        message,
-        status,
-      },
-    );
+    expect(res.render).toBeCalledWith('error.njk', {
+      title,
+      message,
+      status,
+    });
 
     expect(res.locals.showCookieMessage).toBe(false);
   });

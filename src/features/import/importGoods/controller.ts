@@ -85,7 +85,10 @@ class ImportGoodsController {
           Route.importGoods,
           isEdit
             ? updateQueryParams(updatedQueryParams, { original, isEdit })
-            : queryParams, res, req, translation.page.importGoods.errors.required,
+            : queryParams,
+          res,
+          req,
+          translation.page.importGoods.errors.required,
         );
       } else {
         redirectRoute(
