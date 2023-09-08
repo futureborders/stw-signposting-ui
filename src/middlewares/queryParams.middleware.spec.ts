@@ -18,7 +18,11 @@ import queryParamsMiddleware from './queryParams.middleware';
 import { Route } from '../interfaces/routes.interface';
 
 afterAll(async () => {
-  await new Promise<void>((resolve) => setTimeout(() => resolve(), 500));
+  await new Promise<void>((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, 500);
+  });
 });
 
 afterEach(() => {

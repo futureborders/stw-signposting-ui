@@ -70,7 +70,11 @@ beforeEach(() => {
 });
 
 afterAll(async () => {
-  await new Promise<void>((resolve) => setTimeout(() => resolve(), 500));
+  await new Promise<void>((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, 500);
+  });
 });
 
 describe(`[GET] ${Route.exportGoodsArrivalDate}`, () => {

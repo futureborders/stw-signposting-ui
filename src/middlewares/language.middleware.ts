@@ -91,9 +91,7 @@ const languagePath = (req: Request, lang: string) => `${dedupeQuery(req.original
 
 const validateLanguage = (language: string) => (typeof language === 'string' && language === LANGUAGE.cy ? LANGUAGE.cy : LANGUAGE.en);
 
-const languageMiddleware = async (
-  req: Request, res: Response, next: NextFunction,
-): Promise<any> => {
+const languageMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   let lang = defaultLanguage;
 
   const SHOW_LANGUAGE_TOGGLE = process.env.SHOW_LANGUAGE_TOGGLE === 'true';

@@ -20,7 +20,11 @@ import securityLogger from '../utils/securityLogger';
 jest.mock('../utils/securityLogger');
 
 afterAll(async () => {
-  await new Promise<void>((resolve) => setTimeout(() => resolve(), 500));
+  await new Promise<void>((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, 500);
+  });
 });
 
 afterEach(() => {

@@ -27,7 +27,11 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 const stwTradeTariffApi = new StwTradeTariffApi();
 
 afterAll(async () => {
-  await new Promise<void>((resolve) => setTimeout(() => resolve(), 500));
+  await new Promise<void>((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, 500);
+  });
 });
 
 beforeEach(() => {

@@ -122,7 +122,7 @@ export const getResultsRowsHeadings = async (
   const type = (indents: number, leaf: boolean) => (indents >= 1 && !leaf ? 'heading' : 'commodity');
   const sidCheck = (parentSid: number) => (sid !== '0' ? parentSid === Number(sid) : true);
   const getLevel = (id: string) => data.included.find((item: any) => item.id === id);
-  const level = getLevel(sid)?.attributes?.number_indents + 1;
+  const level = (getLevel(sid)?.attributes?.number_indents ?? 0) + 1;
   let setLevel: number;
 
   if (level > 1) {
@@ -238,7 +238,7 @@ export const getBreadcrumbs = async (data: any, searchTerm: string, queryParams:
   }
 
   if (Number(depth) > 1) {
-    for (let i = 0; i < current?.attributes.number_indents; i += 1) {
+    for (let i = 0; i < (current?.attributes.number_indents ?? 0); i += 1) {
       if (i === 0) {
         breadcrumbsTempArray.push({
           sid: Number(sid),

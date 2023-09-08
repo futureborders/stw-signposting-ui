@@ -17,7 +17,11 @@
 import setCache from './cache.middleware';
 
 afterAll(async () => {
-  await new Promise<void>((resolve) => setTimeout(() => resolve(), 500));
+  await new Promise<void>((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, 500);
+  });
 });
 
 afterEach(() => {

@@ -101,7 +101,6 @@
     "markdown-it-collapsible": "^1.0.0",
     "markdown-it-container": "^3.0.0",
     "nunjucks": "^3.2.1",
-    "qs": "^6.10.3",
     "sanitize-html": "^2.0.0",
     "winston": "^3.8.1"
   },

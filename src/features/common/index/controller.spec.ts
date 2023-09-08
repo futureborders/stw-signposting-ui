@@ -44,7 +44,11 @@ describe('Testing indexController', () => {
 
   afterAll(async () => {
     process.env = OLD_ENV;
-    await new Promise<void>((resolve) => setTimeout(() => resolve(), 500));
+    await new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 500);
+    });
   });
 
   it('It should respond with statusCode 200 when startPage enabled', () => {

@@ -75,9 +75,7 @@ const cookieSuccessBanner = (req: Request, res: Response, preferences: CookieSet
   }
 };
 
-const cookiesMiddleware = (
-  req: Request, res: Response, next: NextFunction,
-):any => {
+const cookiesMiddleware = (req: Request, res: Response, next: NextFunction):any => {
   const preferences = getCookiePreferences(req);
   showCookieConsentBanner(req, res, preferences);
   cookieSuccessBanner(req, res, preferences);

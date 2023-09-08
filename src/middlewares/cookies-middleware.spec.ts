@@ -18,7 +18,11 @@ import cookiesMiddleware from './cookies.middleware';
 import { CookiesBannerDecision } from '../interfaces/enums.interface';
 
 afterAll(async () => {
-  await new Promise<void>((resolve) => setTimeout(() => resolve(), 500));
+  await new Promise<void>((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, 500);
+  });
 });
 
 afterEach(() => {
