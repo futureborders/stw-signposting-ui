@@ -77,7 +77,10 @@ class ExportCommoditySearchController {
           Route.exportCommoditySearch,
           isEdit
             ? updateQueryParams(updatedQueryParams, { original, isEdit })
-            : queryParams, res, req, translation.page.exportCommoditySearch.error,
+            : queryParams,
+          res,
+          req,
+          translation.page.exportCommoditySearch.error,
         );
       } else {
         redirectRoute(
