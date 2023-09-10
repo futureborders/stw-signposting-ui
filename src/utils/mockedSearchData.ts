@@ -495,7 +495,6 @@ export const mockedSearchDataFrogs = {
         validity_start_date: '01/01/2007',
         validity_end_date: null,
         description: "Frogs' legs",
-        declarable: false,
         sub: [
           'Other meat and edible meat offal, fresh, chilled or frozen',
           'Other',
