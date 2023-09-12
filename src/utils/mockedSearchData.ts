@@ -489,7 +489,7 @@ export const mockedSearchDataFrogs = {
       },
       {
         type: 'commodity',
-        goods_nomenclature_item_id: '0208907000',
+        goods_nomenclature_item_id: '0208',
         producline_suffix: '80',
         number_indents: 2,
         validity_start_date: '01/01/2007',
@@ -536,7 +536,7 @@ export const mockedSearchDataFrogsHtml = [
         {
           html: '\n'
             + '          <div class="search-results-head">\n'
-            + '            <a href="/search?commodity=0208907000&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>0208907000</strong></a>\n'
+            + '            <a href="/search?commodity=0208&originCountry=CN&goodsIntent=bringGoodsToSell&userTypeTrader=yes&tradeType=import&destinationCountry=GB&importDeclarations=yes&isHeading=true">Commodity code: <strong>0208</strong></a>\n'
             + '          </div>\n'
             + '          <div class="search-results-description">\n'
             + "            Other meat and edible meat offal, fresh, chilled or frozen  &mdash; Other &mdash; <strong><mark>Frogs</mark>' legs</strong>\n"
